@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import { MaterialModule } from './shared/material/material.module';
 import { CommonModule } from '@angular/common';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { NgLetModule } from 'ng-let';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
     MaterialModule,
     AppRoutingModule,
     FunctionsModule,
+    NgLetModule,
     // provideAnalytics(() => getAnalytics()),
     provideAuth(() => {
       const auth = getAuth();
