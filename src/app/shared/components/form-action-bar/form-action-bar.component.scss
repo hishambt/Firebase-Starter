@@ -1,0 +1,12 @@
+.split-button-left {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+}
+
+.split-button-right {
+    width: 30px !important;
+    min-width: unset !important;
+    padding: 0 2px;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+}

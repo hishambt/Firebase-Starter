@@ -1,0 +1,65 @@
+<div class="main-bg container-fluid w-100 h-100 d-flex align-items-center justify-content-center">
+	<div class="row w-100 d-flex">
+		<div class="col-sm-12">
+				<div class="row align-items-center justify-content-center">
+					<div class="col-md-6 col-lg-5 mt-4 mt-sm-0">
+						<h1 class="text-center mb-5 color-primary-50">Admin Dashboard</h1>
+
+						<!-- form -->
+						<form [formGroup]="form">
+							<div class="form-group mb-2">
+								<mat-form-field class="d-block">
+									<mat-label>Email</mat-label>
+									<input type="email" matInput formControlName="email" placeholder="example@example.com" />
+									<mat-error *ngIf="form.controls['email'].hasError('required')"> Email required</mat-error>
+									<mat-error *ngIf="form.controls['email'].hasError('email')">Invalid email format</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="form-group mb-2">
+								<mat-form-field class="d-block">
+									<mat-label>Password</mat-label>
+									<input
+										type="password"
+										matInput
+										formControlName="password"
+										placeholder="Ex. pat@example.com"
+										name="abcPassword"
+										autocomplete="disabled"
+									/>
+									<mat-error *ngIf="form.controls['password'].hasError('required')"> Password required </mat-error>
+								</mat-form-field>
+							</div>
+							<div class="form-group mt-5">
+								<app-form-action-bar
+									[startButtons]="[
+										{
+											visible: true,
+											disabled: false,
+											class: 'mat-raised-button w-100',
+											color: 'primary',
+											text: 'Login',
+											isWaiting: isWaiting
+										}
+									]"
+									(buttonClick)="submitRecord()"
+								></app-form-action-bar>
+
+								<app-google-btn (buttonClick)="loginWithGoogle()"></app-google-btn>
+
+							</div>
+						</form>
+						<!-- End Form -->
+
+						<div class="form-group">
+							<div class="d-md-flex justify-content-between text-center mt-5">
+								<mat-checkbox color="primary">Remember Me</mat-checkbox>
+								<div>
+									<a mat-raised-button color="accent">Forgot Password</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>

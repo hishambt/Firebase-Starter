@@ -1,0 +1,18 @@
+ul {
+    padding: 0;
+}
+ol {
+    padding: 0;
+}
+.list-group {
+    --mo-list-group-color: $bark-primary-text;
+    --mo-list-group-bg: $background-white;
+    --mo-list-group-border-color: #e0e0e0;
+}
+.dark-mode {
+    .list-group {
+        --mo-list-group-color: $light-primary-text;
+        --mo-list-group-bg: $foreground-color;
+        --mo-list-group-border-color: #595959;
+    }
+}

@@ -1,0 +1,24 @@
+<mat-form-field [formGroup]="parentForm" class="d-block">
+	<mat-label>{{ label }}</mat-label>
+
+	<mat-select
+		[formControlName]="controlName"
+		placeholder="Bank"
+		#customersDropdown
+		disableOptionCentering
+		(selectionChange)="onSelectionChange($event)"
+	>
+		<mat-option>
+			<ngx-mat-select-search [formControl]="bankFilterCtrl" placeholderLabel="Find bank...">
+				<span ngxMatSelectNoEntriesFound>
+					No entries found
+					<button mat-button color="primary" (click)="onCreateNew()">Create <mat-icon>add</mat-icon></button>
+				</span>
+			</ngx-mat-select-search>
+		</mat-option>
+
+		<mat-option *ngFor="let bank of filteredBanks | async" [value]="bank">
+			{{ bank.name }}
+		</mat-option>
+	</mat-select>
+</mat-form-field>

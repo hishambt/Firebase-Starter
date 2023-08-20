@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
@@ -18,6 +18,9 @@ import { MaterialModule } from './shared/material/material.module';
 import { CommonModule } from '@angular/common';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { NgLetModule } from 'ng-let';
+import { ShellModule } from './shell/shell.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,11 +29,12 @@ import { NgLetModule } from 'ng-let';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     CommonModule,
-    MaterialModule,
     AppRoutingModule,
     FunctionsModule,
     NgLetModule,
+    ShellModule,
     // provideAnalytics(() => getAnalytics()),
     provideAuth(() => {
       const auth = getAuth();
@@ -66,7 +70,12 @@ import { NgLetModule } from 'ng-let';
     {
       provide: FIREBASE_OPTIONS,
       useValue: environment.firebase
-    }
+    },
+    {
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoadingHttpInterceptorService,
+			multi: true
+		},
    ],
   bootstrap: [ AppComponent ],
 })

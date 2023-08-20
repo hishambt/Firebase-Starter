@@ -1,0 +1,70 @@
+@use "@angular/material" as mat;
+@include mat.core();
+
+$app-ui-primary: mat.define-palette($custom-primary-palette);
+$app-ui-accent: mat.define-palette($custom-accent-palette, 700);
+$app-ui-warn: mat.define-palette($custom-warn-palette);
+
+$app-typography: mat.define-typography-config(
+    $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+    $headline-1: mat.define-typography-level(8rem, 8rem, 300, $letter-spacing: -0.05em),
+    $headline-2: mat.define-typography-level(4rem, 4rem, 400, $letter-spacing: -0.02em),
+    $headline-3: mat.define-typography-level(3.214rem, 3.428rem, 400, $letter-spacing: -0.005em),
+    $headline-4: mat.define-typography-level(2.428rem, 2.857rem, 400),
+    $headline-5: mat.define-typography-level(1.714rem, 2.285rem, 400),
+    $headline-6: mat.define-typography-level(1.428rem, 2.285rem, 500),
+    $subtitle-1: mat.define-typography-level(1.142rem, 2rem, 400),
+    $subtitle-2: mat.define-typography-level(1.071rem, 1.714rem, 400),
+    $body-1: mat.define-typography-level(1rem, 1.428rem, 400),
+    $body-2: mat.define-typography-level(1rem, 1.714rem, 500),
+    $caption: mat.define-typography-level(0.857rem, 1.428rem, 400),
+    $button: mat.define-typography-level(1rem, 1rem, 500),
+);
+
+// Define the default theme
+$light-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $app-ui-primary,
+            accent: $app-ui-accent,
+            warn: $app-ui-warn,
+        ),
+        typography: $app-typography,
+        density: 0,
+    )
+);
+
+$dark-theme: mat.define-dark-theme(
+    (
+        color: (
+            primary: $app-ui-primary,
+            accent: $app-ui-accent,
+            warn: $app-ui-warn,
+        ),
+        typography: $app-typography,
+        density: 0,
+    )
+);
+
+@include mat.typography-hierarchy($dark-theme);
+
+// Apply the dark theme by default
+@include mat.core-theme($dark-theme);
+@include mat.button-theme($dark-theme);
+@include mat.all-component-themes($dark-theme);
+
+.mat-drawer-container {
+  background-color: $background-color;
+}
+.mat-drawer {
+  background-color: $foreground-color;
+}
+
+// Apply the light theme only when the user prefers light themes.
+@media (prefers-color-scheme: light) {
+  // Use the `-color` mixins to only apply color styles without reapplying the same
+  // typography and density styles.
+  @include mat.all-component-colors($light-theme);
+  @include mat.core-color($light-theme);
+  @include mat.button-color($light-theme);
+}

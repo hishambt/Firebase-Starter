@@ -1,0 +1,61 @@
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .border#{$infix}-top {
+            border-top: $border-width solid $border-color;
+        }
+        .border#{$infix}-end {
+            border-inline-end: $border-width solid $border-color;
+        }
+        .border#{$infix}-bottom {
+            border-bottom: $border-width solid $border-color;
+        }
+        .border#{$infix}-start {
+            border-inline-start: $border-width solid $border-color;
+        }
+
+        .border#{$infix}-top-0 {
+            border-top: 0 !important;
+        }
+        .border#{$infix}-end-0 {
+            border-inline-end: 0 !important;
+        }
+        .border#{$infix}-bottom-0 {
+            border-bottom: 0 !important;
+        }
+        .border#{$infix}-start-0 {
+            border-inline-start: 0 !important;
+        }
+
+        .border#{$infix}-x {
+            border-inline-start: $border-width solid $border-color;
+            border-inline-end: $border-width solid $border-color;
+        }
+
+        .border#{$infix}-y {
+            border-top: $border-width solid $border-color;
+            border-bottom: $border-width solid $border-color;
+        }
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .position#{$infix}-absolute {
+            position: absolute !important;
+        }
+        .position#{$infix}-relative {
+            position: relative !important;
+        }
+
+        .position#{$infix}-absolute-0 {
+            position: unset !important;
+        }
+        .position#{$infix}-relative-0 {
+            position: unset !important;
+        }
+    }
+}

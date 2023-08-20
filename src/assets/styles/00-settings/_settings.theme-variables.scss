@@ -1,0 +1,204 @@
+:root {
+  --theme-background: #303030;
+  --theme-foreground: #424242;
+  --theme-primary-500: #673ab7;
+  --theme-primary-50: #ede7f6;
+  --theme-primary-100: #d1c4e9;
+  --theme-primary-200: #b39ddb;
+  --theme-primary-300: #9575cd;
+  --theme-primary-400: #7e57c2;
+  --theme-primary-600: #5e35b1;
+  --theme-primary-700: #512da8;
+  --theme-primary-800: #4527a0;
+  --theme-primary-900: #311b92;
+  --theme-primary-A100: #b388ff;
+  --theme-primary-A200: #7c4dff;
+  --theme-primary-A400: #651fff;
+  --theme-primary-A700: #6200ea;
+  --theme-accent-50: #fafafa;
+  --theme-accent-100: #f5f5f5;
+  --theme-accent-200: #eeeeee;
+  --theme-accent-300: #e0e0e0;
+  --theme-accent-400: #bdbdbd;
+  --theme-accent-500: #9e9e9e;
+  --theme-accent-600: #757575;
+  --theme-accent-700: #616161;
+  --theme-accent-800: #424242;
+  --theme-accent-900: #212121;
+  --theme-warn-50: #ffebee;
+  --theme-warn-100: #ffcdd2;
+  --theme-warn-200: #ef9a9a;
+  --theme-warn-300: #e57373;
+  --theme-warn-400: #ef5350;
+  --theme-warn-500: #f44336;
+  --theme-warn-600: #e53935;
+  --theme-warn-700: #d32f2f;
+  --theme-warn-800: #c62828;
+  --theme-warn-900: #b71c1c;
+  --theme-warn-A100: #ff8a80;
+  --theme-warn-A200: #ff5252;
+  --theme-warn-A400: #ff1744;
+  --theme-warn-A700: #d50000;
+
+  @media (prefers-color-scheme: light) {
+    --theme-background: #f0f0f0;
+    --theme-foreground: #e4e4e4;
+  }
+}
+
+$background-color: var(--theme-background);
+$foreground-color: var(--theme-foreground);
+
+$dark-primary-text: #000000;
+$light-primary-text: #f0f0f0;
+
+$background-white: #ffffff;
+//#region Primary css variables
+$theme-primary-50: var(--theme-primary-50);
+$theme-primary-100: var(--theme-primary-100);
+$theme-primary-200: var(--theme-primary-200);
+$theme-primary-300: var(--theme-primary-300);
+$theme-primary-400: var(--theme-primary-400);
+$theme-primary-500: var(--theme-primary-500);
+$theme-primary-600: var(--theme-primary-600);
+$theme-primary-700: var(--theme-primary-700);
+$theme-primary-800: var(--theme-primary-800);
+$theme-primary-900: var(--theme-primary-900);
+// A100, A200, A400, and A700 are just optional shades for easy reference of how light or dark you need for the color.
+// Reference:https://levelup.gitconnected.com/defining-your-own-theme-in-angular-material-8a4a6ffad400
+$theme-primary-A100: var(--theme-primary-A100);
+$theme-primary-A200: var(--theme-primary-A200);
+$theme-primary-A400: var(--theme-primary-A400);
+$theme-primary-A700: var(--theme-primary-A700);
+//#endregion
+
+//#region Accent css variables
+$theme-accent-50: var(--theme-accent-50);
+$theme-accent-100: var(--theme-accent-100);
+$theme-accent-200: var(--theme-accent-200);
+$theme-accent-300: var(--theme-accent-300);
+$theme-accent-400: var(--theme-accent-400);
+$theme-accent-500: var(--theme-accent-500);
+$theme-accent-600: var(--theme-accent-600);
+$theme-accent-700: var(--theme-accent-700);
+$theme-accent-800: var(--theme-accent-800);
+$theme-accent-900: var(--theme-accent-900);
+//#endregion
+
+//#region Warn css variables
+$theme-warn-50: var(--theme-warn-50);
+$theme-warn-100: var(--theme-warn-100);
+$theme-warn-200: var(--theme-warn-200);
+$theme-warn-300: var(--theme-warn-300);
+$theme-warn-400: var(--theme-warn-400);
+$theme-warn-500: var(--theme-warn-500);
+$theme-warn-600: var(--theme-warn-600);
+$theme-warn-700: var(--theme-warn-700);
+$theme-warn-800: var(--theme-warn-800);
+$theme-warn-900: var(--theme-warn-900);
+$theme-warn-A100: var(--theme-warn-A100);
+$theme-warn-A200: var(--theme-warn-A200);
+$theme-warn-A400: var(--theme-warn-A400);
+$theme-warn-A700: var(--theme-warn-A700);
+//#endregion
+
+// Palettes
+
+$custom-primary-palette: (
+  50: $theme-primary-50,
+  100: $theme-primary-100,
+  200: $theme-primary-200,
+  300: $theme-primary-300,
+  400: $theme-primary-400,
+  500: $theme-primary-500,
+  600: $theme-primary-600,
+  700: $theme-primary-700,
+  800: $theme-primary-800,
+  900: $theme-primary-900,
+  A100: $theme-primary-A100,
+  A200: $theme-primary-A200,
+  A400: $theme-primary-A400,
+  A700: $theme-primary-A700,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$custom-accent-palette: (
+  50: $theme-accent-50,
+  100: $theme-accent-100,
+  200: $theme-accent-200,
+  300: $theme-accent-300,
+  400: $theme-accent-400,
+  500: $theme-accent-700,
+  600: $theme-accent-600,
+  700: $theme-accent-700,
+  800: $theme-accent-800,
+  900: $theme-accent-900,
+  A100: $theme-accent-900,
+  A200: $theme-accent-900,
+  A400: $theme-accent-900,
+  A700: $theme-accent-900,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $dark-primary-text,
+    700: $dark-primary-text,
+    800: $dark-primary-text,
+    900: $dark-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
+  ),
+);
+
+$custom-warn-palette: (
+  50: $theme-warn-50,
+  100: $theme-warn-100,
+  200: $theme-warn-200,
+  300: $theme-warn-300,
+  400: $theme-warn-400,
+  500: $theme-warn-500,
+  600: $theme-warn-600,
+  700: $theme-warn-700,
+  800: $theme-warn-800,
+  900: $theme-warn-900,
+  A100: $theme-warn-A100,
+  A200: $theme-warn-A200,
+  A400: $theme-warn-A400,
+  A700: $theme-warn-A700,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);

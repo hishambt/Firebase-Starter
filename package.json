@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "ng-help": "ng --help",
     "serve": "ng serve",
     "start": "firebase emulators:exec --project=demo-project --ui \"ng serve\" --import=./emulators.backup --export-on-exit=./emulators.backup",
     "build": "ng build",
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "bootstrap": "~5.2.3",
     "ng-let": "^16.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

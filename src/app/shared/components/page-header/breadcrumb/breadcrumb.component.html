@@ -1,0 +1,30 @@
+<nav aria-label="breadcrumb" *ngIf="items">
+	<ol class="breadcrumb breadcrumb-no-gutter">
+		<ng-container *ngIf="items.length <= 3; else wideBreadcrumb">
+			<li class="breadcrumb-item" *ngFor="let item of items; let last = last">
+				<a *ngIf="!last" class="breadcrumb-link" [routerLink]="[item?.link]">{{ item?.text | titlecase }}</a>
+				<span *ngIf="last" class="breadcrumb-link">{{ item?.text | titlecase }}</span>
+			</li>
+		</ng-container>
+	</ol>
+</nav>
+
+<ng-template #wideBreadcrumb>
+	<ng-container>
+		<li class="breadcrumb-item">
+			<a class="breadcrumb-link" [routerLink]="[items[0]!.link]">{{ items[0]!.text | titlecase }}</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a class="breadcrumb-link" [matMenuTriggerFor]="menuBreadcrumb" aria-label="breadcrumb menu items">...</a>
+		</li>
+		<li class="breadcrumb-item" *ngFor="let item of items.slice(items.length - 2); let last = last">
+			<a *ngIf="!last" class="breadcrumb-link" [routerLink]="[item?.link]">{{ item?.text | titlecase }}</a>
+			<span *ngIf="last" class="breadcrumb-link1">{{ item?.text | titlecase }}</span>
+		</li>
+	</ng-container>
+	<mat-menu #menuBreadcrumb="matMenu">
+		<a mat-menu-item *ngFor="let item of items.slice(1, items.length - 2)" [routerLink]="[item?.link]">
+			<span>{{ item?.text | titlecase }}</span>
+		</a>
+	</mat-menu>
+</ng-template>

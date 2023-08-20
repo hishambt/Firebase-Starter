@@ -1,0 +1,29 @@
+<mat-nav-list class="side-navnar">
+	<ng-container *ngFor="let menu of menuList; index as i">
+		<ng-container [ngTemplateOutlet]="menu.children ? childMenu : parentMenu" [ngTemplateOutletContext]="{ menu: menu }"> </ng-container>
+	</ng-container>
+</mat-nav-list>
+
+<ng-template #parentMenu let-menu="menu">
+	<mat-list-item>
+		<a [routerLink]="menu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+			<mat-icon>{{ menu.icon }}</mat-icon> {{ menu.text }}
+		</a>
+	</mat-list-item>
+</ng-template>
+
+<ng-template #childMenu let-menu="menu">
+	<mat-expansion-panel [class.mat-elevation-z0]="true" [expanded]="menu.expanded" (opened)="onSelect(menu)" (closed)="onSelect(menu)">
+		<mat-expansion-panel-header class="px-4" [ngClass]="{ active: menu.selected }">
+			<mat-icon mat-list-icon>{{ menu.icon }}</mat-icon>
+			{{ menu.text }}
+		</mat-expansion-panel-header>
+		<mat-nav-list>
+			<mat-list-item *ngFor="let submenu of menu.children">
+				<a [routerLink]="submenu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+					<mat-icon>{{ submenu.icon }}</mat-icon> {{ submenu.text }}
+				</a>
+			</mat-list-item>
+		</mat-nav-list>
+	</mat-expansion-panel>
+</ng-template>

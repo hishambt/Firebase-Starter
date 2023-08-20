@@ -1,0 +1,30 @@
+.bubble-bg {
+    position: relative;
+}
+.bubble-bg::after,
+.bubble-bg::before {
+    content: "";
+    background-image: url("/assets/images/auth/bubbles.svg");
+    width: 150px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    max-height: 100%;
+}
+
+.bubble-bg::before {
+    top: 0;
+    left: 0;
+}
+
+.bubble-bg::after {
+    right: 0;
+    bottom: 0;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}

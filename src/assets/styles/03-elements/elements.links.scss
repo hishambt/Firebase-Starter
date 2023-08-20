@@ -1,0 +1,24 @@
+a,
+mark {
+  text-decoration: none;
+  text-emphasis: none;
+  background-color: unset;
+}
+
+a {
+  cursor: pointer;
+}
+
+a.link {
+  color: var(--theme-primary-500) !important;
+  &.router-link-active {
+    text-decoration: underline;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-help {
+  cursor: help;
+}

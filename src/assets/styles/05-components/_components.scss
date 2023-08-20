@@ -1,0 +1,6 @@
+// 05 components
+// The component layer is where we start to design recognizable UI pieces.
+// We shouldn't find selectors with a specificity less than a class in this layer.
+@import "./components.shell";
+@import "./components.buttons";
+@import "./components.breadcrumb";
