@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSuccess() {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+    this._snackBar.dismiss();
     this.router.navigateByUrl(returnUrl);
   }
 
