@@ -8,6 +8,7 @@ import { BreadcrumbComponent } from './components/page-header/breadcrumb/breadcr
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { FormActionBarComponent } from './components/form-action-bar/form-action-bar.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
+import { NgLetModule } from 'ng-let';
 
 @NgModule({
 	declarations: [
@@ -21,12 +22,14 @@ import { GoogleBtnComponent } from './components/google-btn/google-btn.component
 		RouterModule,
 		ReactiveFormsModule,
 		MaterialModule,
+		NgLetModule,
 	],
 	exports: [
 		CommonModule,
 		RouterModule,
 		ReactiveFormsModule,
 		MaterialModule,
+		NgLetModule,
 		BreadcrumbComponent,
 		PageHeaderComponent,
 		FormActionBarComponent,

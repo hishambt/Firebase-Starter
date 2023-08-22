@@ -1,3 +1,4 @@
-mat-card {
+mat-card.mat-mdc-card {
     margin-bottom: 10px;
+    --mdc-elevated-card-container-color: #{$background-color};
 }

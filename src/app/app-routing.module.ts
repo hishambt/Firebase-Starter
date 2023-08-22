@@ -20,7 +20,11 @@ const routes: Routes = [
 				path: 'home',
 				canActivate: [fireauthGuard],
 				loadChildren: () => HomeModule
-			}
+			},
+			{
+				path: 'customers',
+				component: NotFoundComponent
+			},
 		]
 	},
 	{

@@ -54,10 +54,14 @@ $dark-theme: mat.define-dark-theme(
 @include mat.all-component-themes($dark-theme);
 
 .mat-drawer-container {
-  background-color: $background-color;
+    --mat-sidenav-content-background-color: #{$background-color} !important;
 }
 .mat-drawer {
-  background-color: $foreground-color;
+    --mat-sidenav-container-background-color: #{$foreground-color} !important;
+}
+
+.mat-expansion-panel {
+    --mat-expansion-container-background-color: #{$background-color};
 }
 
 // Apply the light theme only when the user prefers light themes.

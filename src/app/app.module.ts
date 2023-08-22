@@ -1,23 +1,17 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
-import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
-import { connectFirestoreEmulator, getFirestore, provideFirestore, enableMultiTabIndexedDbPersistence, initializeFirestore, Firestore } from '@angular/fire/firestore';
-import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
+import { FunctionsModule } from '@angular/fire/functions';
+import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
-import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
-import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
-import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { MaterialModule } from './shared/material/material.module';
 import { CommonModule } from '@angular/common';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { NgLetModule } from 'ng-let';
 import { ShellModule } from './shell/shell.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
@@ -33,7 +27,6 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
     CommonModule,
     AppRoutingModule,
     FunctionsModule,
-    NgLetModule,
     ShellModule,
     // provideAnalytics(() => getAnalytics()),
     provideAuth(() => {

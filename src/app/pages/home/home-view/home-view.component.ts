@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { INullableUser } from 'src/app/shared/models/IUser.model';
 
 @Component({
 	selector: 'app-home-view',
@@ -9,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class HomeViewComponent {
 
-	constructor(private router: Router, private http: HttpClient) {
+	user$ = this.authService.user$;
+
+	constructor(private router: Router, private http: HttpClient, private authService: AuthService) {
 
 	}
 
