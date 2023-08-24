@@ -6,19 +6,19 @@
 		<!-- End Col -->
 
 		<div class="col-auto mt-1">
-			<ng-container *ngFor="let action of actionButtons!; let isLast = last">
+			<ng-container *ngFor="let button of actionButtons!; let isLast = last">
 				<button
-					*ngIf="action?.visible"
+					*ngIf="button?.visible"
 					mat-button
-					[color]="action?.color"
-					class="mb-2 {{ action?.class }}"
-					[ngClass]="{ 'split-button-left': action?.options && !isDrawerMode, 'me-3': !action?.options && !isLast }"
-					[disabled]="action?.disabled || action?.isWaiting"
-					(click)="onActionSubmit(action?.text)"
+					[color]="button?.color"
+					class="mb-2 {{ button?.class }}"
+					[ngClass]="{ 'split-button-left': button?.options && !isDrawerMode, 'me-3': !button?.options && !isLast }"
+					[disabled]="button?.disabled || button?.isWaiting"
+					(click)="onActionSubmit(button?.action)"
 				>
-					{{ action?.text }}
+					{{ button?.text }}
 					<mat-icon
-						*ngIf="action?.isWaiting"
+						*ngIf="button?.isWaiting"
 						class="position-absolute d-inline-block top-0 bottom-0 end-1 m-auto"
 						style="width: 14px; height: 14px"
 					>
@@ -26,19 +26,19 @@
 					</mat-icon>
 				</button>
 				<button
-					*ngIf="action.options && !isDrawerMode && action?.visible"
+					*ngIf="button.options && !isDrawerMode && button?.visible"
 					mat-button
-					[color]="action?.color"
-					class="split-button-right mb-2 {{ action?.class }}"
+					[color]="button?.color"
+					class="split-button-right mb-2 {{ button?.class }}"
 					[ngClass]="{ 'me-3': !isLast }"
-					[disabled]="action?.disabled"
+					[disabled]="button?.disabled"
 					[matMenuTriggerFor]="menu"
 				>
 					<mat-icon aria-hidden="false" aria-label="Example home icon">expand_more</mat-icon>
 				</button>
 
 				<mat-menu #menu="matMenu" xPosition="before">
-					<button *ngFor="let option of action?.options" mat-menu-item (click)="onActionSubmit(option?.text)">{{ option?.text }}</button>
+					<button *ngFor="let option of button?.options" mat-menu-item (click)="onActionSubmit(option?.action)">{{ option?.text }}</button>
 				</mat-menu>
 			</ng-container>
 		</div>

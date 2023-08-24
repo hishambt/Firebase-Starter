@@ -7,15 +7,15 @@ import { ActionButton } from '../../models/actionButton';
 	templateUrl: './form-action-bar.component.html',
 	styleUrls: ['./form-action-bar.component.scss']
 })
-export class FormActionBarComponent {
-	@Input() startButtons: ActionButton[] = [];
-	@Input() endButtons: ActionButton[] = [];
+export class FormActionBarComponent<T> {
+	@Input() startButtons: ActionButton<T>[] = [];
+	@Input() endButtons: ActionButton<T>[] = [];
 	@Input() isDrawerMode: boolean = false;
-	@Output() buttonClick = new EventEmitter<string>();
+	@Output() buttonClick = new EventEmitter<T>();
 
 	constructor() {}
 
-	onActionSubmit(text: any) {
-		this.buttonClick.emit(text);
+	onActionSubmit(action?: T) {
+		this.buttonClick.emit(action);
 	}
 }

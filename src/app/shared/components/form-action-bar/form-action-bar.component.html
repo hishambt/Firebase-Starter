@@ -1,78 +1,109 @@
-<div class="d-md-flex" [ngClass]="{ 'justify-content-between': startButtons.length && endButtons.length }">
-	<div class="start-actions" *ngIf="startButtons.length" [ngClass]="{ 'flex-fill': startButtons.length === 1 }">
-		<ng-container *ngFor="let action of startButtons!; let isLast = last">
-			<button
-				*ngIf="action?.visible"
-				mat-raised-button
-				[color]="action?.color"
-				class="mb-2 {{ action?.class }}"
-				[ngClass]="{
-					'split-button-left': action?.options && !isDrawerMode,
-					'me-3': (!action?.options && !isLast) || (isDrawerMode && !isLast)
-				}"
-				[disabled]="action?.disabled || action?.isWaiting"
-				(click)="onActionSubmit(action?.text)"
-			>
-				{{ action?.text }}
-				<mat-icon
-					*ngIf="action?.isWaiting"
-					class="position-absolute d-inline-block top-0 bottom-0 end-1 m-auto"
-					style="width: 14px; height: 14px"
-				>
-					<mat-spinner color="accent" diameter="14"> </mat-spinner>
-				</mat-icon>
-			</button>
-			<button
-				*ngIf="action.options && !isDrawerMode && action?.visible"
-				mat-raised-button
-				[color]="action?.color"
-				[ngClass]="action?.class"
-				[disabled]="action?.disabled"
-				[matMenuTriggerFor]="menu"
-			>
-				<mat-icon aria-hidden="false" aria-label="Example home icon">expand_more</mat-icon>
-			</button>
+<div
+  class="d-md-flex"
+  [ngClass]="{
+    'justify-content-between': startButtons.length && endButtons.length
+  }"
+>
+  <div
+    class="start-actions"
+    *ngIf="startButtons.length"
+    [ngClass]="{ 'flex-fill': startButtons.length === 1 }"
+  >
+    <ng-container *ngFor="let button of startButtons!; let isLast = last">
+      <button
+        *ngIf="button?.visible"
+        mat-raised-button
+        [color]="button?.color"
+        class="mb-2 {{ button?.class }}"
+        [ngClass]="{
+          'split-button-left': button?.options && !isDrawerMode,
+          'me-3': (!button?.options && !isLast) || (isDrawerMode && !isLast)
+        }"
+        [type]="button.submit ? 'submit': 'button'"
+        [disabled]="button?.disabled || button?.isWaiting"
+        (click)="onActionSubmit(button?.action)"
+      >
+        <span [ngClass]="{ invisible: button?.isWaiting }">
+          {{ button?.text }}
+        </span>
+        <ng-container *ngIf="!button?.isWaiting; else loading"></ng-container>
+      </button>
+      <button
+        *ngIf="button.options && !isDrawerMode && button?.visible"
+        mat-raised-button
+        [color]="button?.color"
+        [ngClass]="button?.class"
+        [disabled]="button?.disabled"
+        [matMenuTriggerFor]="menu"
+      >
+        <mat-icon aria-hidden="false" aria-label="Example home icon"
+          >expand_more</mat-icon
+        >
+      </button>
 
-			<mat-menu #menu="matMenu" xPosition="before">
-				<button *ngFor="let option of action?.options" mat-menu-item (click)="onActionSubmit(option?.text)">{{ option?.text }}</button>
-			</mat-menu>
-		</ng-container>
-	</div>
-	<div class="end-actions" *ngIf="endButtons.length">
-		<ng-container *ngFor="let action of endButtons!; let isLast = last">
-			<button
-				*ngIf="action?.visible"
-				mat-raised-button
-				[color]="action?.color"
-				class="mb-2 {{ action?.class }}"
-				[ngClass]="{ 'split-button-left': action?.options && !isDrawerMode, 'me-3': !action?.options && !isLast }"
-				[disabled]="action?.disabled || action?.isWaiting"
-				(click)="onActionSubmit(action?.text)"
-			>
-				{{ action?.text }}
-				<mat-icon
-					*ngIf="action?.isWaiting"
-					class="position-absolute d-inline-block top-0 bottom-0 end-1 m-auto"
-					style="width: 14px; height: 14px"
-				>
-					<mat-spinner color="accent" diameter="14"> </mat-spinner>
-				</mat-icon>
-			</button>
-			<button
-				*ngIf="action.options && !isDrawerMode && action?.visible"
-				mat-raised-button
-				[color]="action?.color"
-				class="split-button-right mb-2 {{ action?.class }}"
-				[ngClass]="{ 'me-3': !isLast }"
-				[disabled]="action?.disabled"
-				[matMenuTriggerFor]="menu"
-			>
-				<mat-icon aria-hidden="false" aria-label="Example home icon">expand_more</mat-icon>
-			</button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          *ngFor="let option of button?.options"
+          mat-menu-item
+          (click)="onActionSubmit(option?.action)"
+        >
+          {{ option?.text }}
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+  <div class="end-actions" *ngIf="endButtons.length">
+    <ng-container *ngFor="let button of endButtons!; let isLast = last">
+      <button
+        *ngIf="button?.visible"
+        mat-raised-button
+        [color]="button?.color"
+        class="mb-2 {{ button?.class }}"
+        [ngClass]="{
+          'split-button-left': button?.options && !isDrawerMode,
+          'me-3': !button?.options && !isLast
+        }"
+        [disabled]="button?.disabled || button?.isWaiting"
+        (click)="onActionSubmit(button?.action)"
+        [type]="button.submit ? 'submit': 'button'"
+      >
+        <span [ngClass]="{ invisible: button?.isWaiting }">
+          {{ button?.text }}
+        </span>
+        <ng-container *ngIf="!button?.isWaiting; else loading"></ng-container>
+      </button>
+      <button
+        *ngIf="button.options && !isDrawerMode && button?.visible"
+        mat-raised-button
+        [color]="button?.color"
+        class="split-button-right mb-2 {{ button?.class }}"
+        [ngClass]="{ 'me-3': !isLast }"
+        [disabled]="button?.disabled"
+        [matMenuTriggerFor]="menu"
+      >
+        <mat-icon aria-hidden="false" aria-label="Example home icon"
+          >expand_more</mat-icon
+        >
+      </button>
 
-			<mat-menu #menu="matMenu" xPosition="before">
-				<button *ngFor="let option of action?.options" mat-menu-item (click)="onActionSubmit(option?.text)">{{ option?.text }}</button>
-			</mat-menu>
-		</ng-container>
-	</div>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          *ngFor="let option of button?.options"
+          mat-menu-item
+          (click)="onActionSubmit(option?.action)"
+        >
+          {{ option?.text }}
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
 </div>
+
+<ng-template #loading let-templateContext="context">
+  <mat-icon
+    class="position-absolute top-50 start-50 translate-middle"
+    style="width: 18px; height: 18px"
+  >
+    <mat-spinner color="accent" diameter="18"> </mat-spinner>
+  </mat-icon>
+</ng-template>

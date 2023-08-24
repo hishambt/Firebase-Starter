@@ -14,6 +14,10 @@ export class AppSettingsService {
     return window.location.href;
   }
 
+  getUrlOrigin(): string {
+    return window.location.origin;
+  }
+
   getRouteParam(url: string): any {
     const mUrl = new URL(url);
     const path = mUrl.pathname;

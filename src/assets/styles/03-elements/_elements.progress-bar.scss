@@ -1,11 +1,11 @@
 .mat-mdc-progress-bar.mat-primary {
-  --mdc-linear-progress-active-indicator-color: #{$theme-primary-200};
+  --mdc-linear-progress-active-indicator-color: var(--theme-primary-200);
 }
 
 .mat-mdc-progress-bar.mat-accent {
-  --mdc-linear-progress-active-indicator-color: #{$theme-accent-200};
+  --mdc-linear-progress-active-indicator-color: var(--theme-accent-200);
 }
 
 .mat-mdc-progress-bar.mat-warn {
-  --mdc-linear-progress-active-indicator-color: #{$theme-warn-200};
+  --mdc-linear-progress-active-indicator-color: var(--theme-warn-200);
 }

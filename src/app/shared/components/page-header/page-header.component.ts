@@ -32,17 +32,17 @@ import { IBreadcrumbItem } from '../../models/IBreadcrumbItem';
 	templateUrl: './page-header.component.html',
 	styleUrls: ['./page-header.component.scss']
 })
-export class PageHeaderComponent {
+export class PageHeaderComponent<T> {
 	@Input() breadcrumbItems!: IBreadcrumbItem[];
 	@Input() title: string = 'undefined';
-	@Input() actionButtons: ActionButton[] = [];
+	@Input() actionButtons: ActionButton<T>[] = [];
 	@Input() isDrawerMode: boolean = false;
 
-	@Output() buttonClick = new EventEmitter<string>();
+	@Output() buttonClick = new EventEmitter<T>();
 
 	constructor() {}
 
-	onActionSubmit(text: any) {
-		this.buttonClick.emit(text);
+	onActionSubmit(action?: T) {
+		this.buttonClick.emit(action);
 	}
 }
