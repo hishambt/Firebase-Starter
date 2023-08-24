@@ -5,6 +5,7 @@ import { HomeModule } from './pages/home/home.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthModule } from './core/auth/auth.module';
 import { fireauthGuard } from './core/guards/fireauth.guard';
+import { ProfileModule } from './profile/profile.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
 				path: 'customers',
 				component: NotFoundComponent
 			},
+			{
+				path: 'profile',
+				loadChildren: () => ProfileModule
+			}
 		]
 	},
 	{

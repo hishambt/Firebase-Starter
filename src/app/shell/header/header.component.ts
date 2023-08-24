@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +11,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   @Output() toggleDrawer = new EventEmitter();
-  @Input() isOnline!: boolean;
-  constructor(private authService: AuthService, private router: Router) {}
+  user$ = this.authService.user$;
+
+  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {}
+
+  revealId(id: string) {
+    this._snackBar.open(id, 'Ok', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['mat-toolbar', 'mat-accent']
+    });
+  }
 
   logout() {
     this.authService.logout().subscribe(() => {

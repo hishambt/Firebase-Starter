@@ -1,81 +1,39 @@
-<mat-toolbar color="primary" class="toolbar align-items-center" style="height: 64px">
-	<div
-		class="pulse position-absolute top-0 start-0 bottom-0 cursor-help"
-		[title]="isOnline ? 'online' : 'offline'"
-		[ngClass]="isOnline ? 'is-online' : 'is-offline'"
-	></div>
+<ng-container *ngIf="user$ | async as user">
+    <mat-toolbar color="primary" class="toolbar align-items-center justify-content-center" style="height: 60px">
+        <div class="d-inline-block d-sm-none ms-n3">
+            <button mat-icon-button (click)="toggleDrawer.emit()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <a class="d-flex justify-content-center align-items-center cursor-pointer" routerLink="/home" color="primary" aria-label="Profile">
+            <mat-icon class="me-3">mark_as_unread</mat-icon>
+						<label class="cursor-pointer">Invitationship</label>
+        </a>
+        <div class="flex-grow-1"></div>
+        <div [matMenuTriggerFor]="menuprofile" class="header-actions d-flex flex-raw justify-content-center align-items-center">
+            <label class="cursor-pointer me-3">{{ user.displayName ? user.displayName : user.email }}</label>
+            <div class="profile-action">
+                <a mat-mini-fab color="primary" aria-label="Profile">
+                    <img *ngIf="user.photoURL" [src]="user.photoURL" />
+                    <mat-icon *ngIf="!user.photoURL">person_2</mat-icon>
+                </a>
+                <mat-menu #menuprofile="matMenu" xPosition="before">
+                    <button routerLink="/profile" mat-menu-item>
+                        <mat-icon>person_2</mat-icon>
+                        <span>My profile</span>
+                    </button>
+                    <button (click)="revealId(user.uid!)" mat-menu-item>
+                        <mat-icon>fingerprint</mat-icon>
+                        <span class="identity-id mat-caption">Show Id</span>
+                    </button>
+                    <mat-divider></mat-divider>
 
-	<div class="d-inline-block d-sm-none ms-n3">
-		<button mat-icon-button (click)="toggleDrawer.emit()"><mat-icon>menu</mat-icon></button>
-	</div>
-	<div class="header-identity d-flex flex-flex">
-		<img [src]="'./assets/images/site-identity/identity-logo-50x50.png'" class="me-1" style="height: 50px; width: 50px" />
-		<div class="d-flex flex-column ms-1">
-			<span class="identity-name">ecomz store</span>
-			<span class="identity-plan mat-caption">Pro Plan</span>
-		</div>
-	</div>
-	<div class="flex-grow-1"></div>
-	<div class="header-actions d-flex flex-raw">
-		<div class="store-action me-1">
-			<a class="d-flex flex-column align-items-center" aria-label="Example icon-button with a menu">
-				<mat-icon>home</mat-icon>
-				<span class="mat-caption d-none d-sm-block">Online Store</span>
-			</a>
-		</div>
-		<div class="notifications-action mx-1">
-			<a
-				class="d-flex flex-column align-items-center"
-				aria-label="Example icon-button with a menu"
-				matBadge="5"
-				matBadgePosition="after"
-				matBadgeColor="accent"
-			>
-				<mat-icon>home</mat-icon>
-				<span class="mat-caption d-none d-sm-block">Notifications</span>
-			</a>
-		</div>
-		<div class="support-action mx-1">
-			<a class="d-flex flex-column align-items-center" [matMenuTriggerFor]="menuSupport" aria-label="Example icon-button with a menu">
-				<mat-icon>home</mat-icon>
-				<span class="mat-caption d-none d-sm-block">Support</span>
-			</a>
-			<mat-menu #menuSupport="matMenu">
-				<button mat-menu-item>
-					<mat-icon>dialpad</mat-icon>
-					<span>Support</span>
-				</button>
-				<button mat-menu-item disabled>
-					<mat-icon>voicemail</mat-icon>
-					<span>Check voice mail</span>
-				</button>
-				<button mat-menu-item>
-					<mat-icon>notifications_off</mat-icon>
-					<span>Disable alerts</span>
-				</button>
-			</mat-menu>
-		</div>
-		<div class="profile-action ms-1">
-			<a class="d-flex flex-column align-items-center" [matMenuTriggerFor]="menuprofile" aria-label="Example icon-button with a menu">
-				<mat-icon>home</mat-icon>
-				<span class="mat-caption d-none d-sm-block">profile</span>
-			</a>
-			<mat-menu #menuprofile="matMenu">
-				<button mat-menu-item>
-					<mat-icon>dialpad</mat-icon>
-					<span>profile</span>
-				</button>
-				<button mat-menu-item disabled>
-					<mat-icon>voicemail</mat-icon>
-					<span>Check voice mail</span>
-				</button>
-				<mat-divider></mat-divider>
-
-				<button mat-menu-item (click)="logout()">
-					<mat-icon>notifications_off</mat-icon>
-					<span>Sign out</span>
-				</button>
-			</mat-menu>
-		</div>
-	</div>
-</mat-toolbar>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Sign out</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </mat-toolbar>
+</ng-container>
