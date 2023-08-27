@@ -7,13 +7,6 @@ export interface IMenuItem {
 	children?: IMenuItem[];
 }
 
-// export interface IMenuItem {
-// 	text: string;
-// 	icon: string;
-// 	selected: boolean;
-// 	routerLink: string;
-// }
-
 export const items: Array<IMenuItem> = [
 	{
 		text: 'Dashboard',
@@ -91,7 +84,7 @@ export const items: Array<IMenuItem> = [
 				text: 'Manage Expense',
 				icon: 'layers',
 				selected: false,
-				routerLink: '/product/sub-category'
+				routerLink: '/profile'
 			},
 			{
 				text: 'Statement',

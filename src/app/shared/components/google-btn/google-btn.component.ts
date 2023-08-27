@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-google-btn',
@@ -8,6 +8,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class GoogleBtnComponent {
 
   @Output() buttonClick = new EventEmitter();
+  @Input() isWaiting = false;
   
   buttonClicked() {
     this.buttonClick.emit();

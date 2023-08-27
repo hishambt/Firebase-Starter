@@ -1,1 +1,24 @@
-<p>profile-view works!</p>
+<div class="container-fluid">
+    <app-page-header
+        title="My profile"
+        [actionButtons]="[
+          {
+            visible: true,
+            disabled: false,
+            class: 'w-100',
+            color: 'primary',
+            text: 'Save',
+          }
+        ]"
+        [breadcrumbItems]="[
+            {
+                text: 'Dashboard',
+                link: '/home'
+            },
+            {
+                text: 'Profile',
+                link: '/profile'
+            }
+        ]"
+    ></app-page-header>
+</div>

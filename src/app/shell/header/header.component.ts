@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -10,10 +10,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
+  _snackBar = inject(MatSnackBar);
+  
   @Output() toggleDrawer = new EventEmitter();
-  user$ = this.authService.user$;
 
-  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {}
+  user$ = this.authService.user$;
 
   revealId(id: string) {
     this._snackBar.open(id, 'Ok', {

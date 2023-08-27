@@ -26,7 +26,8 @@ export class RegisterComponent {
 
   matcher = new ConfirmPasswordMatcher();
 
-  isWaiting: boolean = false;
+  emailPasswordLoading: boolean = false;
+  googleLoading: boolean = false;
 
   get passwordMatchError() {
     const hasError = this.form.getError('mismatch') &&
@@ -40,12 +41,13 @@ export class RegisterComponent {
       return;
     }
 
-    this.isWaiting = true;
+    this.emailPasswordLoading = true;
 
     this.authService.registerNewAccount(this.form.controls['email'].value,
-    this.form.controls['password'].value).pipe(
+    this.form.controls['password'].value)
+    .pipe(
       finalize(() => {
-        this.isWaiting = false;
+        this.emailPasswordLoading = false;
       })
     )
     .subscribe({
@@ -55,8 +57,14 @@ export class RegisterComponent {
   }
 
   registerWithGoogle() {
+    this.googleLoading = true;
     this.authService
       .loginWithGoogle()
+      .pipe(
+        finalize(() => {
+          this.googleLoading = false;
+        })
+      )
       .subscribe({
         next: () => this.onLoginSuccess(),
         error: (error: Error) =>  this.onLoginFailure(error.message)

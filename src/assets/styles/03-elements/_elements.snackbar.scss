@@ -1,17 +1,17 @@
 .mdc-snackbar.mat-toolbar.mat-primary {
   --mdc-snackbar-supporting-text-color: var(--theme-primary-50);
   --mat-snack-bar-button-color: var(--theme-primary-50);
-  --mdc-snackbar-container-color: var(--theme-primary-700);
+  --mdc-snackbar-container-color: var(--theme-primary-500);
 }
 
 .mdc-snackbar.mat-toolbar.mat-accent {
   --mdc-snackbar-supporting-text-color: var(--theme-accent-50);
   --mat-snack-bar-button-color: var(--theme-accent-50);
-  --mdc-snackbar-container-color: var(--theme-accent-700);
+  --mdc-snackbar-container-color: var(--theme-accent-500);
 }
 
 .mdc-snackbar.mat-toolbar.mat-warn {
   --mdc-snackbar-supporting-text-color: var(--theme-warn-50);
   --mat-snack-bar-button-color: var(--theme-warn-50);
-  --mdc-snackbar-container-color: var(--theme-warn-700);
+  --mdc-snackbar-container-color: var(--theme-warn-500);
 }

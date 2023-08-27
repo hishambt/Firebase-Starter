@@ -1,13 +1,13 @@
 <ng-container *ngIf="user$ | async as user">
     <mat-toolbar color="primary" class="toolbar align-items-center justify-content-center" style="height: 60px">
-        <div class="d-inline-block d-sm-none ms-n3">
+        <div class="d-inline-block d-md-none ms-n3">
             <button mat-icon-button (click)="toggleDrawer.emit()">
                 <mat-icon>menu</mat-icon>
             </button>
         </div>
         <a class="d-flex justify-content-center align-items-center cursor-pointer" routerLink="/home" color="primary" aria-label="Profile">
             <mat-icon class="me-3">mark_as_unread</mat-icon>
-						<label class="cursor-pointer">Invitationship</label>
+            <label class="cursor-pointer  d-none d-sm-block">Invitationship</label>
         </a>
         <div class="flex-grow-1"></div>
         <div [matMenuTriggerFor]="menuprofile" class="header-actions d-flex flex-raw justify-content-center align-items-center">

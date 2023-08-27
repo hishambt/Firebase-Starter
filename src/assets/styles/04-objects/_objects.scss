@@ -2,5 +2,11 @@
 // These deal with designing non-cosmetic design patterns, or "objects" (OOCSS).
 
 .main-bg {
-  background-image: url('/assets/imgs/bg.png');
+    background: rgb(2, 0, 36);
+    background: linear-gradient(to top, rgba(2, 0, 36, 1) 0%, rgba(81, 46, 138, 1) 35%, rgba(159, 75, 61, 1) 100%);
+
+    &.main-content {
+        background: rgb(2, 0, 36);
+        background: linear-gradient(to top, rgba(2, 0, 36, 0.1) 0%, rgba(81, 46, 138, 0.1) 35%, rgba(159, 75, 61, 0.1) 100%);
+    }
 }

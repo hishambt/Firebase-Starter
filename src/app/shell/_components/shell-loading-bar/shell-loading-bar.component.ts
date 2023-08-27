@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { AppSettingsService } from '../../../shared/services/app-settings.service';
 
@@ -9,6 +9,5 @@ import { AppSettingsService } from '../../../shared/services/app-settings.servic
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellLoadingBarComponent {
-	public isLoading$ = this.appSettingsService.isAppLoading$;
-	constructor(private appSettingsService: AppSettingsService) {}
+	public isLoading$ = inject(AppSettingsService).isAppLoading$;
 }

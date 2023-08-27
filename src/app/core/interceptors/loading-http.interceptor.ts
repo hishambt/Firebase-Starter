@@ -29,7 +29,7 @@ export class LoadingHttpInterceptorService implements HttpInterceptor {
       this.appSettingsService.toggleIsLoading(true);
     }
 
-    this.activeRequests++;
+    this.activeRequests++;    
 
     return next.handle(request).pipe(
       catchError((error: Error) => {

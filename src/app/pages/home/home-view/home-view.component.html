@@ -1,76 +1,51 @@
 <ng-container *ngLet="user$ | async as user">
-  <div class="container-fluid">
-    <app-page-header
-      [title]="'Home'"
-      [actionButtons]="[
+    <div class="container-fluid">
+        <app-page-header
+            [title]="'Home'"
+            [actionButtons]="[
       {
         visible: true,
         disabled: false,
-        class: 'mat-raised-button w-100',
+        class: 'w-100',
         color: 'primary',
-        text: 'Test Interceptor',
+        text: 'Header Button',
       }
     ]"
-      (buttonClick)="getTest()"
-    ></app-page-header>
-    <div class="row">
-      <div class="col-sm-8">
-        <mat-card>
-          <mat-card-content>
-            <h1>
-              <pre>{{ user?.displayName }}</pre>
-            </h1>
-            <h2>Header 2</h2>
-            <h3>Header 3</h3>
-            <h4>Header 4</h4>
-            <h5>Header 5</h5>
-            <h6>Header 6</h6>
-            <hr />
-            <h2>Paragraphs</h2>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-            <p class="mat-caption">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-            <p class="mat-body-1">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-            <p class="mat-body-2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-            <hr />
-            <h2>Display 1,2,3,4</h2>
-            <h1 class="mat-display-1"><code>h1.mat-display-1</code></h1>
-            <h1 class="mat-display-2"><code>h1.mat-display-2</code></h1>
-            <h1 class="mat-display-3"><code>h1.mat-display-3</code></h1>
-            <h1 class="mat-display-4"><code>h1.mat-display-4</code></h1>
-          </mat-card-content>
-        </mat-card>
-        <mat-card> </mat-card>
-        <mat-card> </mat-card>
-      </div>
-      <div class="col-sm-4">
-        <mat-card>
-          <mat-card-content>
-            <h5>Header 5</h5>
-            <p>paragraph</p>
-            <p class="mat-caption">caption</p>
-          </mat-card-content>
-        </mat-card>
+        ></app-page-header>
+        <div class="row">
+            <div class="col-sm-8">
+                <mat-card>
+                    <mat-card-content>
+                        <h1>Header 1</h1>
+                        <h2>Header 2</h2>
+                        <h3>Header 3</h3>
+                        <h4>Header 4</h4>
+                        <h5>Header 5</h5>
+                        <h6>Header 6</h6>
+                        <hr />
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card> </mat-card>
+                <mat-card> </mat-card>
+            </div>
+            <div class="col-sm-4">
+                <mat-card>
+                    <mat-card-content>
+                        <h5>Header 5</h5>
+                        <p>paragraph</p>
+                        <p class="mat-caption">caption</p>
+                    </mat-card-content>
+                </mat-card>
 
-        <mat-card>
-          <mat-card-content>
-            <h5>Header 5</h5>
-            <p>paragraph</p>
-            <p class="mat-caption">caption</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+                <mat-card>
+                    <mat-card-content>
+                        <h5>Header 5</h5>
+                        <p>paragraph</p>
+                        <p class="mat-caption">caption</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
     </div>
-  </div>
 </ng-container>

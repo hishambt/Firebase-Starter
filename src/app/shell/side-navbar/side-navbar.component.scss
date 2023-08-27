@@ -1,9 +1,44 @@
 .active {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: var(--theme-primary-400);
+    background-color: var(--theme-primary-700);
+}
+
+.side-navnar {
+  padding: 15px 0;
+  ::ng-deep .side-navbar-item,
+    ::ng-deep .mat-expansion-panel {
+        --mat-expansion-container-shape: 0;
+        --mat-expansion-container-background-color: var(--theme-background);
+
+        .mat-expansion-panel-body {
+            padding-right: 0;
+            padding-bottom: 0;
+        }
+
+        .mat-expansion-panel-header {
+            padding-right: 24px;
+            padding-left: 0;
+
+            &:hover,
+            &:focus {
+                &.active {
+                    background-color: var(--theme-primary-700) !important;
+                }
+            }
+        }
+
+        span:not(.mat-expansion-indicator),
+        a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        a,
+        .mat-content {
+            gap: 1rem;
+            padding: 0 24px;
+        }
+    }
 }

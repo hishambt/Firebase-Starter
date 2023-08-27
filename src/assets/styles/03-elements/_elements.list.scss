@@ -1,4 +1,8 @@
 .mat-mdc-list-item.mdc-list-item {
-    padding-left: 0.5rem; 
-    padding-right: 0.5rem;
+    --mdc-list-list-item-container-color: var(--theme-background);
+    padding: 0;
+
+    &:hover {
+        --mdc-list-list-item-container-color: rgba(255, 255, 255, 0.04);
+    }
 }

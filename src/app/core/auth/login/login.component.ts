@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: new FormControl('', [Validators.required]),
   });
 
-  isWaiting: boolean = false;
+  emailPasswordLoading: boolean = false;
+  googleLoading: boolean = false;
 
   constructor(
     private storage: StorageAccessorService,
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isWaiting = true;
+    this.emailPasswordLoading = true;
 
     this.authService
       .loginWithEmailAndPassword(
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       )
       .pipe(
         finalize(() => {
-          this.isWaiting = false;
+          this.emailPasswordLoading = false;
         })
       )
       .subscribe({
@@ -71,8 +72,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   loginWithGoogle() {
+    this.googleLoading = true;
+
     this.authService
       .loginWithGoogle()
+      .pipe(
+        finalize(() => {
+          this.googleLoading = false;
+        })
+      )
       .subscribe({
         next: () => this.onLoginSuccess(),
         error: (error: Error) =>  this.onLoginFailure(error.message)
