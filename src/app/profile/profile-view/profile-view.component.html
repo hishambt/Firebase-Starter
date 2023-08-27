@@ -8,8 +8,18 @@
             class: 'w-100',
             color: 'primary',
             text: 'Save',
-          }
-        ]"
+            action: actions.save
+          },
+          {
+            visible: true,
+            disabled: false,
+            class: 'w-100',
+            color: 'warn',
+            text: 'Delete Account',
+            action: actions.delete
+          },
+          ]"
+        (buttonClick)="deleteUser($event)"
         [breadcrumbItems]="[
             {
                 text: 'Dashboard',

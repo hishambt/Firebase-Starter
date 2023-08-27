@@ -40,8 +40,6 @@ export class PageHeaderComponent<T> {
 
 	@Output() buttonClick = new EventEmitter<T>();
 
-	constructor() {}
-
 	onActionSubmit(action?: T) {
 		this.buttonClick.emit(action);
 	}

@@ -1,4 +1,4 @@
-<ng-container *ngIf="user$ | async as user">
+<ng-container *ngLet="user$ | async as user">
     <mat-toolbar color="primary" class="toolbar align-items-center justify-content-center" style="height: 60px">
         <div class="d-inline-block d-md-none ms-n3">
             <button mat-icon-button (click)="toggleDrawer.emit()">
@@ -7,22 +7,22 @@
         </div>
         <a class="d-flex justify-content-center align-items-center cursor-pointer" routerLink="/home" color="primary" aria-label="Profile">
             <mat-icon class="me-3">mark_as_unread</mat-icon>
-            <label class="cursor-pointer  d-none d-sm-block">Invitationship</label>
+            <label class="cursor-pointer d-none d-sm-block">Invitationship</label>
         </a>
         <div class="flex-grow-1"></div>
         <div [matMenuTriggerFor]="menuprofile" class="header-actions d-flex flex-raw justify-content-center align-items-center">
-            <label class="cursor-pointer me-3">{{ user.displayName ? user.displayName : user.email }}</label>
+            <label class="cursor-pointer me-3">{{ user?.firstName ? user?.firstName + " " + user?.lastName : user?.email }}</label>
             <div class="profile-action">
                 <a mat-mini-fab color="primary" aria-label="Profile">
-                    <img *ngIf="user.photoURL" [src]="user.photoURL" />
-                    <mat-icon *ngIf="!user.photoURL">person_2</mat-icon>
+                    <img *ngIf="user?.photoURL" [src]="user?.photoURL" />
+                    <mat-icon *ngIf="!user?.photoURL">person_2</mat-icon>
                 </a>
                 <mat-menu #menuprofile="matMenu" xPosition="before">
                     <button routerLink="/profile" mat-menu-item>
                         <mat-icon>person_2</mat-icon>
                         <span>My profile</span>
                     </button>
-                    <button (click)="revealId(user.uid!)" mat-menu-item>
+                    <button (click)="revealId(user?.uid!)" mat-menu-item>
                         <mat-icon>fingerprint</mat-icon>
                         <span class="identity-id mat-caption">Show Id</span>
                     </button>

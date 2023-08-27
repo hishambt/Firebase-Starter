@@ -9,5 +9,4 @@ import { IBreadcrumbItem } from '../../../models/IBreadcrumbItem';
 })
 export class BreadcrumbComponent {
 	@Input() items: IBreadcrumbItem[] = [];
-	constructor() {}
 }

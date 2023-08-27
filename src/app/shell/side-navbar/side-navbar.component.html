@@ -6,7 +6,7 @@
 
 <ng-template #parentMenu let-menu="menu">
 	<mat-list-item class="side-navbar-item no-children">
-		<a (click)="linkClicked($event, menu.routerLink)" [routerLink]="menu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+		<a [routerLink]="menu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
 			<mat-icon>{{ menu.icon }}</mat-icon> {{ menu.text }}
 		</a>
 	</mat-list-item>
@@ -20,7 +20,7 @@
 		</mat-expansion-panel-header>
 		<mat-nav-list>
 			<mat-list-item *ngFor="let submenu of menu.children" class="side-navbar-item">
-				<a (click)="linkClicked($event, submenu.routerLink)" [routerLink]="submenu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+				<a [routerLink]="submenu.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
 					<mat-icon>{{ submenu.icon }}</mat-icon> {{ submenu.text }}
 				</a>
 			</mat-list-item>

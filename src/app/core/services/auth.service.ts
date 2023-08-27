@@ -1,91 +1,81 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  Auth,
-  GoogleAuthProvider,
-  User,
-  authState,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signInWithPopup,
-  signOut,
-  createUserWithEmailAndPassword
+    Auth,
+    GoogleAuthProvider,
+    User,
+    authState,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signInWithPopup,
+    signOut,
+    createUserWithEmailAndPassword,
+    deleteUser,
 } from '@angular/fire/auth';
-import { BehaviorSubject, from, map, take } from 'rxjs';
-import { INullableUser } from '../../shared/models/IUser.model';
+import { switchMap, of, from, take, Observable } from 'rxjs';
+import { IUser } from '../../shared/models/IUser.model';
 import { traceUntilFirst } from '@angular/fire/performance';
-import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
+import { Firestore, collection, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class AuthService {
-  public readonly user$: BehaviorSubject<INullableUser> =
-    new BehaviorSubject<INullableUser>(null);
+    auth = inject(Auth);
+    appSettings = inject(AppSettingsService);
+    db = inject(Firestore);
 
-  constructor(
-    private auth: Auth,
-    private storage: StorageAccessorService,
-    private appSettings: AppSettingsService
-  ) {
-    this.linkUserState();
-  }
+    get currentUserProfile$(): Observable<IUser | null> {
+        return authState(this.auth).pipe(
+            traceUntilFirst('auth'),
+            switchMap((user: User | null): Observable<IUser | null> => {
+                if (!user?.uid) {
+                    return of(null);
+                }
 
-  linkUserState() {
-    this.listenToFireAuth()
-      .pipe(
-        map((user: User | null): INullableUser => {
-          if (!!user) {
-            return {
-              ...user,
-              isLoggedIn: !!user,
-              extendedProps: {
-                test: 'test',
-              },
-            };
-          } else {
-            return null;
-          }
-        })
-      )
-      .subscribe((user: INullableUser) => {
-        if (user) this.storage.setLocalStorage('user', user, true);
-        else this.storage.removeLocalStorageKey('user');
-        this.user$.next(user);
-      });
-  }
+                const ref = doc(this.db, 'users', user?.uid);
+                return docData(ref) as Observable<IUser>;
+            })
+        );
+    }
 
-  registerNewAccount(email: string, password: string) {
-    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
-      take(1)
-    );
-  }
+    registerNewAccount(email: string, password: string) {
+        return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
+    }
 
-  listenToFireAuth() {
-    return authState(this.auth).pipe(traceUntilFirst('auth'));
-  }
+    loginWithGoogle() {
+        return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(take(1));
+    }
 
-  loginWithGoogle() {
-    return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(
-      take(1)
-    );
-  }
+    loginWithEmailAndPassword(email: string, password: string) {
+        return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
+    }
 
-  loginWithEmailAndPassword(email: string, password: string) {
-    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      take(1)
-    );
-  }
+    forgetPassword(email: string) {
+        return from(
+            sendPasswordResetEmail(this.auth, email, {
+                url: this.appSettings.getUrlOrigin() + '/auth/login?passwordChanged=true',
+            })
+        ).pipe(take(1));
+    }
 
-  forgetPassword(email: string) {
-    return from(
-      sendPasswordResetEmail(this.auth, email, {
-        url: this.appSettings.getUrlOrigin() + '/auth/login?passwordChanged=true',
-      })
-    ).pipe(take(1));
-  }
+    logout() {
+        return from(signOut(this.auth)).pipe(take(1));
+    }
 
-  logout() {
-    return from(signOut(this.auth)).pipe(take(1));
-  }
+    addUser(user: IUser): Observable<void> {
+        const ref = doc(this.db, 'users', user.uid);
+        return from(setDoc(ref, user));
+    }
+
+    updateUser(user: IUser): Observable<void> {
+        const ref = doc(this.db, 'users', user.uid);
+        return from(updateDoc(ref, { ...user }));
+    }
+
+    deleteUser(uid: string) {
+        // TODO: use deleteUser from angular/fire/auth to delete the user from Auth as well
+        const ref = doc(this.db, 'users', uid);
+        return from(deleteDoc(ref));
+    }
 }

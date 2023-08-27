@@ -1,5 +1,5 @@
 .active {
-    background-color: var(--theme-primary-700);
+    background-color: var(--theme-accent-700);
 }
 
 .side-navnar {
@@ -21,7 +21,7 @@
             &:hover,
             &:focus {
                 &.active {
-                    background-color: var(--theme-primary-700) !important;
+                    background-color: var(--theme-accent-700) !important;
                 }
             }
         }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -13,7 +13,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class NotFoundComponent {
 
-  constructor(private router: Router) {}
+  router = inject(Router);
 
   goTo(url: string) {
 		this.router.navigateByUrl(url);

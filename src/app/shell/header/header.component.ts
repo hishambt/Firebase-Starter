@@ -16,7 +16,7 @@ export class HeaderComponent {
   
   @Output() toggleDrawer = new EventEmitter();
 
-  user$ = this.authService.user$;
+  user$ = this.authService.currentUserProfile$;
 
   revealId(id: string) {
     this._snackBar.open(id, 'Ok', {
@@ -28,7 +28,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout().subscribe(() => {
-			this.router.navigate(['auth']);
+			this.router.navigateByUrl('auth/login');
 		});
   }
 }

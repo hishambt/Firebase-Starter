@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 
 import { AppSettingsService } from '../../shared/services/app-settings.service';
 import { IMenuItem, items } from './side-navbar';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
     selector: 'app-side-navbar',
@@ -19,13 +20,11 @@ export class SideNavbarComponent implements OnInit {
 
     ngOnInit(): void {
         this.setActiveMenuItem();
-    }
-
-    linkClicked(e: Event, link: string) {
-        e.preventDefault();
-        this.resetMenu();
-        this.router.navigateByUrl(link).then((res) => {
-            this.setActiveMenuItem();
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.resetMenu();
+                this.setActiveMenuItem();
+            }
         });
     }
 
