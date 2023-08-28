@@ -35,13 +35,6 @@ $values: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A70
   @return $palette;
 }
  
-@function cssToHSL($color-variable) {
-  $color-variable-h: #{$color-variable + "-h"};
-  $color-variable-s: #{$color-variable + "-s"};
-  $color-variable-l: #{$color-variable + "-l"};
-  @return hsl($color-variable-h, $color-variable-s, $color-variable-l);
-}
- 
 @function multiply($rgb1, $rgb2) {
   $r: math.floor(calc(red($rgb1) * red($rgb2) / 255));
   $g: math.floor(calc(green($rgb1) * green($rgb2) / 255));

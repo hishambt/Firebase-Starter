@@ -1,26 +1,24 @@
-import { Component, OnInit, inject } from '@angular/core';
-
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AppSettingsService } from '../../shared/services/app-settings.service';
 import { IMenuItem, items } from './side-navbar';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-side-navbar',
     templateUrl: './side-navbar.component.html',
     styleUrls: ['./side-navbar.component.scss'],
 })
-export class SideNavbarComponent implements OnInit {
+export class SideNavbarComponent implements OnInit, OnDestroy {
+    
     menuList: Array<IMenuItem> = items;
-
+    routeSubscription: Subscription = new Subscription();
     appSettingsService = inject(AppSettingsService);
     router = inject(Router);
 
-    constructor() {}
-
     ngOnInit(): void {
         this.setActiveMenuItem();
-        this.router.events.subscribe((event) => {
+        this.routeSubscription= this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.resetMenu();
                 this.setActiveMenuItem();
@@ -28,8 +26,7 @@ export class SideNavbarComponent implements OnInit {
         });
     }
 
-    //#region Private
-    private setActiveMenuItem(): void {
+    setActiveMenuItem(): void {
         const urlRoute = this.appSettingsService.getUrlRoute();
         const routeElements = this.appSettingsService.getRouteParam(urlRoute);
         const route = routeElements.join('/').replace(/\/add|\/edit|\/config|\/view/g, '');
@@ -50,7 +47,7 @@ export class SideNavbarComponent implements OnInit {
         });
     }
 
-    private resetMenu() {
+    resetMenu() {
         this.menuList.forEach((item: IMenuItem) => {
             item.selected = false;
             if (item.children) {
@@ -61,5 +58,8 @@ export class SideNavbarComponent implements OnInit {
             }
         });
     }
-    //#region
+
+    ngOnDestroy(): void {
+        this.routeSubscription.unsubscribe();
+    }
 }
