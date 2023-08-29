@@ -11,7 +11,7 @@ export class HomeViewComponent {
     router = inject(Router);
     authService = inject(AuthService);
     
-    user$ = this.authService.currentUserProfile$;
+    // user$ = this.authService.currentUserProfile$;
 
     goTo(url: string) {
         this.router.navigateByUrl(url);

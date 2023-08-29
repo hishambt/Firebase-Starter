@@ -1,10 +1,11 @@
 @use "@angular/material" as mat;
 @include mat.core();
 
-$primary-color: #547cc7;
-$accent-color: #0a94d4;
+$primary-color: #0a94d4;
+$accent-color: #547cc7;
 $warn-color: #d82424;
 $background-color: var(--theme-background);
+$foreground-color: var(--theme-foreground);
 
 $primary-palette: createPalette($primary-color);
 $accent-palette: createPalette($accent-color);
@@ -49,6 +50,7 @@ $dark-theme: mat.define-dark-theme(
 
 :root {
     --theme-background: #222222;
+    --theme-foreground: #2e2e2e;
     --theme-primary-50: #{mat.get-color-from-palette($primary, 50)};
     --theme-primary-200: #{mat.get-color-from-palette($primary, 200)};
     --theme-primary-500: #{mat.get-color-from-palette($primary, 500)};
@@ -66,7 +68,7 @@ $dark-theme: mat.define-dark-theme(
 }
 
 .mat-drawer {
-    --mat-sidenav-container-background-color: var(--mat-sidenav-content-background-color);
+    --mat-sidenav-container-background-color: var(--theme-foreground);
 }
 
 .mat-drawer-container {

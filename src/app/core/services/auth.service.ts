@@ -9,13 +9,17 @@ import {
     signInWithPopup,
     signOut,
     createUserWithEmailAndPassword,
+    sendEmailVerification,
     deleteUser,
+    UserCredential,
+    ProviderId,
 } from '@angular/fire/auth';
-import { switchMap, of, from, take, Observable } from 'rxjs';
+import { switchMap, of, from, take, Observable, tap, filter, map } from 'rxjs';
 import { IUser } from '../../shared/models/IUser.model';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
-import { Firestore, collection, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { DocumentData, Firestore, collection, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
@@ -24,23 +28,82 @@ export class AuthService {
     auth = inject(Auth);
     appSettings = inject(AppSettingsService);
     db = inject(Firestore);
+    route = inject(ActivatedRoute);
 
     get currentUserProfile$(): Observable<IUser | null> {
         return authState(this.auth).pipe(
             traceUntilFirst('auth'),
+            take(1),
             switchMap((user: User | null): Observable<IUser | null> => {
                 if (!user?.uid) {
+                    console.log("signed out");
                     return of(null);
                 }
 
+                if(user.providerId == ProviderId.GOOGLE) {
+                    // get data, if it doesn't exist, create user
+                } else if(user.providerId == ProviderId.PASSWORD) {
+                    if(user.emailVerified) {
+                        // get data, if it doesn't exist, create user
+                    }
+                }
+
                 const ref = doc(this.db, 'users', user?.uid);
-                return docData(ref) as Observable<IUser>;
+                return docData(ref)
+                    .pipe(
+                    // take(1),
+                    // switchMap((doc: DocumentData) => {
+                    //     if (doc) {
+                    //         console.log("account already created");
+                    //         return of(doc);
+                    //     }
+                    //     const newUser = this.populateUser(user);
+                    //     return this.addUser(newUser).pipe(
+                    //         take(1),
+                    //         switchMap(() => {
+                    //             console.log("Account created");
+                    //             return docData(ref);
+                    //         })
+                    //     );
+                    // })
+                ) as Observable<IUser>;
             })
         );
     }
 
+    populateUser({ uid, displayName, email, phoneNumber, photoURL }: User) {
+        const name = displayName?.split(' ');
+
+        let firstName = displayName || '',
+            lastName = '';
+
+        if (name && name?.length > 1) {
+            firstName = name[0];
+            name.shift();
+            lastName = name.join(' ');
+        }
+
+        const newUser: IUser = {
+            uid,
+            email: email || '',
+            firstName,
+            lastName,
+            phone: phoneNumber || '',
+            address: '',
+            photoURL: photoURL || '',
+        };
+
+        return newUser;
+    }
+
     registerNewAccount(email: string, password: string) {
         return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
+    }
+
+    sendVerificationEmail(user: User) {
+        return from(sendEmailVerification(user, {
+            url: this.appSettings.getUrlOrigin() + this.route.snapshot.queryParams['returnUrl'] || '/home'
+        }))
     }
 
     loginWithGoogle() {

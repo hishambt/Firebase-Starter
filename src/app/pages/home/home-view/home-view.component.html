@@ -1,17 +1,6 @@
-<ng-container *ngLet="user$ | async as user">
+<ng-container>
     <div class="container-fluid">
-        <app-page-header
-            [title]="'Home'"
-            [actionButtons]="[
-      {
-        visible: true,
-        disabled: false,
-        class: 'w-100',
-        color: 'primary',
-        text: 'Header Button',
-      }
-    ]"
-        ></app-page-header>
+        <app-page-header [title]="'Home'"></app-page-header>
         <div class="row">
             <div class="col-sm-8">
                 <mat-card>

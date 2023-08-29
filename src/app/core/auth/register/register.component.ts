@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomValidators, ConfirmPasswordMatcher } from 'src/app/shared/helpers/confirmed.validator';
 import { IUser } from 'src/app/shared/models/IUser.model';
-import { UserCredential } from '@angular/fire/auth';
+import { UserCredential, ProviderId } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-register',
@@ -48,40 +48,30 @@ export class RegisterComponent {
 
         const { email, password } = this.form.value;
 
-        this.registerFollowUp(this.authService.registerNewAccount(email, password));
+        this.registerFollowUp(
+            this.authService.registerNewAccount(email, password).pipe(
+                switchMap((creds: UserCredential) => {
+                    return this.authService.sendVerificationEmail(creds.user);
+                })
+            )
+        );
     }
 
-    registerWithGoogle() {
-        this.googleLoading = true;
-        this.registerFollowUp(this.authService.loginWithGoogle());
-    }
+    // registerWithGoogle() {
+    //     this.googleLoading = true;
+    //     this.registerFollowUp(
+    //         this.authService.loginWithGoogle().pipe(
+    //             switchMap((creds: UserCredential) => {
+    //                 const newUser = this.authService.populateUser(creds.user);
+    //                 return this.authService.addUser(newUser);
+    //             })
+    //         )
+    //     );
+    // }
 
-    registerFollowUp(register: Observable<UserCredential>) {
+    registerFollowUp(register: Observable<void>) {
         register
             .pipe(
-                switchMap(({ user: { uid, displayName, email, phoneNumber, photoURL } }) => {
-
-                    const name = displayName?.split(' ');
-
-                    let firstName = displayName || '', lastName = '';
-
-                    if(name && name?.length > 1) {
-                        firstName = name[0];
-                        name.shift();
-                        lastName = name.join(' ');
-                    }
-
-                    const newUser: IUser = {
-                        uid,
-                        email: email || '',
-                        firstName,
-                        lastName,
-                        phone: phoneNumber || '',
-                        address: '',
-                        photoURL: photoURL || '',
-                    };
-                    return this.authService.addUser(newUser);
-                }),
                 finalize(() => {
                     this.googleLoading = false;
                     this.emailPasswordLoading = false;

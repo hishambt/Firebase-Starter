@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { finalize } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserCredential } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-login',
@@ -71,6 +72,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService
             .loginWithGoogle()
             .pipe(
+                switchMap((creds: UserCredential) => {
+                    // TODO: create account only if the accout doesn't exist instead of every time
+                    const newUser = this.authService.populateUser(creds.user);
+                    return this.authService.addUser(newUser);
+                }),
                 finalize(() => {
                     this.googleLoading = false;
                 })

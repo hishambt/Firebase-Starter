@@ -11,7 +11,7 @@ import { IUser } from 'src/app/shared/models/IUser.model';
 export class ProfileViewComponent {
     authService = inject(AuthService);
 
-    get actions() {
+    get actions(): typeof Actions {
         return Actions;
     }
 

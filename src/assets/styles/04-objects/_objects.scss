@@ -1,19 +1,2 @@
 // This is the first layer where we find selectors based on the class.
 // These deal with designing non-cosmetic design patterns, or "objects" (OOCSS).
-
-.main-bg {
-    background-color: black;
-    &:before {
-        content: " ";
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.25;
-        background-image: url("https://worldofwedding.co/cdn/shop/files/elegant-acrylic-wedding-invite_1946x.jpg?v=1689773989");
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-}

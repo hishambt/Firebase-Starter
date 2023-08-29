@@ -7,7 +7,7 @@
   ::ng-deep .side-navbar-item,
     ::ng-deep .mat-expansion-panel {
         --mat-expansion-container-shape: 0;
-        --mat-expansion-container-background-color: var(--theme-background);
+        --mat-expansion-container-background-color: var(--theme-foreground);
 
         .mat-expansion-panel-body {
             padding-right: 0;
