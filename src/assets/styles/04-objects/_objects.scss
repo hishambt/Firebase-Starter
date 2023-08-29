@@ -2,11 +2,18 @@
 // These deal with designing non-cosmetic design patterns, or "objects" (OOCSS).
 
 .main-bg {
-    background: rgb(2, 0, 36);
-    background: linear-gradient(to top, rgba(2, 0, 36, 1) 0%, rgba(81, 46, 138, 1) 35%, rgba(159, 75, 61, 1) 100%);
-
-    &.main-content {
-        background: rgb(2, 0, 36);
-        background: linear-gradient(to top, rgba(2, 0, 36, 0.1) 0%, rgba(81, 46, 138, 0.1) 35%, rgba(159, 75, 61, 0.1) 100%);
+    background-color: black;
+    &:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.25;
+        background-image: url("https://worldofwedding.co/cdn/shop/files/elegant-acrylic-wedding-invite_1946x.jpg?v=1689773989");
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 }

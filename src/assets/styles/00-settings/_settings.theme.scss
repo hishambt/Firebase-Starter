@@ -1,11 +1,10 @@
 @use "@angular/material" as mat;
 @include mat.core();
 
-$primary-color: #512E8A;
-$accent-color: #b83e29;
+$primary-color: #547cc7;
+$accent-color: #0a94d4;
 $warn-color: #d82424;
 $background-color: var(--theme-background);
-$foreground-color: var(--theme-foreground);
 
 $primary-palette: createPalette($primary-color);
 $accent-palette: createPalette($accent-color);
@@ -50,18 +49,16 @@ $dark-theme: mat.define-dark-theme(
 
 :root {
     --theme-background: #222222;
-    --theme-foreground: #252525;
-    --theme-primary: #{$primary-color};
-    --theme-accent: #{$accent-color};
-    --theme-warn: #{$warn-color};
     --theme-primary-50: #{mat.get-color-from-palette($primary, 50)};
     --theme-primary-200: #{mat.get-color-from-palette($primary, 200)};
     --theme-primary-500: #{mat.get-color-from-palette($primary, 500)};
     --theme-primary-700: #{mat.get-color-from-palette($primary, 700)};
+    --theme-primary-900: #{mat.get-color-from-palette($primary, 900)};
     --theme-accent-50: #{mat.get-color-from-palette($accent, 50)};
     --theme-accent-200: #{mat.get-color-from-palette($accent, 200)};
     --theme-accent-500: #{mat.get-color-from-palette($accent, 500)};
     --theme-accent-700: #{mat.get-color-from-palette($accent, 700)};
+    --theme-accent-900: #{mat.get-color-from-palette($accent, 900)};
     --theme-warn-50: #{mat.get-color-from-palette($warn, 50)};
     --theme-warn-200: #{mat.get-color-from-palette($warn, 200)};
     --theme-warn-500: #{mat.get-color-from-palette($warn, 500)};
@@ -69,9 +66,10 @@ $dark-theme: mat.define-dark-theme(
 }
 
 .mat-drawer {
-    --mat-sidenav-container-background-color: var(--theme-background);
+    --mat-sidenav-container-background-color: var(--mat-sidenav-content-background-color);
 }
 
 .mat-drawer-container {
+    // --mat-sidenav-content-background-color: red;
   --mat-sidenav-scrim-color: rgba(0, 0, 0, 0.6);
 }

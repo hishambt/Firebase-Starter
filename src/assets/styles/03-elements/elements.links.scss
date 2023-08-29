@@ -10,7 +10,7 @@ a {
 }
 
 a.link {
-  color: var(--theme-accent-500) !important;
+  color: white;
   &.router-link-active {
     text-decoration: underline;
   }
