@@ -1,7 +1,7 @@
 <div
   class="d-md-flex"
   [ngClass]="{
-    'justify-content-between': startButtons.length && endButtons.length
+    'flex-wrap justify-content-evenly gap-3': startButtons.length && endButtons.length
   }"
 >
   <div
@@ -28,31 +28,32 @@
         </span>
         <ng-container *ngIf="!button?.isWaiting; else loading"></ng-container>
       </button>
-      <button
-        *ngIf="button.options && !isDrawerMode && button?.visible"
-        mat-raised-button
-        [color]="button?.color"
-        [ngClass]="button?.class"
-        [disabled]="button?.disabled"
-        [matMenuTriggerFor]="menu"
-      >
-        <mat-icon aria-hidden="false" aria-label="Example home icon"
-          >expand_more</mat-icon
-        >
-      </button>
-
-      <mat-menu #menu="matMenu" xPosition="before">
+      <ng-container *ngIf="button.options && !isDrawerMode && button?.visible">
         <button
-          *ngFor="let option of button?.options"
-          mat-menu-item
-          (click)="onActionSubmit(option?.action)"
+          mat-raised-button
+          [color]="button?.color"
+          [ngClass]="button?.class"
+          [disabled]="button?.disabled"
+          [matMenuTriggerFor]="menu"
         >
-          {{ option?.text }}
+          <mat-icon aria-hidden="false" aria-label="Example home icon"
+            >expand_more</mat-icon
+          >
         </button>
-      </mat-menu>
+  
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button
+            *ngFor="let option of button?.options"
+            mat-menu-item
+            (click)="onActionSubmit(option?.action)"
+          >
+            {{ option?.text }}
+          </button>
+        </mat-menu>
+      </ng-container>
     </ng-container>
   </div>
-  <div class="end-actions" *ngIf="endButtons.length">
+  <div class="end-actions" [ngClass]="{ 'flex-fill': startButtons.length === 1 }" *ngIf="endButtons.length">
     <ng-container *ngFor="let button of endButtons!; let isLast = last">
       <button
         *ngIf="button?.visible"
@@ -72,29 +73,30 @@
         </span>
         <ng-container *ngIf="!button?.isWaiting; else loading"></ng-container>
       </button>
-      <button
-        *ngIf="button.options && !isDrawerMode && button?.visible"
-        mat-raised-button
-        [color]="button?.color"
-        class="split-button-right mb-2 {{ button?.class }}"
-        [ngClass]="{ 'me-3': !isLast }"
-        [disabled]="button?.disabled"
-        [matMenuTriggerFor]="menu"
-      >
-        <mat-icon aria-hidden="false" aria-label="Example home icon"
-          >expand_more</mat-icon
-        >
-      </button>
-
-      <mat-menu #menu="matMenu" xPosition="before">
+      <ng-container *ngIf="button.options && !isDrawerMode && button?.visible">
         <button
-          *ngFor="let option of button?.options"
-          mat-menu-item
-          (click)="onActionSubmit(option?.action)"
+          mat-raised-button
+          [color]="button?.color"
+          class="split-button-right mb-2 {{ button?.class }}"
+          [ngClass]="{ 'me-3': !isLast }"
+          [disabled]="button?.disabled"
+          [matMenuTriggerFor]="menu"
         >
-          {{ option?.text }}
+          <mat-icon aria-hidden="false" aria-label="Example home icon"
+            >expand_more</mat-icon
+          >
         </button>
-      </mat-menu>
+  
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button
+            *ngFor="let option of button?.options"
+            mat-menu-item
+            (click)="onActionSubmit(option?.action)"
+          >
+            {{ option?.text }}
+          </button>
+        </mat-menu>
+      </ng-container>
     </ng-container>
   </div>
 </div>

@@ -13,22 +13,26 @@ import {
     deleteUser,
     UserCredential,
     ProviderId,
+    UserInfo,
 } from '@angular/fire/auth';
-import { switchMap, of, from, take, Observable, tap, filter, map } from 'rxjs';
+import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject } from 'rxjs';
 import { IUser } from '../../shared/models/IUser.model';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
-import { DocumentData, Firestore, collection, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
     auth = inject(Auth);
+    storage = inject(StorageAccessorService);
     appSettings = inject(AppSettingsService);
     db = inject(Firestore);
     route = inject(ActivatedRoute);
+    userIsGettingDeleted$ = new Subject<boolean>();
 
     get currentUserProfile$(): Observable<IUser | null> {
         return authState(this.auth).pipe(
@@ -36,52 +40,50 @@ export class AuthService {
             take(1),
             switchMap((user: User | null): Observable<IUser | null> => {
                 if (!user?.uid) {
-                    console.log("signed out");
+                    // user has signed out
                     return of(null);
                 }
 
-                if(user.providerId == ProviderId.GOOGLE) {
-                    // get data, if it doesn't exist, create user
-                } else if(user.providerId == ProviderId.PASSWORD) {
-                    if(user.emailVerified) {
-                        // get data, if it doesn't exist, create user
-                    }
-                }
+                // user is logged in
+                if (this.hasProvider(user, ProviderId.GOOGLE) || (this.hasProvider(user, ProviderId.PASSWORD) && user.emailVerified)) {
+                    // get user from database only in case the user is logged in with google or his email is verified
+                    const ref = doc(this.db, 'users', user?.uid);
+                    return docData(ref).pipe(
+                        // sharing same result of user for all subscirbers
+                        takeUntil(this.userIsGettingDeleted$),
+                        shareReplay(1),
+                        switchMap((data: DocumentData): Observable<IUser | null> => {
+                            if (data) {
+                                // user exists in database
+                                return of(data) as Observable<IUser>;
+                            }
 
-                const ref = doc(this.db, 'users', user?.uid);
-                return docData(ref)
-                    .pipe(
-                    // take(1),
-                    // switchMap((doc: DocumentData) => {
-                    //     if (doc) {
-                    //         console.log("account already created");
-                    //         return of(doc);
-                    //     }
-                    //     const newUser = this.populateUser(user);
-                    //     return this.addUser(newUser).pipe(
-                    //         take(1),
-                    //         switchMap(() => {
-                    //             console.log("Account created");
-                    //             return docData(ref);
-                    //         })
-                    //     );
-                    // })
-                ) as Observable<IUser>;
+                            // add new user to database
+                            this.storage.setLocalStorage(user.uid, 'new');
+                            const newUser = this.populateUser(user);
+                            return from(setDoc(ref, newUser)).pipe(
+                                take(1),
+                                // returning null since docData will listen to the change and rerun on its own,
+                                // so no need to return anything at this stage.
+                                map(() => null)
+                            );
+                        })
+                    );
+                } else {
+                    // temp user to avoid breaking the app (it won't affect since there are guards for non google non verified emails)
+                    const newUser = this.populateUser(user);
+                    return of(newUser);
+                }
             })
         );
     }
 
+    hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]) {
+        return user.providerData.find((info: UserInfo) => info.providerId == providerId);
+    }
+
     populateUser({ uid, displayName, email, phoneNumber, photoURL }: User) {
-        const name = displayName?.split(' ');
-
-        let firstName = displayName || '',
-            lastName = '';
-
-        if (name && name?.length > 1) {
-            firstName = name[0];
-            name.shift();
-            lastName = name.join(' ');
-        }
+        const { firstName, lastName } = this.getUserNames(displayName || '');
 
         const newUser: IUser = {
             uid,
@@ -96,14 +98,44 @@ export class AuthService {
         return newUser;
     }
 
+    getUserNames(displayName: string): { firstName: string; lastName: string } {
+        const name = displayName?.split(' ');
+
+        let firstName = displayName || '',
+            lastName = '';
+
+        if (name && name?.length > 1) {
+            firstName = name[0];
+            name.shift();
+            lastName = name.join(' ');
+        }
+
+        return {
+            firstName,
+            lastName,
+        };
+    }
+
+    getUserDisplay(user: IUser) {
+        let name = '';
+        if (user.firstName) {
+            name = user.firstName + ' ' + user.lastName;
+        } else if (user.email) {
+            name = user.email;
+        }
+        return name;
+    }
+
     registerNewAccount(email: string, password: string) {
         return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
     }
 
     sendVerificationEmail(user: User) {
-        return from(sendEmailVerification(user, {
-            url: this.appSettings.getUrlOrigin() + this.route.snapshot.queryParams['returnUrl'] || '/home'
-        }))
+        return from(
+            sendEmailVerification(user, {
+                url: this.appSettings.getUrlOrigin() + (this.route.snapshot.queryParams['returnUrl'] || '/home'),
+            })
+        );
     }
 
     loginWithGoogle() {
@@ -126,19 +158,18 @@ export class AuthService {
         return from(signOut(this.auth)).pipe(take(1));
     }
 
-    addUser(user: IUser): Observable<void> {
-        const ref = doc(this.db, 'users', user.uid);
-        return from(setDoc(ref, user));
-    }
-
     updateUser(user: IUser): Observable<void> {
         const ref = doc(this.db, 'users', user.uid);
         return from(updateDoc(ref, { ...user }));
     }
 
-    deleteUser(uid: string) {
-        // TODO: use deleteUser from angular/fire/auth to delete the user from Auth as well
-        const ref = doc(this.db, 'users', uid);
-        return from(deleteDoc(ref));
+    deleteUser(user: User) {
+        const ref = doc(this.db, 'users', user.uid);
+        this.userIsGettingDeleted$.next(true);
+        return from(deleteDoc(ref)).pipe(
+            switchMap(() => {
+                return deleteUser(user);
+            })
+        );
     }
 }

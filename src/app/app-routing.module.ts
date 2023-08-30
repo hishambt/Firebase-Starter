@@ -5,7 +5,7 @@ import { HomeModule } from './pages/home/home.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthModule } from './core/auth/auth.module';
 import { canActivate } from '@angular/fire/auth-guard';
-import { ProfileModule } from './profile/profile.module';
+import { ProfileModule } from './pages/profile/profile.module';
 import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [

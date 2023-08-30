@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, MinValidator, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Observable, finalize, pipe, switchMap } from 'rxjs';
+import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomValidators, ConfirmPasswordMatcher } from 'src/app/shared/helpers/confirmed.validator';
-import { IUser } from 'src/app/shared/models/IUser.model';
-import { UserCredential, ProviderId } from '@angular/fire/auth';
+import { UserCredential } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-register',
@@ -31,7 +30,6 @@ export class RegisterComponent {
     matcher = new ConfirmPasswordMatcher();
 
     emailPasswordLoading: boolean = false;
-    googleLoading: boolean = false;
 
     get passwordMatchError() {
         const hasError = this.form.getError('mismatch') && this.form.get('confirmPassword')?.touched;
@@ -57,38 +55,26 @@ export class RegisterComponent {
         );
     }
 
-    // registerWithGoogle() {
-    //     this.googleLoading = true;
-    //     this.registerFollowUp(
-    //         this.authService.loginWithGoogle().pipe(
-    //             switchMap((creds: UserCredential) => {
-    //                 const newUser = this.authService.populateUser(creds.user);
-    //                 return this.authService.addUser(newUser);
-    //             })
-    //         )
-    //     );
-    // }
-
     registerFollowUp(register: Observable<void>) {
         register
             .pipe(
+                take(1),
                 finalize(() => {
-                    this.googleLoading = false;
                     this.emailPasswordLoading = false;
                 })
             )
             .subscribe({
-                next: () => this.onLoginSuccess(),
-                error: (error: Error) => this.onLoginFailure(error.message),
+                next: () => this.onSuccess(),
+                error: (error: Error) => this.onFailure(error.message),
             });
     }
 
-    onLoginSuccess() {
+    onSuccess() {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
         this.router.navigateByUrl(returnUrl);
     }
 
-    onLoginFailure(message: string) {
+    onFailure(message: string) {
         this.openSnackBar(message, true);
     }
 

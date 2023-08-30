@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { finalize, switchMap } from 'rxjs';
-import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable, finalize, switchMap, take } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserCredential } from '@angular/fire/auth';
 
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     googleLoading: boolean = false;
 
     constructor(
-        private storage: StorageAccessorService,
         private router: Router,
         private route: ActivatedRoute,
         private authService: AuthService,
@@ -41,50 +39,41 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         this.emailPasswordLoading = true;
-
         const { email, password } = this.form.value;
 
-        this.authService
-            .loginWithEmailAndPassword(email, password)
+        this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));
+    }
+
+    loginFollowUp(login: Observable<UserCredential>) {
+        login
             .pipe(
+                take(1),
+                switchMap(() => {
+                    return this.authService.currentUserProfile$.pipe(take(1));
+                }),
                 finalize(() => {
                     this.emailPasswordLoading = false;
+                    this.googleLoading = false;
                 })
             )
             .subscribe({
-                next: () => this.onLoginSuccess(),
-                error: (error: Error) => this.onLoginFailure(error.message),
+                next: () => this.onSuccess(),
+                error: (error: Error) => this.onFailure(error.message),
             });
     }
 
-    onLoginSuccess() {
+    onSuccess() {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
         this.router.navigateByUrl(returnUrl);
     }
 
-    onLoginFailure(message: string) {
+    onFailure(message: string) {
         this.openSnackBar(message, true);
     }
 
     loginWithGoogle() {
         this.googleLoading = true;
-
-        this.authService
-            .loginWithGoogle()
-            .pipe(
-                switchMap((creds: UserCredential) => {
-                    // TODO: create account only if the accout doesn't exist instead of every time
-                    const newUser = this.authService.populateUser(creds.user);
-                    return this.authService.addUser(newUser);
-                }),
-                finalize(() => {
-                    this.googleLoading = false;
-                })
-            )
-            .subscribe({
-                next: () => this.onLoginSuccess(),
-                error: (error: Error) => this.onLoginFailure(error.message),
-            });
+        this.loginFollowUp(this.authService.loginWithGoogle());
     }
 
     openSnackBar(message: string, error: boolean = false) {
