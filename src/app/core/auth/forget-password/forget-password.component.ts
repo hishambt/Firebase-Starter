@@ -11,15 +11,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrls: ['./forget-password.component.scss'],
 })
 export class ForgetPasswordComponent {
+    router = inject(Router);
+    authService = inject(AuthService);
+    private _snackBar = inject(MatSnackBar);
+
     form: FormGroup = new FormGroup({
         email: new FormControl('', [Validators.email, Validators.required]),
     });
 
     isWaiting: boolean = false;
-
-    router = inject(Router);
-    authService = inject(AuthService);
-    private _snackBar = inject(MatSnackBar);
 
     submitRecord() {
         if (this.form.invalid) {
