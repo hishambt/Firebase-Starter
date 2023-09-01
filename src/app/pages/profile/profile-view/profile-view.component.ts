@@ -6,6 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { IUser } from 'src/app/shared/models/IUser.model';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 
@@ -58,7 +59,7 @@ export class ProfileViewComponent {
 		}
 
 		this.imageUploadService
-			.uploadImage(file, `images/profile/${user.uid}`)
+			.uploadImage(file, `${environment.profileCDNPath}${user.uid}`)
 			.pipe(
 				take(1),
 				switchMap((photoURL) => {

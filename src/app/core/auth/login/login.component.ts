@@ -21,12 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	emailPasswordLoading: boolean = false;
 	googleLoading: boolean = false;
 
-	constructor(
-		private router: Router,
-		private route: ActivatedRoute,
-		private authService: AuthService,
-		private _snackBar: MatSnackBar,
-	) {}
+	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private _snackBar: MatSnackBar) {}
 
 	ngOnInit(): void {
 		const success = this.route.snapshot.queryParams['passwordChanged'];

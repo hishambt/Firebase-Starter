@@ -22,6 +22,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
+import { ImageUploadService } from 'src/app/shared/services/image-upload.service';
+import { environment } from 'src/environments/environment';
 
 import { IUser } from '../../shared/models/IUser.model';
 
@@ -34,6 +36,7 @@ export class AuthService {
 	appSettings = inject(AppSettingsService);
 	db = inject(Firestore);
 	route = inject(ActivatedRoute);
+	imageService = inject(ImageUploadService);
 	userIsGettingDeleted$ = new Subject<boolean>();
 
 	get currentUserProfile$(): Observable<IUser | null> {
@@ -176,7 +179,11 @@ export class AuthService {
 
 		return from(deleteDoc(ref)).pipe(
 			switchMap(() => {
-				return deleteUser(user);
+				return this.imageService.deleteImage(`${environment.profileCDNPath}${user.uid}`).pipe(
+					switchMap(() => {
+						return deleteUser(user);
+					}),
+				);
 			}),
 		);
 	}

@@ -1,19 +1,26 @@
 import { inject, Injectable } from '@angular/core';
-import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
+import { getDownloadURL, ref, Storage, uploadBytes, deleteObject } from '@angular/fire/storage';
 import { from, Observable, switchMap, take } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+	providedIn: 'root',
 })
 export class ImageUploadService {
-    storage = inject(Storage);
+	storage = inject(Storage);
 
-    uploadImage(image: File, path: string): Observable<string> {
-        const storageRef = ref(this.storage, path);
-        const uploadTask = from(uploadBytes(storageRef, image));
-        return uploadTask.pipe(
-            take(1),
-            switchMap((result) => from(getDownloadURL(result.ref)))
-        );
-    }
+	uploadImage(image: File, path: string): Observable<string> {
+		const storageRef = ref(this.storage, path);
+		const uploadTask = from(uploadBytes(storageRef, image));
+
+		return uploadTask.pipe(
+			take(1),
+			switchMap((result) => from(getDownloadURL(result.ref))),
+		);
+	}
+
+	deleteImage(path: string): Observable<void> {
+		const storageRef = ref(this.storage, path);
+
+		return from(deleteObject(storageRef)).pipe(take(1));
+	}
 }
