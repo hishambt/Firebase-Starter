@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -42,7 +43,7 @@ export class StorageAccessorService {
 	 * @param parseAsJSON boolean
 	 * @returns json|value
 	 */
-	getLocalStorage(key: string, parseAsJSON = false): string | unknown {
+	getLocalStorage(key: string, parseAsJSON = false): any {
 		if (isPlatformBrowser(this.platformId)) {
 			if (this.hasLocalStorage) {
 				return this.storageHelper.get(key, parseAsJSON);

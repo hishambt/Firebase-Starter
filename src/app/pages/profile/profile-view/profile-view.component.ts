@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { take, switchMap, tap, finalize } from 'rxjs/operators';
-import { IUser } from 'src/app/shared/models/IUser.model';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+
+import { IUser } from 'src/app/shared/models/IUser.model';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 
 @Component({
@@ -23,6 +25,7 @@ export class ProfileViewComponent {
 		phone: new FormControl(''),
 		address: new FormControl(''),
 	});
+
 	imageUploadService = inject(ImageUploadService);
 
 	$user = this.authService.currentUserProfile$.pipe(
@@ -38,6 +41,7 @@ export class ProfileViewComponent {
 			});
 		}),
 	);
+
 	deletingUser = false;
 	savingUser = false;
 
@@ -45,26 +49,36 @@ export class ProfileViewComponent {
 		return Actions;
 	}
 
-	uploadFile(event: any, user: IUser) {
+	uploadFile(event: Event, user: IUser): void {
+		const target = event.target as HTMLInputElement;
+		const file: File | null = (target.files?.length && target.files[0]) || null;
+
+		if (!target || !file) {
+			return;
+		}
+
 		this.imageUploadService
-			.uploadImage(event.target.files[0], `images/profile/${user.uid}`)
+			.uploadImage(file, `images/profile/${user.uid}`)
 			.pipe(
 				take(1),
 				switchMap((photoURL) => {
 					user.photoURL = photoURL;
+
 					return this.authService.updateUser(user);
 				}),
 			)
 			.subscribe();
 	}
 
-	submitRecord<Actions>(action: Actions) {
+	submitRecord<Actions>(action: Actions): void {
 		switch (action) {
 			case this.actions.save:
 				const user: IUser = this.form.value;
+
 				if (!user.uid) {
 					return;
 				}
+
 				this.savingUser = true;
 				this.authService
 					.updateUser(user)
@@ -73,6 +87,7 @@ export class ProfileViewComponent {
 						finalize(() => (this.savingUser = false)),
 					)
 					.subscribe();
+
 				break;
 			case this.actions.delete:
 				this.deletingUser = true;
@@ -86,6 +101,7 @@ export class ProfileViewComponent {
 					.subscribe({
 						next: () => this.router.navigateByUrl('/auth/login'),
 					});
+
 				break;
 			default:
 				break;

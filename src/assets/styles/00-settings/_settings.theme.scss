@@ -60,7 +60,7 @@ $dark-theme: mat.define-dark-theme(
 @include mat.all-component-themes($dark-theme);
 
 :root {
-	--theme-background: #222;
+	--theme-background: #222222;
 	--theme-foreground: #2e2e2e;
 	--theme-primary-50: #{mat.get-color-from-palette($primary, 50)};
 	--theme-primary-200: #{mat.get-color-from-palette($primary, 200)};
@@ -84,5 +84,5 @@ $dark-theme: mat.define-dark-theme(
 
 .mat-drawer-container {
 	/* --mat-sidenav-content-background-color: red; */
-	--mat-sidenav-scrim-color: rgb(0 0 0 / 60%);
+	--mat-sidenav-scrim-color: rgba(0, 0, 0, 0.6);
 }

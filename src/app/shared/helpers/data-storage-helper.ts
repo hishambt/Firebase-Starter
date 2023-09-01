@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Represents a Storage Helper.
  * @public
@@ -9,7 +10,7 @@ export class StorageHelper {
 	 * @param parseAsJSON boolean, Optional convert to JSON
 	 * @returns Json | Value:any
 	 */
-	public get(key: string, parseAsJSON?: boolean): unknown {
+	public get(key: string, parseAsJSON?: boolean): any {
 		const data = localStorage.getItem(key) as string;
 
 		if (parseAsJSON && this.isValidJSONString(data)) {
