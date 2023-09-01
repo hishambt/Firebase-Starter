@@ -5,7 +5,7 @@ import { ActionButton } from '../../models/actionButton';
 @Component({
 	selector: 'app-form-action-bar',
 	templateUrl: './form-action-bar.component.html',
-	styleUrls: ['./form-action-bar.component.scss']
+	styleUrls: ['./form-action-bar.component.scss'],
 })
 export class FormActionBarComponent<T> {
 	@Input() startButtons: ActionButton<T>[] = [];
@@ -15,7 +15,7 @@ export class FormActionBarComponent<T> {
 
 	constructor() {}
 
-	onActionSubmit(action?: T) {
+	onActionSubmit(action?: T): void {
 		this.buttonClick.emit(action);
 	}
 }

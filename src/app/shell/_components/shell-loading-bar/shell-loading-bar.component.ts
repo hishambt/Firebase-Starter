@@ -6,7 +6,7 @@ import { AppSettingsService } from '../../../shared/services/app-settings.servic
 	selector: 'app-shell-loading-bar',
 	templateUrl: './shell-loading-bar.component.html',
 	styleUrls: ['./shell-loading-bar.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShellLoadingBarComponent {
 	public isLoading$ = inject(AppSettingsService).isAppLoading$;

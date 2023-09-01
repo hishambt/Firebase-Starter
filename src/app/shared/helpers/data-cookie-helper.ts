@@ -5,18 +5,18 @@
 export class CookieHelper {
 	isConsented = false;
 
-	public deleteCookie(name: string) {
+	public deleteCookie(name: string): void {
 		this.setCookie(name, '', -1);
 	}
 
 	/**
 	 * set cookie
 	 * @param {string} name
-	 * @param {string} value
+	 * @param {unknown} value
 	 * @param {number} expireDays
 	 * @param {string} path
 	 */
-	public setCookie(name: string, value: string, expireDays: number = 365, path: string = '') {
+	public setCookie(name: string, value: unknown, expireDays: number = 365, path: string = ''): void {
 		const d: Date = new Date();
 		d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
 		const expires = `expires=${d.toUTCString()}`;
@@ -29,7 +29,7 @@ export class CookieHelper {
 	 * @param {string} name
 	 * @returns {string}
 	 */
-	public getCookie(name: string) {
+	public getCookie(name: string): string {
 		const ca: Array<string> = decodeURIComponent(document.cookie).split(';');
 		const caLen: number = ca.length;
 		const cookieName = `${name}=`;

@@ -9,7 +9,7 @@ export class StorageHelper {
 	 * @param parseAsJSON boolean, Optional convert to JSON
 	 * @returns Json | Value:any
 	 */
-	public get(key: string, parseAsJSON?: boolean): any {
+	public get(key: string, parseAsJSON?: boolean): unknown {
 		const data = localStorage.getItem(key) as string;
 
 		if (parseAsJSON && this.isValidJSONString(data)) {
@@ -38,12 +38,12 @@ export class StorageHelper {
 	 * @param data Value/Data to be saved
 	 * @param stringifyJSON boolean, Optional convert to JSON
 	 */
-	public set(key: string, data: any, stringifyJSON = false): void {
+	public set(key: string, data: unknown, stringifyJSON = false): void {
 		if (stringifyJSON) {
 			data = JSON.stringify(data);
 		}
 
-		localStorage.setItem(key, data);
+		localStorage.setItem(key, data! as string);
 	}
 
 	/**

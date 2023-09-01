@@ -21,13 +21,19 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule, MAT_EXPANSION_PANEL_DEFAULT_OPTIONS } from '@angular/material/expansion';
+import {
+	MatExpansionModule,
+	MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
+} from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import {
+	MatNativeDateModule,
+	MatRippleModule,
+} from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -101,19 +107,27 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 	],
 	providers: [
 		{
-			provide: MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
-			useValue: {
-				hideToggle: false,
-				expandedHeight: '50px',
-				collapsedHeight: '50px'
-			}
+			provide:
+				MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
+			useValue:
+				{
+					hideToggle:
+						false,
+					expandedHeight:
+						'50px',
+					collapsedHeight:
+						'50px',
+				},
 		},
 		{
-			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-			useValue: {
-				appearance: 'outline'
-			}
-		}
-	]
+			provide:
+				MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue:
+				{
+					appearance:
+						'outline',
+				},
+		},
+	],
 })
 export class MaterialModule {}

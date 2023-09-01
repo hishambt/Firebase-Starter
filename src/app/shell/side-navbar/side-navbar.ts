@@ -6,13 +6,12 @@ export interface IMenuItem {
 	expanded?: boolean;
 	children?: IMenuItem[];
 }
-
 export const items: Array<IMenuItem> = [
 	{
 		text: 'Dashboard',
 		icon: 'dashboard',
 		selected: false,
-		routerLink: '/home'
+		routerLink: '/home',
 	},
 	{
 		text: 'Address book',
@@ -24,15 +23,15 @@ export const items: Array<IMenuItem> = [
 				text: 'All contacts',
 				icon: 'contacts',
 				selected: false,
-				routerLink: '/contacts'
+				routerLink: '/contacts',
 			},
 			{
 				text: 'Add contact',
 				icon: 'add_box',
 				selected: false,
-				routerLink: '/contacts-add'
-			}
-		]
+				routerLink: '/contacts-add',
+			},
+		],
 	},
 	{
 		text: 'Orders',
@@ -44,21 +43,21 @@ export const items: Array<IMenuItem> = [
 				text: 'All orders',
 				icon: 'category',
 				selected: false,
-				routerLink: '/orders'
-			}
-		]
+				routerLink: '/orders',
+			},
+		],
 	},
 	{
 		text: 'Customers',
 		icon: 'people',
 		selected: false,
-		routerLink: '/customers'
+		routerLink: '/customers',
 	},
 	{
 		text: 'Supplier',
 		icon: 'supervised_user_circle',
 		selected: false,
-		routerLink: '/supplier/manage'
+		routerLink: '/supplier/manage',
 	},
 	{
 		text: 'Control panel',
@@ -70,9 +69,9 @@ export const items: Array<IMenuItem> = [
 				text: 'White labeling',
 				icon: 'category',
 				selected: false,
-				routerLink: '/control-panel/white-labeling'
-			}
-		]
+				routerLink: '/control-panel/white-labeling',
+			},
+		],
 	},
 	{
 		text: 'Expense',
@@ -84,21 +83,21 @@ export const items: Array<IMenuItem> = [
 				text: 'Category',
 				icon: 'category',
 				selected: false,
-				routerLink: '/product/category'
+				routerLink: '/product/category',
 			},
 			{
 				text: 'Manage Expense',
 				icon: 'layers',
 				selected: false,
-				routerLink: '/profile'
+				routerLink: '/profile',
 			},
 			{
 				text: 'Statement',
 				icon: 'all_inbox',
 				selected: false,
-				routerLink: '/product/manage'
-			}
-		]
+				routerLink: '/product/manage',
+			},
+		],
 	},
 	{
 		text: 'Purchases',
@@ -110,15 +109,15 @@ export const items: Array<IMenuItem> = [
 				text: 'New Purchases',
 				icon: 'local_atm',
 				selected: false,
-				routerLink: '/purchases/new'
+				routerLink: '/purchases/new',
 			},
 			{
 				text: 'Purchases History',
 				icon: 'history',
 				selected: false,
-				routerLink: '/purchases/history'
-			}
-		]
+				routerLink: '/purchases/history',
+			},
+		],
 	},
 	{
 		text: 'Sales',
@@ -130,20 +129,20 @@ export const items: Array<IMenuItem> = [
 				text: 'New Sales',
 				icon: 'point_of_sale',
 				selected: false,
-				routerLink: '/sales/add'
+				routerLink: '/sales/add',
 			},
 			{
 				text: 'Sales History',
 				icon: 'history',
 				selected: false,
-				routerLink: '/sales/history'
-			}
-		]
+				routerLink: '/sales/history',
+			},
+		],
 	},
 	{
 		text: 'Report',
 		icon: 'analytics',
 		selected: false,
-		routerLink: '/reports'
-	}
+		routerLink: '/reports',
+	},
 ];

@@ -1,15 +1,15 @@
 <div class="main-bg container-fluid w-100 h-100 d-flex align-items-center justify-content-center">
-    <div class="row w-100 d-flex">
-        <div class="col-sm-12">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xxl-4 mt-4 mt-sm-0 px-4">
-                    <mat-card class="p-5 auth-wrapper">
-                        <h1 class="text-center mb-3">Verify Email</h1>
+	<div class="row w-100 d-flex">
+		<div class="col-sm-12">
+			<div class="row align-items-center justify-content-center">
+				<div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xxl-4 mt-4 mt-sm-0 px-4">
+					<mat-card class="p-5 auth-wrapper">
+						<h1 class="text-center mb-3">Verify Email</h1>
 
-                        <div class="form-group">
-                            <h3 class="text-center">An email has been sent to {{ user?.email }}. You can now close this window</h3>
-                            <app-form-action-bar
-                                [startButtons]="[
+						<div class="form-group">
+							<h3 class="text-center">An email has been sent to {{ user?.email }}. You can now close this window</h3>
+							<app-form-action-bar
+								[startButtons]="[
                                     {
                                         visible: true,
                                         disabled: sendDisabled,
@@ -20,7 +20,7 @@
                                         isWaiting: sendingEmailVerification
                                     }
                                 ]"
-                                [endButtons]="[
+								[endButtons]="[
                                     {
                                         visible: true,
                                         disabled: false,
@@ -31,16 +31,15 @@
                                         isWaiting: loggingOut
                                     }
                                 ]"
-                                (buttonClick)="submitRecord($event)"
-                            ></app-form-action-bar>
-                        </div>
-                    </mat-card>
-                </div>
-            </div>
-        </div>
-    </div>
+								(buttonClick)="submitRecord($event)"></app-form-action-bar>
+						</div>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <ng-template #exitApp>
-    <div class="form-group"></div>
+	<div class="form-group"></div>
 </ng-template>

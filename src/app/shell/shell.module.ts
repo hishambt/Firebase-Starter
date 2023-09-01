@@ -13,8 +13,10 @@ import { ShellLoadingBarComponent } from './_components/shell-loading-bar/shell-
 		HeaderComponent,
 		FooterComponent,
 		SideNavbarComponent,
-		ShellLoadingBarComponent
+		ShellLoadingBarComponent,
 	],
-	imports: [SharedModule]
+	imports: [
+		SharedModule,
+	],
 })
 export class ShellModule {}

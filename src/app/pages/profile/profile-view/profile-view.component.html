@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <app-page-header
-        title="My profile"
-        [breadcrumbItems]="[
+	<app-page-header
+		title="My profile"
+		[breadcrumbItems]="[
             {
                 text: 'Dashboard',
                 link: '/home'
@@ -10,40 +10,67 @@
                 text: 'Profile',
                 link: '/profile'
             }
-        ]"
-    ></app-page-header>
+        ]"></app-page-header>
 
-    <ng-container *ngLet="$user | async as user">
-        <h1>Update Profile</h1>
-        <div class="profile-image">
-            <img width="120" height="120" class="margin-top mat-elevation-z1" [src]="user?.photoURL ?? '/assets/images/image-placeholder.png'" />
-            <button mat-mini-fab (click)="inputField.click()">
-                <mat-icon>edit</mat-icon>
-            </button>
-        </div>
-        <input #inputField hidden type="file" (change)="uploadFile($event, user!)" />
+	<ng-container *ngLet="$user | async as user">
+		<h1>Update Profile</h1>
+		<div class="profile-image">
+			<img
+				width="120"
+				height="120"
+				class="margin-top mat-elevation-z1"
+				[src]="user?.photoURL ?? '/assets/images/image-placeholder.png'" />
+			<button
+				mat-mini-fab
+				(click)="inputField.click()">
+				<mat-icon>edit</mat-icon>
+			</button>
+		</div>
+		<input
+			#inputField
+			hidden
+			type="file"
+			(change)="uploadFile($event, user!)" />
 
-        <form class="margin-top" [formGroup]="form">
-            <div class="row">
-                <mat-form-field>
-                    <input type="text" matInput formControlName="firstName" placeholder="First Name" />
-                </mat-form-field>
-                <mat-form-field>
-                    <input type="text" matInput formControlName="lastName" placeholder="Last Name" />
-                </mat-form-field>
-            </div>
+		<form
+			class="margin-top"
+			[formGroup]="form">
+			<div class="row">
+				<mat-form-field>
+					<input
+						type="text"
+						matInput
+						formControlName="firstName"
+						placeholder="First Name" />
+				</mat-form-field>
+				<mat-form-field>
+					<input
+						type="text"
+						matInput
+						formControlName="lastName"
+						placeholder="Last Name" />
+				</mat-form-field>
+			</div>
 
-            <div class="row">
-                <mat-form-field>
-                    <input type="number" matInput formControlName="phone" placeholder="Phone" />
-                </mat-form-field>
-            </div>
-            <mat-form-field>
-                <input type="text" matInput formControlName="address" placeholder="Address" />
-            </mat-form-field>
+			<div class="row">
+				<mat-form-field>
+					<input
+						type="number"
+						matInput
+						formControlName="phone"
+						placeholder="Phone" />
+				</mat-form-field>
+			</div>
+			<mat-form-field>
+				<input
+					type="text"
+					matInput
+					formControlName="address"
+					placeholder="Address" />
+			</mat-form-field>
 
-            <app-form-action-bar
-                [endButtons]="[
+			<app-form-action-bar
+				[endButtons]="[
                     {
                         visible: true,
                         disabled: false,
@@ -63,8 +90,7 @@
                         isWaiting: deletingUser
                     }
                 ]"
-                (buttonClick)="submitRecord($event)"
-            ></app-form-action-bar>
-        </form>
-    </ng-container>
+				(buttonClick)="submitRecord($event)"></app-form-action-bar>
+		</form>
+	</ng-container>
 </div>

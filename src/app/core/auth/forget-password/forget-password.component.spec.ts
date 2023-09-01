@@ -3,19 +3,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForgetPasswordComponent } from './forget-password.component';
 
 describe('ForgetPasswordComponent', () => {
-  let component: ForgetPasswordComponent;
-  let fixture: ComponentFixture<ForgetPasswordComponent>;
+	let component: ForgetPasswordComponent;
+	let fixture: ComponentFixture<ForgetPasswordComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ForgetPasswordComponent]
-    });
-    fixture = TestBed.createComponent(ForgetPasswordComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			declarations: [ForgetPasswordComponent],
+		});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+		fixture = TestBed.createComponent(ForgetPasswordComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

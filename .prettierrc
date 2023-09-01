@@ -1,0 +1,60 @@
+{
+	"semi": true,
+	"tabWidth": 4,
+	"endOfLine": "auto",
+	"singleQuote": true,
+	"useTabs": true,
+	"overrides": [
+		{
+			"files": "*.ts",
+			"options": {
+				"parser": "typescript",
+				"bracketSpacing": true,
+				"trailingComma": "all",
+				"printWidth": 150,
+				"singleAttributePerLine": true
+			}
+		},
+		{
+			"files": "*.component.ts",
+			"options": {
+				"parser": "typescript",
+				"bracketSpacing": true,
+				"trailingComma": "all",
+				"printWidth": 150,
+				"singleAttributePerLine": true
+			}
+		},
+		{
+			"files": "*.module.ts",
+			"options": {
+				"parser": "typescript",
+				"bracketSpacing": true,
+				"trailingComma": "all",
+				"printWidth": 20,
+				"singleAttributePerLine": true
+			}
+		},
+		{
+			"files": ["*.html"],
+			"options": {
+				"bracketSameLine": true,
+				"htmlWhitespaceSensitivity": "ignore",
+				"tabWidth": 2,
+				"parser": "html",
+				"bracketSpacing": true,
+				"singleQuote": true,
+				"trailingComma": "none",
+				"singleAttributePerLine": true,
+				"printWidth": 150
+			}
+		},
+		{
+			"files": ["*.scss"],
+			"options": {
+				"parser": "scss",
+				"singleQuote": false
+			}
+		}
+	]
+}
