@@ -1,10 +1,15 @@
+/* stylelint-disable block-no-empty */
 @include media-breakpoint-down(xs) {
 }
+
 @include media-breakpoint-down(sm) {
 }
+
 @include media-breakpoint-down(md) {
 }
+
 @include media-breakpoint-down(lg) {
 }
+
 @each $name, $glyph in $grid-breakpoints {
 }

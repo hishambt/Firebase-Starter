@@ -1,19 +1,25 @@
 body {
-  margin: 0;
-  min-height: 100vh;
-  // overflow: hidden !important;
+	margin: 0;
+	min-height: 100vh;
+
+	/* overflow: hidden !important; */
 }
+
 ::-webkit-scrollbar {
-  width: 5px !important;
-  height: 5px !important;
+	width: 5px !important;
+	height: 5px !important;
 }
+
 ::-webkit-scrollbar-thumb {
-  border-radius: 3px !important;
-  background: var(--theme-primary-500) !important;
+	border-radius: 3px !important;
+	background: var(--theme-primary-500) !important;
 }
-// ::-webkit-scrollbar-thumb {
-//   background-color: var(--theme-color-disabled);
-// }
+
+/* ::-webkit-scrollbar-thumb { */
+
+/*   background-color: var(--theme-color-disabled); */
+
+/* } */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #aaa;
+	background-color: #aaa;
 }

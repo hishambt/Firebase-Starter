@@ -110,11 +110,23 @@
             "version": 2,
             "browserTarget": "cv-generator:build:production"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "51b6beb2-d016-4b09-a1a2-7a1d11e2a230"
+    "analytics": "51b6beb2-d016-4b09-a1a2-7a1d11e2a230",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

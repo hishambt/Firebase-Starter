@@ -1,34 +1,34 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
-
-import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { AuthService } from '../../core/services/auth.service';
+
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+	selector: 'app-header',
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  authService = inject(AuthService);
-  router = inject(Router);
-  _snackBar = inject(MatSnackBar);
-  
-  @Output() toggleDrawer = new EventEmitter();
+	authService = inject(AuthService);
+	router = inject(Router);
+	_snackBar = inject(MatSnackBar);
 
-  user$ = this.authService.currentUserProfile$;
+	@Output() toggleDrawer = new EventEmitter();
 
-  revealId(id: string) {
-    this._snackBar.open(id, 'Ok', {
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['mat-toolbar', 'mat-accent']
-    });
-  }
+	user$ = this.authService.currentUserProfile$;
 
-  logout() {
-    this.authService.logout().subscribe(() => {
+	revealId(id: string): void {
+		this._snackBar.open(id, 'Ok', {
+			horizontalPosition: 'center',
+			verticalPosition: 'top',
+			panelClass: ['mat-toolbar', 'mat-accent'],
+		});
+	}
+
+	logout(): void {
+		this.authService.logout().subscribe(() => {
 			this.router.navigateByUrl('auth/login');
 		});
-  }
+	}
 }

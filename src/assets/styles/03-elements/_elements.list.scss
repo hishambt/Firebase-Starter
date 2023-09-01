@@ -1,21 +1,22 @@
-$container-hover: rgba(255, 255, 255, 0.04);
+$container-hover: rgb(255 255 255 / 4%);
 
-.mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
-    background: none;
-    background-color: $container-hover !important;
+.mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:hover {
+	background: none;
+	background-color: $container-hover !important;
 }
 
 .mat-mdc-list-item.mdc-list-item {
-    --mdc-list-list-item-container-color: var(--theme-foreground);
-    --mdc-list-list-item-hover-state-layer-opacity: 1;
-    padding: 0;
+	--mdc-list-list-item-container-color: var(--theme-foreground);
+	--mdc-list-list-item-hover-state-layer-opacity: 1;
+	padding: 0;
 
-    &:hover {
-        --mdc-list-list-item-container-color: #{$container-hover};
-        --mdc-list-list-item-hover-state-layer-color: #{$container-hover};
+	&:hover {
+		--mdc-list-list-item-container-color: #{$container-hover};
+		--mdc-list-list-item-hover-state-layer-color: #{$container-hover};
 
-        &:before {
-            background-color: transparent;
-        }
-    } 
+		&::before {
+			background-color: transparent;
+		}
+	}
 }

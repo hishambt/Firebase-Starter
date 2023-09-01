@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <app-page-header
-        title="My profile"
-        [breadcrumbItems]="[
+	<app-page-header
+		title="My profile"
+		[breadcrumbItems]="[
             {
                 text: 'Dashboard',
                 link: '/home'
@@ -11,7 +11,7 @@
                 link: '/profile'
             }
         ]"
-        [actionButtons]="[
+		[actionButtons]="[
             {
                 visible: true,
                 disabled: false,
@@ -30,10 +30,12 @@
                 isWaiting: deletingUser
             }
         ]"
-        (buttonClick)="deleteUser($event)"
-    ></app-page-header>
+		(buttonClick)="deleteUser($event)"></app-page-header>
 
-    <ng-container *ngLet="$user | async as user">
-        <img class="w-100" [src]="user?.photoURL" alt="" />
-    </ng-container>
+	<ng-container *ngLet="$user | async as user">
+		<img
+			class="w-100"
+			[src]="user?.photoURL"
+			alt="" />
+	</ng-container>
 </div>

@@ -2,21 +2,19 @@ import { AbstractControl, FormControl, FormGroupDirective, NgForm, ValidationErr
 import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CustomValidators {
-  static MatchValidator(source: string, target: string): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const sourceCtrl = control.get(source);
-      const targetCtrl = control.get(target);
+	static MatchValidator(source: string, target: string): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			const sourceCtrl = control.get(source);
+			const targetCtrl = control.get(target);
 
-      return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value
-        ? { mismatch: true }
-        : null;
-    };
-  }
+			return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value ? { mismatch: true } : null;
+		};
+	}
 }
-
 export class ConfirmPasswordMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const formHasMismatchError = form && form.errors?.['mismatch'];
-    return !!(formHasMismatchError && control && control.touched);
-  }
+	isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+		const formHasMismatchError = form && form.errors?.['mismatch'];
+
+		return !!(formHasMismatchError && control && control.touched);
+	}
 }

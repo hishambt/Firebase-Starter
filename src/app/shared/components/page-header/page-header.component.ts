@@ -30,7 +30,7 @@ import { IBreadcrumbItem } from '../../models/IBreadcrumbItem';
 @Component({
 	selector: 'app-page-header',
 	templateUrl: './page-header.component.html',
-	styleUrls: ['./page-header.component.scss']
+	styleUrls: ['./page-header.component.scss'],
 })
 export class PageHeaderComponent<T> {
 	@Input() breadcrumbItems!: IBreadcrumbItem[];
@@ -40,7 +40,7 @@ export class PageHeaderComponent<T> {
 
 	@Output() buttonClick = new EventEmitter<T>();
 
-	onActionSubmit(action?: T) {
+	onActionSubmit(action?: T): void {
 		this.buttonClick.emit(action);
 	}
 }

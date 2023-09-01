@@ -8,8 +8,16 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
-	declarations: [LoginComponent, RegisterComponent, ForgetPasswordComponent, VerifyEmailComponent],
-	imports: [SharedModule, AuthRoutingModule],
-	providers: []
+	declarations: [
+		LoginComponent,
+		RegisterComponent,
+		ForgetPasswordComponent,
+		VerifyEmailComponent,
+	],
+	imports: [
+		SharedModule,
+		AuthRoutingModule,
+	],
+	providers: [],
 })
 export class AuthModule {}

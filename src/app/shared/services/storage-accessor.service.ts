@@ -23,10 +23,10 @@ export class StorageAccessorService {
 	/**
 	 * Set local storage by key
 	 * @param key string
-	 * @param data any
+	 * @param data any | unknown
 	 * @param stringifyJSON boolean
 	 */
-	setLocalStorage(key: string, data: any, stringifyJSON = false): void {
+	setLocalStorage(key: string, data: unknown, stringifyJSON = false): void {
 		if (isPlatformBrowser(this.platformId)) {
 			if (this.hasLocalStorage) {
 				this.storageHelper.set(key, data, stringifyJSON);
@@ -42,7 +42,7 @@ export class StorageAccessorService {
 	 * @param parseAsJSON boolean
 	 * @returns json|value
 	 */
-	getLocalStorage(key: string, parseAsJSON = false): any {
+	getLocalStorage(key: string, parseAsJSON = false): string | unknown {
 		if (isPlatformBrowser(this.platformId)) {
 			if (this.hasLocalStorage) {
 				return this.storageHelper.get(key, parseAsJSON);
@@ -70,7 +70,7 @@ export class StorageAccessorService {
 	 * Check if lists are existing in local storage
 	 * @returns Boolean
 	 */
-	checkExistance(key: string) {
+	checkExistance(key: string): boolean {
 		if (isPlatformBrowser(this.platformId)) {
 			if (this.hasLocalStorage) {
 				return this.storageHelper.check(key);
@@ -82,8 +82,8 @@ export class StorageAccessorService {
 		return false;
 	}
 
-	private isLocalStorageAvailable() {
-		let test = 'test';
+	private isLocalStorageAvailable(): boolean {
+		const test = 'test';
 
 		if (isPlatformBrowser(this.platformId)) {
 			try {
