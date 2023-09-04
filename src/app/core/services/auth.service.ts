@@ -15,7 +15,7 @@ import {
 	UserInfo,
 	UserCredential,
 } from '@angular/fire/auth';
-import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject } from 'rxjs';
+import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -180,6 +180,9 @@ export class AuthService {
 		return from(deleteDoc(ref)).pipe(
 			switchMap(() => {
 				return this.imageService.deleteImage(`${environment.profileCDNPath}${user.uid}`).pipe(
+					catchError((_error) => {
+						return of(true);
+					}),
 					switchMap(() => {
 						return deleteUser(user);
 					}),
