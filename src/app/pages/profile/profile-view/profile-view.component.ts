@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IUser } from 'src/app/shared/models/IUser.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { environment } from 'src/environments/environment';
+import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 
@@ -19,6 +20,8 @@ export class ProfileViewComponent {
 	authService = inject(AuthService);
 	auth = inject(Auth);
 	router = inject(Router);
+	_customSnackBar = inject(CustomSnackBarService);
+
 	form: FormGroup = new FormGroup({
 		uid: new FormControl(''),
 		firstName: new FormControl(''),
@@ -32,7 +35,6 @@ export class ProfileViewComponent {
 	$user = this.authService.currentUserProfile$.pipe(
 		take(1),
 		tap((user: IUser | null) => {
-			console.log(user);
 			this.form.patchValue({
 				uid: user?.uid,
 				firstName: user?.firstName,
@@ -62,13 +64,18 @@ export class ProfileViewComponent {
 			.uploadImage(file, `${environment.profileCDNPath}${user.uid}`)
 			.pipe(
 				take(1),
-				switchMap((photoURL) => {
+				switchMap((photoURL: string) => {
 					user.photoURL = photoURL;
 
 					return this.authService.updateUser(user);
 				}),
 			)
-			.subscribe();
+			.subscribe({
+				next: () => {},
+				error: (_error: Error) => {
+					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', true);
+				},
+			});
 	}
 
 	submitRecord<Actions>(action: Actions): void {

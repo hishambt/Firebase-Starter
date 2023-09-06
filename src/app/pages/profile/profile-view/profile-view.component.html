@@ -19,7 +19,9 @@
 				width="120"
 				height="120"
 				class="margin-top mat-elevation-z1"
-				[src]="user?.photoURL ?? '/assets/images/image-placeholder.png'" />
+				*ngIf="user?.photoURL"
+				[src]="user?.photoURL" />
+			<mat-icon *ngIf="!user?.photoURL">person_2</mat-icon>
 			<button
 				mat-mini-fab
 				(click)="inputField.click()">

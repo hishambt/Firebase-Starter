@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { getDownloadURL, ref, Storage, uploadBytes, deleteObject } from '@angular/fire/storage';
+import { getDownloadURL, ref, Storage, uploadBytes, deleteObject, UploadResult } from '@angular/fire/storage';
 import { from, Observable, switchMap, take } from 'rxjs';
 
 @Injectable({
@@ -14,7 +14,9 @@ export class ImageUploadService {
 
 		return uploadTask.pipe(
 			take(1),
-			switchMap((result) => from(getDownloadURL(result.ref))),
+			switchMap((result: UploadResult): Observable<string> => {
+				return from(getDownloadURL(result.ref));
+			}),
 		);
 	}
 

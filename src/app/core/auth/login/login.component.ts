@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserCredential } from '@angular/fire/auth';
+
+import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -13,6 +14,11 @@ import { AuthService } from '../../services/auth.service';
 	styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+	router = inject(Router);
+	route = inject(ActivatedRoute);
+	authService = inject(AuthService);
+	_customSnackBar = inject(CustomSnackBarService);
+
 	form: FormGroup = new FormGroup({
 		email: new FormControl('', [Validators.email, Validators.required]),
 		password: new FormControl('', [Validators.required]),
@@ -21,13 +27,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 	emailPasswordLoading: boolean = false;
 	googleLoading: boolean = false;
 
-	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private _snackBar: MatSnackBar) {}
-
 	ngOnInit(): void {
 		const success = this.route.snapshot.queryParams['passwordChanged'];
 
 		if (success) {
-			this.openSnackBar('You have successfully changed your password');
+			this._customSnackBar.openSnackBar('You have successfully changed your password');
 		}
 	}
 
@@ -68,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	onFailure(message: string): void {
-		this.openSnackBar(message, true);
+		this._customSnackBar.openSnackBar(message, true);
 	}
 
 	loginWithGoogle(): void {
@@ -76,17 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.loginFollowUp(this.authService.loginWithGoogle());
 	}
 
-	openSnackBar(message: string, error: boolean = false): void {
-		const snackBarClass = error ? 'mat-warn' : 'mat-primary';
-
-		this._snackBar.open(message, 'Ok', {
-			horizontalPosition: 'center',
-			verticalPosition: 'top',
-			panelClass: ['mat-toolbar', snackBarClass],
-		});
-	}
-
 	ngOnDestroy(): void {
-		this._snackBar.dismiss();
+		this._customSnackBar.dismissSnackBar();
 	}
 }

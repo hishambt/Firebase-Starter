@@ -2,10 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserCredential } from '@angular/fire/auth';
 
 import { CustomValidators, ConfirmPasswordMatcher } from 'src/app/shared/helpers/confirmed.validator';
+import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -15,10 +15,10 @@ import { AuthService } from '../../services/auth.service';
 	styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-	private authService = inject(AuthService);
-	private route = inject(ActivatedRoute);
-	private router = inject(Router);
-	private _snackBar = inject(MatSnackBar);
+	authService = inject(AuthService);
+	route = inject(ActivatedRoute);
+	router = inject(Router);
+	_customSnackBar = inject(CustomSnackBarService);
 
 	form: FormGroup = new FormGroup(
 		{
@@ -79,16 +79,6 @@ export class RegisterComponent {
 	}
 
 	onFailure(message: string): void {
-		this.openSnackBar(message, true);
-	}
-
-	openSnackBar(message: string, error: boolean = false): void {
-		const snackBarClass = error ? 'mat-warn' : 'mat-primary';
-
-		this._snackBar.open(message, 'Ok', {
-			horizontalPosition: 'center',
-			verticalPosition: 'top',
-			panelClass: ['mat-toolbar', snackBarClass],
-		});
+		this._customSnackBar.openSnackBar(message, true);
 	}
 }
