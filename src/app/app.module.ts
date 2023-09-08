@@ -1,147 +1,70 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-	provideFirebaseApp,
-	initializeApp,
-	getApp,
-} from '@angular/fire/app';
-import { FunctionsModule } from '@angular/fire/functions';
-import {
-	connectFirestoreEmulator,
-	getFirestore,
-	provideFirestore,
-	initializeFirestore,
-	Firestore,
-} from '@angular/fire/firestore';
-import {
-	connectStorageEmulator,
-	getStorage,
-	provideStorage,
-} from '@angular/fire/storage';
-import {
-	provideAuth,
-	connectAuthEmulator,
-	getAuth,
-} from '@angular/fire/auth';
-import { CommonModule } from '@angular/common';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import {
-	HTTP_INTERCEPTORS,
-	HttpClientModule,
-} from '@angular/common/http';
+import { RouteReuseStrategy } from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
 import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
-import { ShellModule } from './shell/shell.module';
-import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
+import { AppRoutingModule } from './app-routing.module';
+
+import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
+import { FunctionsModule } from '@angular/fire/functions';
+import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
+import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
+import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-	],
+	declarations: [AppComponent],
 	imports: [
 		BrowserModule,
-		BrowserAnimationsModule,
-		HttpClientModule,
-		CommonModule,
+		IonicModule.forRoot(),
 		AppRoutingModule,
 		FunctionsModule,
-		ShellModule,
 		// provideAnalytics(() => getAnalytics()),
-		provideAuth(
-			() => {
-				const auth =
-					getAuth();
+		provideAuth(() => {
+			const auth = getAuth();
 
-				if (
-					environment.useEmulators
-				) {
-					connectAuthEmulator(
-						auth,
-						'http://localhost:9099',
-						{
-							disableWarnings:
-								true,
-						},
-					);
-				}
+			if (environment.useEmulators) {
+				connectAuthEmulator(auth, 'http://localhost:9099', {
+					disableWarnings: true,
+				});
+			}
 
-				return auth;
-			},
-		),
-		provideFirebaseApp(
-			() =>
-				initializeApp(
-					environment.firebase,
-				),
-		),
-		provideFirestore(
-			() => {
-				let firestore: Firestore;
+			return auth;
+		}),
+		provideFirebaseApp(() => initializeApp(environment.firebase)),
+		provideFirestore(() => {
+			let firestore: Firestore;
 
-				if (
-					environment.useEmulators
-				) {
-					firestore =
-						initializeFirestore(
-							getApp(),
-							{
-								experimentalForceLongPolling:
-									true,
-							},
-						);
+			if (environment.useEmulators) {
+				firestore = initializeFirestore(getApp(), {
+					experimentalForceLongPolling: true,
+				});
 
-					connectFirestoreEmulator(
-						firestore,
-						'localhost',
-						8080,
-					);
-				} else {
-					firestore =
-						getFirestore();
-				}
+				connectFirestoreEmulator(firestore, 'localhost', 8080);
+			} else {
+				firestore = getFirestore();
+			}
 
-				return firestore;
-			},
-		),
-		provideStorage(
-			() => {
-				const storage =
-					getStorage();
+			return firestore;
+		}),
+		provideStorage(() => {
+			const storage = getStorage();
 
-				if (
-					environment.useEmulators
-				) {
-					connectStorageEmulator(
-						storage,
-						'localhost',
-						9199,
-					);
-				}
+			if (environment.useEmulators) {
+				connectStorageEmulator(storage, 'localhost', 9199);
+			}
 
-				return storage;
-			},
-		),
+			return storage;
+		}),
 	],
 	providers: [
 		{
-			provide:
-				FIREBASE_OPTIONS,
-			useValue:
-				environment.firebase,
-		},
-		{
-			provide:
-				HTTP_INTERCEPTORS,
-			useClass:
-				LoadingHttpInterceptorService,
-			multi: true,
+			provide: RouteReuseStrategy,
+			useClass: IonicRouteStrategy,
 		},
 	],
-	bootstrap: [
-		AppComponent,
-	],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}

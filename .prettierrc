@@ -31,7 +31,7 @@
 				"parser": "typescript",
 				"bracketSpacing": true,
 				"trailingComma": "all",
-				"printWidth": 20,
+				"printWidth": 150,
 				"singleAttributePerLine": true
 			}
 		},
