@@ -1,0 +1,24 @@
+<div class="main-bg container-fluid w-100 h-100 d-flex align-items-center justify-content-center">
+	<div class="row w-100 d-flex">
+		<div class="col-sm-12">
+			<div class="row align-items-center justify-content-center">
+				<h1 class="text-center mb-5 color-primary-50">Page Not Found</h1>
+			</div>
+			<div class="row align-items-center justify-content-center">
+				<div class="col-lg-3 col-sm-10 col-md-6">
+					<app-form-action-bar
+						[startButtons]="[
+										{
+											visible: true,
+											disabled: false,
+											class: 'mat-raised-button w-100',
+											color: 'primary',
+											text: 'Homepage',
+										}
+									]"
+						(buttonClick)="goTo('/home')"></app-form-action-bar>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

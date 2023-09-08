@@ -1,0 +1,69 @@
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h1 class="page-header-title">{{ title }}</h1>
+		</div>
+		<!-- End Col -->
+
+		<div class="col-auto mt-1">
+			<ng-container *ngFor="let button of actionButtons!; let isLast = last">
+				<!-- <button
+					*ngIf="button?.visible"
+					mat-raised-button
+					[color]="button?.color"
+					class="mb-2 {{ button?.class }}"
+					[ngClass]="{ 'split-button-left': button?.options && !isDrawerMode, 'me-3': !button?.options && !isLast }"
+					[disabled]="button?.disabled || button?.isWaiting"
+					(click)="onActionSubmit(button?.action)">
+					<span [ngClass]="{ invisible: button?.isWaiting }">{{ button?.text }}</span>
+					<ng-container *ngIf="!button?.isWaiting; else loading"></ng-container>
+				</button>
+				<button
+					*ngIf="button.options && !isDrawerMode && button?.visible"
+					mat-button
+					[color]="button?.color"
+					class="split-button-right mb-2 {{ button?.class }}"
+					[ngClass]="{ 'me-3': !isLast }"
+					[disabled]="button?.disabled"
+					[matMenuTriggerFor]="menu">
+					<mat-icon
+						aria-hidden="false"
+						aria-label="Example home icon">
+						expand_more
+					</mat-icon>
+				</button> -->
+
+				<!-- <mat-menu
+					#menu="matMenu"
+					xPosition="before">
+					<button
+						*ngFor="let option of button?.options"
+						mat-menu-item
+						(click)="onActionSubmit(option?.action)">
+						{{ option?.text }}
+					</button>
+				</mat-menu> -->
+			</ng-container>
+		</div>
+		<!-- End Col -->
+	</div>
+	<div class="row">
+		<div class="col">
+			<app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+		</div>
+		<!-- End Col -->
+	</div>
+	<!-- End Row -->
+</div>
+
+<ng-template
+	#loading
+	let-templateContext="context">
+	<!-- <mat-icon
+		class="position-absolute top-50 start-50 translate-middle"
+		style="width: 18px; height: 18px">
+		<mat-spinner
+			color="accent"
+			diameter="18"></mat-spinner>
+	</mat-icon> -->
+</ng-template>
