@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IUser } from 'src/app/shared/models/IUser.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
+import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 
@@ -20,7 +20,7 @@ export class ProfileViewComponent {
 	authService = inject(AuthService);
 	auth = inject(Auth);
 	router = inject(Router);
-	_customSnackBar = inject(CustomSnackBarService);
+	_customSnackBar = inject(CustomToastService);
 
 	form: FormGroup = new FormGroup({
 		uid: new FormControl(''),
@@ -73,7 +73,7 @@ export class ProfileViewComponent {
 			.subscribe({
 				next: () => {},
 				error: (_error: Error) => {
-					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', true);
+					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', 0, true);
 				},
 			});
 	}

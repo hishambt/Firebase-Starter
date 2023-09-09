@@ -4,7 +4,7 @@ import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
+import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -13,11 +13,11 @@ import { AuthService } from '../../services/auth.service';
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 	router = inject(Router);
 	route = inject(ActivatedRoute);
 	authService = inject(AuthService);
-	_customSnackBar = inject(CustomSnackBarService);
+	_customToast = inject(CustomToastService);
 
 	form: FormGroup = new FormGroup({
 		email: new FormControl('', [Validators.email, Validators.required]),
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		const success = this.route.snapshot.queryParams['passwordChanged'];
 
 		if (success) {
-			this._customSnackBar.openSnackBar('You have successfully changed your password');
+			this._customToast.openSnackBar('You have successfully changed your password', 0);
 		}
 	}
 
@@ -69,18 +69,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 	onSuccess(): void {
 		const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 		this.router.navigateByUrl(returnUrl);
+		this._customToast.dismissSnackBar();
 	}
 
 	onFailure(message: string): void {
-		this._customSnackBar.openSnackBar(message, true);
+		this._customToast.openSnackBar(message, 0, true);
 	}
 
 	loginWithGoogle(): void {
 		this.googleLoading = true;
 		this.loginFollowUp(this.authService.loginWithGoogle());
-	}
-
-	ngOnDestroy(): void {
-		this._customSnackBar.dismissSnackBar();
 	}
 }

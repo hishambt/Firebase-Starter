@@ -10,6 +10,11 @@ import { AuthModule } from './core/auth/auth.module';
 
 const routes: Routes = [
 	{
+		pathMatch: 'full',
+		path: '',
+		redirectTo: 'home',
+	},
+	{
 		path: '',
 		component: ShellComponent,
 		...canActivate(authGuard),

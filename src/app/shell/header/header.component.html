@@ -1,120 +1,16 @@
-<!-- <ng-container *ngLet="user$ | async as user"> -->
-<!-- <mat-toolbar
-		class="toolbar align-items-center justify-content-center"
-		style="height: 60px"> -->
-<!-- <div class="d-inline-block d-md-none ms-n3">
-		<button
-			mat-icon-button
-			(click)="toggleDrawer.emit()"> -->
-<!-- <mat-icon>menu</mat-icon> -->
-<!-- </button>
-	</div>
-	<a
-		class="d-flex justify-content-center align-items-center cursor-pointer"
-		routerLink="/home"
-		color="primary"
-		aria-label="Profile"> -->
-<!-- <mat-icon class="me-3">mark_as_unread</mat-icon> -->
-<!-- <label class="cursor-pointer d-none d-sm-block">Invitationship</label>
-	</a>
-	<div class="flex-grow-1"></div> -->
-<!-- <div
-			[matMenuTriggerFor]="menuprofile"
-			class="header-actions d-flex flex-raw justify-content-center align-items-center">
-			<label class="cursor-pointer me-3">{{ user?.firstName ? user?.firstName + " " + user?.lastName : user?.email }}</label>
-			<div class="profile-action">
-				<a
-					mat-mini-fab
-					color="primary"
-					aria-label="Profile">
-					<img
-						*ngIf="user?.photoURL"
-						[src]="user?.photoURL" />
-					<mat-icon *ngIf="!user?.photoURL">person_2</mat-icon>
-				</a>
-				<mat-menu
-					#menuprofile="matMenu"
-					xPosition="before">
-					<button
-						routerLink="/profile"
-						mat-menu-item>
-						<mat-icon>person_2</mat-icon>
-						<span>My profile</span>
-					</button>
-					<button
-						(click)="revealId(user?.uid!)"
-						mat-menu-item>
-						<mat-icon>fingerprint</mat-icon>
-						<span class="identity-id mat-caption">Show Id</span>
-					</button>
-					<mat-divider></mat-divider>
-
-					<button
-						mat-menu-item
-						(click)="logout()">
-						<mat-icon>logout</mat-icon>
-						<span>Sign out</span>
-					</button>
-				</mat-menu>
-			</div>
+<ion-toolbar>
+	<ion-buttons slot="start">
+		<ion-menu-button></ion-menu-button>
+	</ion-buttons>
+	<ion-title>
+		<div class="title">
+			<ion-icon
+				size="medium"
+				name="folder"></ion-icon>
+			<p>Pro CV</p>
 		</div>
-	</mat-toolbar> -->
-<!-- </ng-container> -->
-
-<ion-app>
-	<ion-header>
-		<ion-toolbar>
-			<ion-buttons slot="start">
-				<ion-menu-button></ion-menu-button>
-			</ion-buttons>
-			<ion-buttons slot="end">
-				<ion-button (click)="logout()">Sign out</ion-button>
-			</ion-buttons>
-		</ion-toolbar>
-	</ion-header>
-	<ion-split-pane contentId="main-content">
-		<ion-menu
-			contentId="main-content"
-			type="overlay">
-			<ion-content>
-				<ion-list id="inbox-list">
-					<ion-list-header>Inbox</ion-list-header>
-					<ion-note>hi@ionicframework.com</ion-note>
-
-					<ion-menu-toggle
-						auto-hide="false"
-						*ngFor="let p of appPages; let i = index">
-						<ion-item
-							routerDirection="root"
-							[routerLink]="[p.url]"
-							lines="none"
-							detail="false"
-							routerLinkActive="selected">
-							<ion-icon
-								aria-hidden="true"
-								slot="start"
-								[ios]="p.icon + '-outline'"
-								[md]="p.icon + '-sharp'"></ion-icon>
-							<ion-label>{{ p.title }}</ion-label>
-						</ion-item>
-					</ion-menu-toggle>
-				</ion-list>
-
-				<ion-list id="labels-list">
-					<ion-list-header>Labels</ion-list-header>
-
-					<ion-item
-						*ngFor="let label of labels"
-						lines="none">
-						<ion-icon
-							aria-hidden="true"
-							slot="start"
-							ios="bookmark-outline"
-							md="bookmark-sharp"></ion-icon>
-						<ion-label>{{ label }}</ion-label>
-					</ion-item>
-				</ion-list>
-			</ion-content>
-		</ion-menu>
-	</ion-split-pane>
-</ion-app>
+	</ion-title>
+	<ion-buttons slot="end">
+		<ion-button (click)="logout()">Sign out</ion-button>
+	</ion-buttons>
+</ion-toolbar>

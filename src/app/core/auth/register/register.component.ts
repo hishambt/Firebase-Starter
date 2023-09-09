@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { CustomValidators, ConfirmPasswordMatcher } from 'src/app/shared/helpers/confirmed.validator';
-import { CustomSnackBarService } from 'src/app/shared/services/custom-snackbar.service';
+import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -18,7 +18,7 @@ export class RegisterComponent {
 	authService = inject(AuthService);
 	route = inject(ActivatedRoute);
 	router = inject(Router);
-	_customSnackBar = inject(CustomSnackBarService);
+	_customSnackBar = inject(CustomToastService);
 
 	form: FormGroup = new FormGroup(
 		{
@@ -79,6 +79,6 @@ export class RegisterComponent {
 	}
 
 	onFailure(message: string): void {
-		this._customSnackBar.openSnackBar(message, true);
+		this._customSnackBar.openSnackBar(message, 0, true);
 	}
 }

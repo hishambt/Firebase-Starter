@@ -6,6 +6,7 @@ import { IUser } from 'src/app/shared/models/IUser.model';
 import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
 
 import { AuthService } from '../../core/services/auth.service';
+import { IMenuItem, appPages } from '../side-navbar/side-navbar';
 
 @Component({
 	selector: 'app-shell',
@@ -13,6 +14,7 @@ import { AuthService } from '../../core/services/auth.service';
 	styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
+	appPages: Array<IMenuItem> = appPages;
 	toast = inject(ToastController);
 	authService = inject(AuthService);
 	storage = inject(StorageAccessorService);

@@ -1,0 +1,15 @@
+ion-split-pane {
+	--side-max-width: 230px;
+	--side-min-width: 230px;
+}
+
+ion-content {
+	--background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
+ion-content {
+	--padding-start: 8px;
+	--padding-end: 8px;
+	--padding-top: 56px;
+	--padding-bottom: 20px;
+}

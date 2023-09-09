@@ -4,13 +4,14 @@ import { ToastController } from '@ionic/angular';
 @Injectable({
 	providedIn: 'root',
 })
-export class CustomSnackBarService {
+export class CustomToastService {
 	toast = inject(ToastController);
 
-	openSnackBar(message: string, error: boolean = false): void {
+	openSnackBar(message: string, duration: number, error: boolean = false): void {
 		this.toast
 			.create({
-				message: message,
+				message,
+				duration,
 				position: 'top',
 				layout: 'stacked',
 			})
@@ -20,6 +21,8 @@ export class CustomSnackBarService {
 	}
 
 	dismissSnackBar(): void {
-		this.toast.dismiss();
+		this.toast.getTop().then((exists) => {
+			if (exists) this.toast.dismiss(null);
+		});
 	}
 }
