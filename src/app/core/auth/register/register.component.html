@@ -3,13 +3,13 @@
 		<div class="col-sm-12">
 			<div class="row align-items-center justify-content-center">
 				<div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xxl-4 mt-4 mt-sm-0 px-4">
-					<mat-card class="p-5 auth-wrapper">
+					<!-- <mat-card class="p-5 auth-wrapper">
 						<h1 class="text-center mb-5">Register</h1>
 
 						<!-- form -->
-						<form [formGroup]="form">
-							<div class="form-group mb-2">
-								<mat-form-field
+					<form [formGroup]="form">
+						<div class="form-group mb-2">
+							<!-- <mat-form-field
 									floatLabel="always"
 									class="d-block">
 									<mat-label>Email</mat-label>
@@ -21,10 +21,10 @@
 										name="email" />
 									<mat-error *ngIf="form.controls['email'].hasError('required')">Email required</mat-error>
 									<mat-error *ngIf="form.controls['email'].hasError('email')">Invalid email format</mat-error>
-								</mat-form-field>
-							</div>
-							<div class="form-group mb-2">
-								<mat-form-field
+								</mat-form-field> -->
+						</div>
+						<div class="form-group mb-2">
+							<!-- <mat-form-field
 									floatLabel="always"
 									class="d-block">
 									<mat-label>Password</mat-label>
@@ -39,10 +39,10 @@
 									<mat-error *ngIf="form.controls['password'].hasError('minlength')">
 										Password should be at least {{form.controls['password'].errors?.['minlength'].requiredLength}} characters long
 									</mat-error>
-								</mat-form-field>
-							</div>
-							<div class="form-group mb-2">
-								<mat-form-field
+								</mat-form-field> -->
+						</div>
+						<div class="form-group mb-2">
+							<!-- <mat-form-field
 									floatLabel="always"
 									class="d-block">
 									<mat-label>Confirm password</mat-label>
@@ -55,11 +55,11 @@
 										placeholder="Enter your password"
 										autocomplete="disabled" />
 									<mat-error *ngIf="passwordMatchError">Passwords should match</mat-error>
-								</mat-form-field>
-							</div>
-							<div class="form-group mt-5">
-								<app-form-action-bar
-									[startButtons]="[
+								</mat-form-field> -->
+						</div>
+						<div class="form-group mt-5">
+							<app-form-action-bar
+								[startButtons]="[
 											{
 												visible: true,
 												disabled: false,
@@ -70,22 +70,22 @@
 												isWaiting: emailPasswordLoading
 											}
 										]"
-									(buttonClick)="submitRecord()"></app-form-action-bar>
-							</div>
-						</form>
-						<!-- End Form -->
-
-						<div class="form-group">
-							<div class="d-md-flex justify-content-center text-center color-primary-50 mt-5">
-								<span>Have an account?</span>
-								<a
-									class="link ms-2"
-									routerLink="/auth/login">
-									Login
-								</a>
-							</div>
+								(buttonClick)="submitRecord()"></app-form-action-bar>
 						</div>
-					</mat-card>
+					</form>
+					<!-- End Form -->
+
+					<div class="form-group">
+						<div class="d-md-flex justify-content-center text-center color-primary-50 mt-5">
+							<span>Have an account?</span>
+							<a
+								class="link ms-2"
+								routerLink="/auth/login">
+								Login
+							</a>
+						</div>
+					</div>
+					<!-- </mat-card> -->
 				</div>
 			</div>
 		</div>

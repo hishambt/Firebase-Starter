@@ -3,17 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ShellComponent } from './shell/shell/shell.component';
 import { authGuard } from './core/guards/auth.guard';
 import { canActivate } from '@angular/fire/auth-guard';
-import { AuthModule } from '@angular/fire/auth';
 import { HomeModule } from './pages/home/home.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileModule } from './pages/profile/profile.module';
+import { AuthModule } from './core/auth/auth.module';
 
 const routes: Routes = [
-	{
-		path: '',
-		redirectTo: '/home',
-		pathMatch: 'full',
-	},
 	{
 		path: '',
 		component: ShellComponent,

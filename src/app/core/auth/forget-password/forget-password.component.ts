@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+// import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class ForgetPasswordComponent {
 	router = inject(Router);
 	authService = inject(AuthService);
-	private _snackBar = inject(MatSnackBar);
+	// private _snackBar = inject(MatSnackBar);
 
 	form: FormGroup = new FormGroup({
 		email: new FormControl('', [Validators.email, Validators.required]),
@@ -48,10 +48,10 @@ export class ForgetPasswordComponent {
 	onPasswordReset(message: string, error: boolean = false): void {
 		const snackBarClass = error ? 'mat-warn' : 'mat-primary';
 
-		this._snackBar.open(message, 'Ok', {
-			horizontalPosition: 'center',
-			verticalPosition: 'top',
-			panelClass: ['mat-toolbar', snackBarClass],
-		});
+		// this._snackBar.open(message, 'Ok', {
+		// 	horizontalPosition: 'center',
+		// 	verticalPosition: 'top',
+		// 	panelClass: ['mat-toolbar', snackBarClass],
+		// });
 	}
 }

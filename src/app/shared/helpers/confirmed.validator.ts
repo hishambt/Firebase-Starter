@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+// import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CustomValidators {
 	static MatchValidator(source: string, target: string): ValidatorFn {
@@ -11,7 +11,7 @@ export class CustomValidators {
 		};
 	}
 }
-export class ConfirmPasswordMatcher implements ErrorStateMatcher {
+export class ConfirmPasswordMatcher {
 	isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
 		const formHasMismatchError = form && form.errors?.['mismatch'];
 

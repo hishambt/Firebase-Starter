@@ -9,6 +9,6 @@ import { ShellLoadingBarComponent } from './_components/shell-loading-bar/shell-
 
 @NgModule({
 	declarations: [ShellComponent, HeaderComponent, FooterComponent, SideNavbarComponent, ShellLoadingBarComponent],
-	imports: [],
+	imports: [SharedModule],
 })
 export class ShellModule {}
