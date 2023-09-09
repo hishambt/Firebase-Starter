@@ -13,6 +13,9 @@ import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFir
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ShellModule } from './shell/shell.module';
+import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -20,7 +23,9 @@ import { environment } from 'src/environments/environment';
 		BrowserModule,
 		IonicModule.forRoot(),
 		AppRoutingModule,
+		HttpClientModule,
 		FunctionsModule,
+		ShellModule,
 		// provideAnalytics(() => getAnalytics()),
 		provideAuth(() => {
 			const auth = getAuth();
@@ -63,6 +68,11 @@ import { environment } from 'src/environments/environment';
 		{
 			provide: RouteReuseStrategy,
 			useClass: IonicRouteStrategy,
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoadingHttpInterceptorService,
+			multi: true,
 		},
 	],
 	bootstrap: [AppComponent],

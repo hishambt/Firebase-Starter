@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import {
-	Auth,
 	GoogleAuthProvider,
 	User,
 	authState,
@@ -14,6 +13,7 @@ import {
 	ProviderId,
 	UserInfo,
 	UserCredential,
+	Auth,
 } from '@angular/fire/auth';
 import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
@@ -39,52 +39,54 @@ export class AuthService {
 	imageService = inject(ImageUploadService);
 	userIsGettingDeleted$ = new Subject<boolean>();
 
-	// get currentUserProfile$(): Observable<IUser | null> {
-	// 	return authState(this.auth).pipe(
-	// 		traceUntilFirst('auth'),
-	// 		take(1),
-	// 		switchMap((user: User | null): Observable<IUser | null> => {
-	// 			if (!user?.uid) {
-	// 				// user has signed out
-	// 				return of(null);
-	// 			}
+	get currentUserProfile$(): Observable<IUser | null> {
+		authState(this.auth).subscribe();
 
-	// 			// user is logged in
-	// 			if (this.hasProvider(user, ProviderId.GOOGLE) || (this.hasProvider(user, ProviderId.PASSWORD) && user.emailVerified)) {
-	// 				// get user from database only in case the user is logged in with google or his email is verified
-	// 				const ref = doc(this.db, 'users', user?.uid);
+		return authState(this.auth).pipe(
+			traceUntilFirst('auth'),
+			take(1),
+			switchMap((user: User | null): Observable<IUser | null> => {
+				if (!user?.uid) {
+					// user has signed out
+					return of(null);
+				}
 
-	// 				return docData(ref).pipe(
-	// 					// sharing same result of user for all subscirbers
-	// 					takeUntil(this.userIsGettingDeleted$),
-	// 					shareReplay(1),
-	// 					switchMap((data: DocumentData): Observable<IUser | null> => {
-	// 						if (data) {
-	// 							// user exists in database
-	// 							return of(data) as Observable<IUser>;
-	// 						}
+				// user is logged in
+				if (this.hasProvider(user, ProviderId.GOOGLE) || (this.hasProvider(user, ProviderId.PASSWORD) && user.emailVerified)) {
+					// get user from database only in case the user is logged in with google or his email is verified
+					const ref = doc(this.db, 'users', user?.uid);
 
-	// 						// add new user to database
-	// 						this.storage.setLocalStorage(user.uid, 'new');
-	// 						const newUser = this.populateUser(user);
+					return docData(ref).pipe(
+						// sharing same result of user for all subscirbers
+						takeUntil(this.userIsGettingDeleted$),
+						shareReplay(1),
+						switchMap((data: DocumentData | undefined): Observable<IUser> | Observable<null> => {
+							if (data) {
+								// user exists in database
+								return of(data) as Observable<IUser>;
+							}
 
-	// 						return from(setDoc(ref, newUser)).pipe(
-	// 							take(1),
-	// 							// returning null since docData will listen to the change and rerun on its own,
-	// 							// so no need to return anything at this stage.
-	// 							map(() => null),
-	// 						);
-	// 					}),
-	// 				);
-	// 			} else {
-	// 				// temp user to avoid breaking the app (it won't affect since there are guards for non google non verified emails)
-	// 				const newUser = this.populateUser(user);
+							// add new user to database
+							this.storage.setLocalStorage(user.uid, 'new');
+							const newUser = this.populateUser(user);
 
-	// 				return of(newUser);
-	// 			}
-	// 		}),
-	// 	);
-	// }
+							return from(setDoc(ref, newUser)).pipe(
+								take(1),
+								// returning null since docData will listen to the change and rerun on its own,
+								// so no need to return anything at this stage.
+								map(() => null),
+							);
+						}),
+					);
+				} else {
+					// temp user to avoid breaking the app (it won't affect since there are guards for non google non verified emails)
+					const newUser = this.populateUser(user);
+
+					return of(newUser);
+				}
+			}),
+		);
+	}
 
 	hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]): UserInfo | undefined {
 		return user.providerData.find((info: UserInfo) => info.providerId == providerId);

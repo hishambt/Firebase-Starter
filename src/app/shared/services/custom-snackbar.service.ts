@@ -1,23 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-// import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class CustomSnackBarService {
-	// private _snackBar = inject(MatSnackBar);
+	toast = inject(ToastController);
 
 	openSnackBar(message: string, error: boolean = false): void {
-		const snackBarClass = error ? 'mat-warn' : 'mat-primary';
-
-		// this._snackBar.open(message, 'Ok', {
-		// 	horizontalPosition: 'center',
-		// 	verticalPosition: 'top',
-		// 	panelClass: ['mat-toolbar', snackBarClass],
-		// });
+		this.toast
+			.create({
+				message: message,
+				position: 'top',
+				layout: 'stacked',
+			})
+			.then((toast) => {
+				toast.present();
+			});
 	}
 
 	dismissSnackBar(): void {
-		// this._snackBar.dismiss();
+		this.toast.dismiss();
 	}
 }
