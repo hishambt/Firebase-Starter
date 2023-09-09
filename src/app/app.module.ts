@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
-import { FunctionsModule } from '@angular/fire/functions';
+import { FunctionsModule, provideFunctions, getFunctions } from '@angular/fire/functions';
 import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';

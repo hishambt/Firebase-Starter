@@ -40,8 +40,6 @@ export class AuthService {
 	userIsGettingDeleted$ = new Subject<boolean>();
 
 	get currentUserProfile$(): Observable<IUser | null> {
-		authState(this.auth).subscribe();
-
 		return authState(this.auth).pipe(
 			traceUntilFirst('auth'),
 			take(1),

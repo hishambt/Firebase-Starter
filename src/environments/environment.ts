@@ -7,6 +7,7 @@ export const environment = {
 		projectId: 'demo-project',
 		appId: '1:60634711089:web:4a9561e703be8649b68110',
 		storageBucket: 'pro-cv-390512.appspot.com',
+		locationId: 'europe-west3',
 		apiKey: 'AIzaSyCmYlXS_qLGqOeYxuYYQFin1Ia5XyrzKEY',
 		authDomain: 'pro-cv-390512.firebaseapp.com',
 		messagingSenderId: '60634711089',
