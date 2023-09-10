@@ -1,11 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { AppSettingsService } from '../../shared/services/app-settings.service';
 import { IMenuItem, appPages } from './side-navbar';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { IUser } from 'src/app/shared/models/IUser.model';
 
 @Component({
 	selector: 'app-side-navbar',
@@ -15,19 +12,38 @@ import { IUser } from 'src/app/shared/models/IUser.model';
 export class SideNavbarComponent {
 	appPages: Array<IMenuItem> = appPages;
 	routeSubscription: Subscription = new Subscription();
-	appSettingsService = inject(AppSettingsService);
 	router = inject(Router);
-	authService = inject(AuthService);
-	user$ = this.authService.currentUserProfile$;
+	activeRoute: string = '';
 
 	ngOnInit(): void {
 		this.routeSubscription = this.router.events.subscribe((event) => {
 			if (event instanceof NavigationEnd) {
+				this.activeRoute = event.url;
+				this.resetMenu();
+				this.openActiveMenus();
 			}
 		});
 	}
 
-	getUserDisplay(user: IUser) {
-		return this.authService.getUserDisplay(user);
+	resetMenu() {
+		this.appPages.forEach((page: IMenuItem) => {
+			page.open = false;
+		});
+	}
+
+	openActiveMenus() {
+		this.appPages.forEach((page: IMenuItem) => {
+			if (page.children) {
+				page.children.forEach((sub: IMenuItem) => {
+					if (sub.url == this.activeRoute) {
+						page.open = true;
+					}
+				});
+			}
+		});
+	}
+
+	isOneChildActive(children: IMenuItem[]) {
+		return children.some((page) => page?.url == this.activeRoute);
 	}
 }

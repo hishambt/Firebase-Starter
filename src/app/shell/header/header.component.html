@@ -3,7 +3,9 @@
 		<ion-menu-button></ion-menu-button>
 	</ion-buttons>
 	<ion-title>
-		<div class="title">
+		<div
+			class="title"
+			routerLink="/home">
 			<ion-icon
 				size="medium"
 				name="folder"></ion-icon>
@@ -11,6 +13,13 @@
 		</div>
 	</ion-title>
 	<ion-buttons slot="end">
-		<ion-button (click)="logout()">Sign out</ion-button>
+		<ion-chip *ngIf="user$ | async as user">
+			<ion-avatar>
+				<img
+					alt="Profile pic"
+					[src]="user.photoURL" />
+			</ion-avatar>
+			<ion-label>{{getUserDisplay(user)}}</ion-label>
+		</ion-chip>
 	</ion-buttons>
 </ion-toolbar>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
+import { IUser } from 'src/app/shared/models/IUser.model';
 
 @Component({
 	selector: 'app-header',
@@ -28,5 +29,9 @@ export class HeaderComponent {
 		this.authService.logout().subscribe(() => {
 			this.router.navigateByUrl('auth/login');
 		});
+	}
+
+	getUserDisplay(user: IUser) {
+		return this.authService.getUserDisplay(user);
 	}
 }

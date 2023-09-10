@@ -18,10 +18,10 @@ export class ShellComponent implements OnInit {
 	toast = inject(ToastController);
 	authService = inject(AuthService);
 	storage = inject(StorageAccessorService);
-	$user = this.authService.currentUserProfile$;
+	user$ = this.authService.currentUserProfile$;
 
 	ngOnInit(): void {
-		this.$user.pipe(take(1)).subscribe((user: IUser | null) => {
+		this.user$.pipe(take(1)).subscribe((user: IUser | null) => {
 			if (this.storage.checkExistance(user!.uid)) {
 				this.storage.removeLocalStorageKey(user!.uid);
 

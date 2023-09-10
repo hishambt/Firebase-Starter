@@ -1,22 +1,60 @@
-<ion-list id="inbox-list">
-	<ion-list-header>Welcome</ion-list-header>
-	<ion-note *ngIf="user$ | async as user">{{getUserDisplay(user)}}</ion-note>
+<div class="ion-padding-top">
+	<div *ngFor="let p of appPages">
+		<ion-menu-toggle
+			autoHide="false"
+			*ngIf="p.url">
+			<ion-item
+				[routerLink]="p.url"
+				routerDirection="forward"
+				routerLinkActive="active">
+				<ion-icon
+					size="small"
+					[name]="p.icon"
+					slot="start"></ion-icon>
+				<ion-label>{{p.title}}</ion-label>
+			</ion-item>
+		</ion-menu-toggle>
 
-	<ion-menu-toggle
-		auto-hide="false"
-		*ngFor="let p of appPages; let i = index">
 		<ion-item
-			routerDirection="root"
-			[routerLink]="[p.url]"
-			lines="none"
-			detail="false"
-			routerLinkActive="selected">
+			button
+			*ngIf="p.children && p.children.length > 0"
+			(click)="p.open = !p.open"
+			[class.active-parent]="isOneChildActive(p.children)"
+			detail="false">
 			<ion-icon
-				aria-hidden="true"
-				slot="start"
-				[ios]="p.icon + '-outline'"
-				[md]="p.icon + '-sharp'"></ion-icon>
-			<ion-label>{{ p.title }}</ion-label>
+				size="small"
+				[name]="p.icon"
+				slot="start"></ion-icon>
+			<ion-label>{{p.title}}</ion-label>
+			<ion-icon
+				size="small"
+				slot="end"
+				name="arrow-forward"
+				*ngIf="!p.open"></ion-icon>
+			<ion-icon
+				size="small"
+				slot="end"
+				name="arrow-down"
+				*ngIf="p.open"></ion-icon>
 		</ion-item>
-	</ion-menu-toggle>
-</ion-list>
+
+		<ion-list *ngIf="p.open">
+			<ion-menu-toggle
+				autoHide="false"
+				*ngFor="let sub of p.children">
+				<ion-item
+					class="sub-item"
+					*ngIf="sub.url"
+					[routerLink]="sub.url"
+					routerDirection="forward"
+					routerLinkActive="active">
+					<ion-icon
+						size="small"
+						[name]="sub.icon"
+						slot="start"></ion-icon>
+					<ion-label>{{sub.title}}</ion-label>
+				</ion-item>
+			</ion-menu-toggle>
+		</ion-list>
+	</div>
+</div>
