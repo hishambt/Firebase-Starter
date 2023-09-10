@@ -2,8 +2,8 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
-import { IUser } from 'src/app/shared/models/IUser.model';
-import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
+import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
+import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-header',

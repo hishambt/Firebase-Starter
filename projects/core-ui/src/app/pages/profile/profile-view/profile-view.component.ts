@@ -4,10 +4,10 @@ import { Auth, User, authState } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { IUser } from 'src/app/shared/models/IUser.model';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { environment } from 'src/environments/environment';
-import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
+import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
+import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
+import { environment } from 'projects/core-ui/src/environments/environment';
+import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 
@@ -71,7 +71,7 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => {},
+				next: () => { },
 				error: (_error: Error) => {
 					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},

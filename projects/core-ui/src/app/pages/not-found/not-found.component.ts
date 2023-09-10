@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'projects/core-ui/src/app/shared/shared.module';
 
 @Component({
 	selector: 'app-not-found',

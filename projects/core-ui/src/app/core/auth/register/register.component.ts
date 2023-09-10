@@ -4,8 +4,8 @@ import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { CustomValidators, ConfirmPasswordMatcher } from 'src/app/shared/helpers/confirmed.validator';
-import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
+import { CustomValidators, ConfirmPasswordMatcher } from 'projects/core-ui/src/app/shared/helpers/confirmed.validator';
+import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
 

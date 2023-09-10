@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
 
 @Component({
 	selector: 'app-home-view',

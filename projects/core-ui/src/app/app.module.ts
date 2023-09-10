@@ -12,7 +12,7 @@ import { FunctionsModule, provideFunctions, getFunctions } from '@angular/fire/f
 import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
-import { environment } from 'src/environments/environment';
+import { environment } from 'projects/core-ui/src/environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ShellModule } from './shell/shell.module';
 import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
@@ -77,4 +77,4 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

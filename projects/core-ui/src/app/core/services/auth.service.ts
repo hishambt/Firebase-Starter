@@ -20,10 +20,10 @@ import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 
-import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
-import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
-import { ImageUploadService } from 'src/app/shared/services/image-upload.service';
-import { environment } from 'src/environments/environment';
+import { AppSettingsService } from 'projects/core-ui/src/app/shared/services/app-settings.service';
+import { StorageAccessorService } from 'projects/core-ui/src/app/shared/services/storage-accessor.service';
+import { ImageUploadService } from 'projects/core-ui/src/app/shared/services/image-upload.service';
+import { environment } from 'projects/core-ui/src/environments/environment';
 
 import { IUser } from '../../shared/models/IUser.model';
 

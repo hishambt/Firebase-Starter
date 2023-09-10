@@ -2,8 +2,8 @@ import { Component, ChangeDetectorRef, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 
-import { IUser } from 'src/app/shared/models/IUser.model';
-import { StorageAccessorService } from 'src/app/shared/services/storage-accessor.service';
+import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
+import { StorageAccessorService } from 'projects/core-ui/src/app/shared/services/storage-accessor.service';
 
 import { AuthService } from '../../core/services/auth.service';
 import { IMenuItem, appPages } from '../side-navbar/side-navbar';
