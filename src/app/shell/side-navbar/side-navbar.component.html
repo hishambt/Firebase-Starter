@@ -19,7 +19,7 @@
 			button
 			*ngIf="p.children && p.children.length > 0"
 			(click)="p.open = !p.open"
-			[class.active-parent]="isOneChildActive(p.children)"
+			[class.active-parent]="p.open"
 			detail="false">
 			<ion-icon
 				size="small"
