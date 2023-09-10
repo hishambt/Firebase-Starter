@@ -1,0 +1,10 @@
+ion-toast {
+	&.secondary {
+		--background: var(--ion-color-secondary);
+		--color: var(--ion-color-secondary-contrast);
+	}
+
+	&.small {
+		--max-width: 400px;
+	}
+}

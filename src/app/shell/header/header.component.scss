@@ -1,7 +1,7 @@
 ion-title {
 	padding-inline: 15px;
 
-	@media (max-width: 576px) {
+	@media (width <= 576px) {
 		padding: 0;
 	}
 
