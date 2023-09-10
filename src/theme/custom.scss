@@ -14,7 +14,8 @@ ion-button {
 	--ripple-color: var(--ion-color-primary);
 	--padding-top: 10px;
 	--padding-bottom: 10px;
-	--text-transform: none;
+	text-transform: none;
+	height: 40px;
 }
 
 ion-toast {
@@ -35,4 +36,17 @@ ion-grid {
 	--ion-grid-width-md: 384px;
 	--ion-grid-width-lg: 480px;
 	--ion-grid-width-xl: 570px;
+}
+
+.invisible {
+	visibility: hidden;
+	opacity: 0;
+}
+
+ion-spinner {
+	position: absolute;
+}
+
+.form-group {
+	margin-bottom: 1rem;
 }
