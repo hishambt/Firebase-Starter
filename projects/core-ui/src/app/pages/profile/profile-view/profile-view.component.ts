@@ -71,7 +71,7 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => { },
+				next: () => {},
 				error: (_error: Error) => {
 					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},

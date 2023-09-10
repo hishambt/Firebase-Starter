@@ -77,4 +77,4 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

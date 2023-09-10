@@ -93,7 +93,7 @@
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"main": "src/test.ts",
+						"main": "projects/core-ui/src/test.ts",
 						"polyfills": "projects/core-ui/src/polyfills.ts",
 						"tsConfig": "projects/core-ui/tsconfig.spec.json",
 						"karmaConfig": "karma.conf.js",
@@ -110,7 +110,7 @@
 								"output": "./svg"
 							}
 						],
-						"styles": ["src/global.scss"],
+						"styles": ["projects/core-ui/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {

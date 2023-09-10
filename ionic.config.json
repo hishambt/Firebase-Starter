@@ -1,7 +1,11 @@
 {
-  "name": "Firebase-Starter",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
+	"defaultProject": "core-ui",
+	"projects": {
+		"core-ui": {
+			"name": "Core UI",
+			"integrations": {},
+			"type": "angular",
+			"root": "projects/core-ui"
+		}
+	}
 }
