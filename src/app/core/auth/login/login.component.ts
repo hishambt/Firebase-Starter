@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	onFailure(message: string): void {
-		this._customToast.openSnackBar(message, 0, true);
+		this._customToast.openSnackBar(message, 0);
 	}
 
 	loginWithGoogle(): void {

@@ -79,6 +79,6 @@ export class RegisterComponent {
 	}
 
 	onFailure(message: string): void {
-		this._customSnackBar.openSnackBar(message, 0, true);
+		this._customSnackBar.openSnackBar(message, 0);
 	}
 }

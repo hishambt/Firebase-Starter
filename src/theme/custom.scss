@@ -5,3 +5,25 @@
 .split-pane-main {
 	padding: 80px 30px 30px 30px;
 }
+
+ion-item {
+	--ripple-color: var(--ion-color-primary);
+}
+
+ion-button {
+	--ripple-color: var(--ion-color-primary);
+	--padding-top: 10px;
+	--padding-bottom: 10px;
+	--text-transform: none;
+}
+
+ion-toast {
+	&.secondary {
+		--background: var(--ion-color-secondary);
+		--color: var(--ion-color-secondary-contrast);
+	}
+
+	&.small {
+		--max-width: 400px;
+	}
+}

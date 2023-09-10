@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { IUser } from 'src/app/shared/models/IUser.model';
+import { CustomToastService } from 'src/app/shared/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-header',
@@ -12,17 +13,14 @@ import { IUser } from 'src/app/shared/models/IUser.model';
 export class HeaderComponent {
 	authService = inject(AuthService);
 	router = inject(Router);
+	_customToastService = inject(CustomToastService);
 
 	@Output() toggleDrawer = new EventEmitter();
 
 	user$ = this.authService.currentUserProfile$;
 
 	revealId(id: string): void {
-		// this._snackBar.open(id, 'Ok', {
-		// 	horizontalPosition: 'center',
-		// 	verticalPosition: 'top',
-		// 	panelClass: ['mat-toolbar', 'mat-accent'],
-		// });
+		this._customToastService.openSnackBar(id, 0);
 	}
 
 	logout(): void {
@@ -32,6 +30,7 @@ export class HeaderComponent {
 	}
 
 	getUserDisplay(user: IUser) {
+		if (!user) return '';
 		return this.authService.getUserDisplay(user);
 	}
 }

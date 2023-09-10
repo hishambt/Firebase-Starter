@@ -7,13 +7,19 @@ import { ToastController } from '@ionic/angular';
 export class CustomToastService {
 	toast = inject(ToastController);
 
-	openSnackBar(message: string, duration: number, error: boolean = false): void {
+	openSnackBar(message: string, duration: number, classObj: ToastClass = { color: 'secondary', size: 'small' }): void {
 		this.toast
 			.create({
 				message,
 				duration,
 				position: 'top',
-				layout: 'stacked',
+				cssClass: `${classObj.color} ${classObj.size}`,
+				icon: 'information-circle-outline',
+				buttons: [
+					{
+						text: 'Ok',
+					},
+				],
 			})
 			.then((toast) => {
 				toast.present();
@@ -25,4 +31,9 @@ export class CustomToastService {
 			if (exists) this.toast.dismiss(null);
 		});
 	}
+}
+
+export interface ToastClass {
+	color: 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
+	size: 'small' | 'medium' | 'large';
 }
