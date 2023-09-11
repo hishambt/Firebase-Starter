@@ -3,13 +3,7 @@
 # npx husky add .husky/commit-msg 'npx commitlint --edit $1'
 # npx --no-install commitlint --edit $1
 # npx pretty-quick --staged
-# npm run lint -> removed to avoid linting while pushing
-exit 0;
-# TODO: make sure the build is working, what about if the build is retunring an error!?
-#!/bin/sh
-# .git/hooks/pre-push
-. "$(dirname "$0")/_/husky.sh"
 echo 'the pre-push hook started'
-# ng git build --configuration production
+npm run lint 
 echo 'the pre-push hook is done'
 exit 0
