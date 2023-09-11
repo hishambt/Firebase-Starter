@@ -10,6 +10,7 @@
 		"firebase": "firebase",
 		"angular:serve": "ng serve",
 		"build": "ng build",
+		"prepare": "husky install && xcopy /E /I /Y .husky\\* .git\\hooks\\",
 		"watch": "ng build --watch --configuration development",
 		"test": "ng test",
 		"lint": "ng lint",
@@ -55,6 +56,8 @@
 		"@angular/compiler-cli": "^16.0.0",
 		"@angular/language-service": "^16.0.0",
 		"@capacitor/cli": "5.3.0",
+		"@commitlint/cli": "^17.7.1",
+		"@commitlint/config-conventional": "^17.7.0",
 		"@ionic/angular-toolkit": "^9.0.0",
 		"@ionic/cli": "^7.1.1",
 		"@types/jasmine": "~4.3.0",
@@ -67,6 +70,7 @@
 		"eslint-plugin-import": "^2.28.1",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"firebase-tools": "^12.5.3",
+		"husky": "^8.0.3",
 		"jasmine-core": "~4.6.0",
 		"jasmine-spec-reporter": "~5.0.0",
 		"karma": "~6.4.0",
@@ -76,11 +80,18 @@
 		"karma-jasmine": "~5.1.0",
 		"karma-jasmine-html-reporter": "~2.0.0",
 		"kill-port": "^2.0.1",
+		"lint-staged": "^14.0.1",
 		"stylelint": "^15.10.3",
 		"stylelint-config-standard": "^34.0.0",
 		"stylelint-scss": "^5.1.0",
 		"ts-node": "^8.3.0",
 		"typescript": "~5.0.2"
 	},
-	"description": "An Ionic project"
+	"description": "An Ionic project",
+	"lint-staged": {
+		"*.ts": [
+			"eslint"
+		],
+		"*.{.css,scss}": "stylelint --fix"
+	}
 }
