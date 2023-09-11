@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-can-deactivate-dialog',
@@ -7,5 +6,5 @@ import { MatDialogRef } from '@angular/material/dialog';
 	styleUrls: ['./can-deactivate-dialog.component.scss'],
 })
 export class CanDeactivateDialogComponent {
-	constructor(public dialogRef: MatDialogRef<CanDeactivateDialogComponent>) {}
+	constructor() { }
 }

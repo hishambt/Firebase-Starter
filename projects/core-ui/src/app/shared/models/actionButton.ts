@@ -2,7 +2,7 @@ export interface ActionButton<T> {
 	visible: boolean;
 	disabled: boolean;
 	class: string;
-	color: any;
+	color: string;
 	text: string;
 	action?: T;
 	submit?: boolean;

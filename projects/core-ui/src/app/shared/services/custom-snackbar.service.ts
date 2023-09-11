@@ -28,11 +28,12 @@ export class CustomToastService {
 
 	dismissSnackBar(): void {
 		this.toast.getTop().then((exists) => {
-			if (exists) this.toast.dismiss(null);
+			if (exists) {
+				this.toast.dismiss(null);
+			}
 		});
 	}
 }
-
 export interface ToastClass {
 	color: 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
 	size: 'small' | 'medium' | 'large';

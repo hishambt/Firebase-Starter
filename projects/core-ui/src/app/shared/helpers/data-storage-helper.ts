@@ -9,6 +9,8 @@ export class StorageHelper {
 	 * @param parseAsJSON boolean, Optional convert to JSON
 	 * @returns Json | Value:any
 	 */
+	//TODO: Replace with generics
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public get(key: string, parseAsJSON?: boolean): any {
 		const data = localStorage.getItem(key) as string;
 

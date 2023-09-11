@@ -5,9 +5,7 @@ export interface IMenuItem {
 	open?: boolean;
 	active?: boolean;
 	children?: IMenuItem[];
-}
-
-export const appPages: Array<IMenuItem> = [
+}export const appPages: Array<IMenuItem> = [
 	{
 		title: 'Main',
 		icon: 'trash',

@@ -28,7 +28,7 @@ export const verifyGuard: AuthPipeGenerator = (_next: ActivatedRouteSnapshot, _s
 			map((result) => {
 				if (result == true) {
 					return '/auth/login';
-				} else if (user!.emailVerified) {
+				} else if (user?.emailVerified) {
 					return result;
 				} else {
 					return true;

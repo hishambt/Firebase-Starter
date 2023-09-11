@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../core/services/auth.service';
 import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
+
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
 	selector: 'app-header',
@@ -29,8 +30,9 @@ export class HeaderComponent {
 		});
 	}
 
-	getUserDisplay(user: IUser) {
-		if (!user) return '';
+	getUserDisplay(user: IUser): string {
+		if (!user) { return ''; }
+
 		return this.authService.getUserDisplay(user);
 	}
 }

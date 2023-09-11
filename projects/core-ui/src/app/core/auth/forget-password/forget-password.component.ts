@@ -45,8 +45,8 @@ export class ForgetPasswordComponent {
 			});
 	}
 
-	onPasswordReset(message: string, error: boolean = false): void {
-		const snackBarClass = error ? 'mat-warn' : 'mat-primary';
+	onPasswordReset(_message: string, _error: boolean = false): void {
+		// const snackBarClass = error ? 'mat-warn' : 'mat-primary';
 
 		// this._snackBar.open(message, 'Ok', {
 		// 	horizontalPosition: 'center',

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
-import { from, take } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
+
 @Component({
 	selector: 'app-root',
 	templateUrl: 'app.component.html',

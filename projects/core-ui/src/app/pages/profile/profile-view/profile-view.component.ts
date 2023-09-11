@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { take, switchMap, tap, finalize } from 'rxjs/operators';
-import { Auth, User, authState } from '@angular/fire/auth';
+import { take, switchMap } from 'rxjs/operators';
+import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -71,7 +71,7 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => {},
+				next: () => { },
 				error: (_error: Error) => {
 					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},

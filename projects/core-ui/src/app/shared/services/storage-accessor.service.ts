@@ -42,6 +42,8 @@ export class StorageAccessorService {
 	 * @param parseAsJSON boolean
 	 * @returns json|value
 	 */
+	// TODO: Replace with generics 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	getLocalStorage(key: string, parseAsJSON = false): any {
 		if (isPlatformBrowser(this.platformId)) {
 			if (this.hasLocalStorage) {

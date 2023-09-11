@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-
 import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
-import { FunctionsModule, provideFunctions, getFunctions } from '@angular/fire/functions';
+import { FunctionsModule } from '@angular/fire/functions';
 import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
-import { environment } from 'projects/core-ui/src/environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+import { environment } from 'projects/core-ui/src/environments/environment';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { ShellModule } from './shell/shell.module';
 import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.interceptor';
 

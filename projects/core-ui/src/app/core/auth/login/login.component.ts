@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
 		password: new FormControl('', [Validators.required]),
 	});
 
-	emailPasswordLoading: boolean = false;
-	googleLoading: boolean = false;
+	emailPasswordLoading = false;
+	googleLoading = false;
 
 	ngOnInit(): void {
 		const success = this.route.snapshot.queryParams['passwordChanged'];

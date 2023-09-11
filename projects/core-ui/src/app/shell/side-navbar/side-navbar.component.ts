@@ -23,13 +23,13 @@ export class SideNavbarComponent {
 		});
 	}
 
-	resetMenu() {
+	resetMenu(): void {
 		this.appPages.forEach((page: IMenuItem) => {
 			page.open = false;
 		});
 	}
 
-	openActiveMenus(url: string) {
+	openActiveMenus(url: string): void {
 		this.appPages.forEach((page: IMenuItem) => {
 			if (page.children) {
 				page.children.forEach((sub: IMenuItem) => {
