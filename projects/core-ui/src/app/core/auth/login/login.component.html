@@ -1,59 +1,74 @@
 <ion-content>
 	<div class="card-container">
 		<ion-card>
-			<ion-card-header class="ion-text-center">
+			<ion-card-header class="ion-text-center ion-no-padding ion-margin-bottom">
 				<ion-card-title>Login</ion-card-title>
 			</ion-card-header>
 			<ion-card-content class="ion-no-padding">
 				<ion-row>
-					<ion-col>
+					<ion-col class="ion-no-padding">
 						<form
 							[formGroup]="form"
 							(ngSubmit)="submitRecord()">
-							<div class="form-group mb-2">
-								<ion-input
-									labelPlacement="stacked"
-									placeholder="Enter your email address"
-									type="email"
-									name="email"
-									label="Email"
-									formControlName="email"></ion-input>
-								<div slot="error">Please enter a valid email</div>
+							<ion-list lines="none">
+								<ion-item class="ion-no-padding">
+									<ion-input
+										labelPlacement="stacked"
+										placeholder="Enter your email address"
+										type="email"
+										name="email"
+										label="Email"
+										formControlName="email"></ion-input>
+								</ion-item>
+								<ion-text
+									color="danger"
+									*ngIf="form.get('email')!.touched && form.get('email')!.invalid">
+									<sup>Please enter a valid email</sup>
+								</ion-text>
+								<ion-text
+									color="danger"
+									*ngIf="form.get('email')!.touched && form.get('email')!.errors!['required']">
+									<sup>Email is Required!</sup>
+								</ion-text>
+
+								<ion-item class="ion-no-padding">
+									<ion-input
+										labelPlacement="stacked"
+										placeholder="Enter your password"
+										type="password"
+										name="password"
+										label="Password"
+										formControlName="password"></ion-input>
+								</ion-item>
+							</ion-list>
+							<div class="ion-margin-vertical">
+								<ion-button
+									class="ion-margin-vertical"
+									expand="fill"
+									size="full"
+									color="primary"
+									type="submit">
+									Login
+								</ion-button>
+								<app-google-btn
+									class="ion-margin-vertical"
+									ion-button
+									(buttonClick)="loginWithGoogle()"
+									[isWaiting]="googleLoading"></app-google-btn>
 							</div>
-							<div class="form-group mb-2">
-								<ion-input
-									labelPlacement="stacked"
-									placeholder="Enter your password"
-									type="password"
-									name="password"
-									label="Password"
-									formControlName="password"></ion-input>
-							</div>
-							<ion-row>
-								<ion-col size="12">
-									<ion-button
-										expand="fill"
-										type="submit">
-										Login
-									</ion-button>
-								</ion-col>
-								<ion-col size="12">
-									<app-google-btn
-										(buttonClick)="loginWithGoogle()"
-										[isWaiting]="googleLoading"></app-google-btn>
-								</ion-col>
-							</ion-row>
 						</form>
 					</ion-col>
 				</ion-row>
 				<ion-buttons class="ion-justify-content-between">
 					<ion-button
+						routerLink="/auth/register"
 						color="primary"
 						size="small"
 						fill="clear">
 						Create account
 					</ion-button>
 					<ion-button
+						routerLink="/auth/forget-password"
 						color="primary"
 						size="small"
 						class="ion-text-end"
