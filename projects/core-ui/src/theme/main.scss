@@ -44,3 +44,19 @@
 
 /*  It's inelegant and cumbersome, and contains utility and helper classes, hacks, and overrides. */
 @import "./styles/06-trumps/trumps";
+
+/* TODO: to be replaced by tailwind */
+.card-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	--ion-margin: 15px;
+
+	ion-card {
+		width: 90vw;
+		max-width: 400px;
+		padding: 1.7rem;
+	}
+}

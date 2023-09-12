@@ -185,6 +185,7 @@ export class AuthService {
 					}),
 					switchMap(() => {
 						return deleteUser(user);
+						// TODO: Test application after deleting user (setting userIsGettingDeleted$ to false again).
 					}),
 				);
 			}),

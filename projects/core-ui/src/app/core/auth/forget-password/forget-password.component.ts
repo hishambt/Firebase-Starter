@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 // import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../services/auth.service';
+import { CustomToastService } from '../../../shared/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-forget-password',
@@ -14,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class ForgetPasswordComponent {
 	router = inject(Router);
 	authService = inject(AuthService);
-	// private _snackBar = inject(MatSnackBar);
+	_customToast = inject(CustomToastService);
 
 	form: FormGroup = new FormGroup({
 		email: new FormControl('', [Validators.email, Validators.required]),
@@ -45,13 +46,7 @@ export class ForgetPasswordComponent {
 			});
 	}
 
-	onPasswordReset(_message: string, _error: boolean = false): void {
-		// const snackBarClass = error ? 'mat-warn' : 'mat-primary';
-
-		// this._snackBar.open(message, 'Ok', {
-		// 	horizontalPosition: 'center',
-		// 	verticalPosition: 'top',
-		// 	panelClass: ['mat-toolbar', snackBarClass],
-		// });
+	onPasswordReset(message: string, _error: boolean = false): void {
+		this._customToast.openSnackBar(message, 0);
 	}
 }

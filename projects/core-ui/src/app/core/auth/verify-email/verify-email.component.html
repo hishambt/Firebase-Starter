@@ -1,45 +1,35 @@
-<div class="main-bg container-fluid w-100 h-100 d-flex align-items-center justify-content-center">
-	<div class="row w-100 d-flex">
-		<div class="col-sm-12">
-			<div class="row align-items-center justify-content-center">
-				<div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xxl-4 mt-4 mt-sm-0 px-4">
-					<!-- <mat-card class="p-5 auth-wrapper">
-						<h1 class="text-center mb-3">Verify Email</h1>
-
-						<div class="form-group">
-							<h3 class="text-center">An email has been sent to {{ user?.email }}. You can now close this window</h3>
-							<app-form-action-bar
-								[startButtons]="[
-                                    {
-                                        visible: true,
-                                        disabled: sendDisabled,
-                                        class: 'mat-raised-button w-100',
-                                        color: 'primary',
-                                        text: 'Send again',
-                                        action: actions.verify,
-                                        isWaiting: sendingEmailVerification
-                                    }
-                                ]"
-								[endButtons]="[
-                                    {
-                                        visible: true,
-                                        disabled: false,
-                                        class: 'mat-raised-button w-100 mt-2 mt-sm-0',
-                                        color: 'warn',
-                                        text: 'Sign out',
-                                        action: actions.logout,
-                                        isWaiting: loggingOut
-                                    }
-                                ]"
-								(buttonClick)="submitRecord($event)"></app-form-action-bar>
-						</div>
-					</mat-card> -->
-				</div>
-			</div>
-		</div>
+<ion-content>
+	<div class="card-container">
+		<ion-card>
+			<ion-card-header class="ion-text-center ion-no-padding ion-margin-bottom">
+				<ion-card-title>Verify Email</ion-card-title>
+			</ion-card-header>
+			<ion-card-content class="ion-no-padding">
+				<ion-row>
+					<ion-col class="ion-no-padding ion-padding-vertical">
+						<ion-text class="ion-text-center">
+							<h3>An email has been sent to {{ user?.email }}. You can now close this window</h3>
+						</ion-text>
+					</ion-col>
+				</ion-row>
+				<ion-buttons class="ion-justify-content-between ion-padding-top">
+					<ion-button
+						(click)="verifyEmail()"
+						fill="solid"
+						color="primary"
+						size="small">
+						Send again
+					</ion-button>
+					<ion-button
+						(click)="logout()"
+						fill="solid"
+						color="primary"
+						size="small"
+						class="ion-text-end">
+						Sign out
+					</ion-button>
+				</ion-buttons>
+			</ion-card-content>
+		</ion-card>
 	</div>
-</div>
-
-<ng-template #exitApp>
-	<div class="form-group"></div>
-</ng-template>
+</ion-content>

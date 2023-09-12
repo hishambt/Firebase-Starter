@@ -20,10 +20,6 @@ export class VerifyEmailComponent implements OnInit {
 	sendDisabled = true;
 	user: User | null = null;
 
-	get actions(): typeof Actions {
-		return Actions;
-	}
-
 	ngOnInit(): void {
 		authState(this.auth)
 			.pipe(take(1))
@@ -33,19 +29,6 @@ export class VerifyEmailComponent implements OnInit {
 					this.sendDisabled = false;
 				}
 			});
-	}
-
-	submitRecord(action: Actions): void {
-		switch (action) {
-			case Actions.verify:
-				this.verifyEmail();
-				break;
-			case Actions.logout:
-				this.logout();
-				break;
-			default:
-				break;
-		}
 	}
 
 	verifyEmail(): void {
@@ -71,9 +54,4 @@ export class VerifyEmailComponent implements OnInit {
 				this.router.navigateByUrl('auth/login');
 			});
 	}
-}
-
-enum Actions {
-	verify,
-	logout,
 }
