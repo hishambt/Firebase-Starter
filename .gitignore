@@ -28,6 +28,8 @@ log.txt
 /tmp
 /out-tsc
 /bazel-out
+/docs
+/projects/**/documentation.json
 
 # Node
 /node_modules
