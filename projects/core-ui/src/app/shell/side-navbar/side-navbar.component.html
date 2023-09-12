@@ -4,6 +4,7 @@
 			autoHide="false"
 			*ngIf="p.url">
 			<ion-item
+				lines="none"
 				[routerLink]="p.url"
 				routerDirection="forward"
 				routerLinkActive="active">
@@ -16,6 +17,7 @@
 		</ion-menu-toggle>
 
 		<ion-item
+			lines="none"
 			button
 			*ngIf="p.children && p.children.length > 0"
 			(click)="p.open = !p.open"
@@ -43,6 +45,7 @@
 				autoHide="false"
 				*ngFor="let sub of p.children">
 				<ion-item
+					lines="none"
 					class="sub-item"
 					*ngIf="sub.url"
 					[routerLink]="sub.url"
