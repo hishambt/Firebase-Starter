@@ -10,35 +10,45 @@
 						<form
 							[formGroup]="form"
 							(ngSubmit)="submitRecord()">
-							<ion-list lines="none">
-								<ion-item class="ion-no-padding">
+							<ion-list lines="auto">
+								<ion-item [counter]="true">
+									<ion-label position="floating">Email</ion-label>
 									<ion-input
-										labelPlacement="stacked"
+										fill="solid"
 										placeholder="Enter your email address"
 										type="email"
 										name="email"
-										label="Email"
+										maxlength="50"
 										formControlName="email"></ion-input>
+									<ion-note
+										slot="error"
+										color="danger"
+										*ngIf="form.controls['email'].touched && form.controls['email'].hasError('required')">
+										Email required
+									</ion-note>
+									<ion-note
+										slot="error"
+										color="danger"
+										*ngIf="form.controls['email'].touched && form.controls['email'].hasError('email')">
+										Invalid email format
+									</ion-note>
 								</ion-item>
-								<ion-text
-									color="danger"
-									*ngIf="form.get('email')!.touched && form.get('email')!.invalid">
-									<sup>Please enter a valid email</sup>
-								</ion-text>
-								<ion-text
-									color="danger"
-									*ngIf="form.get('email')!.touched && form.get('email')!.errors!['required']">
-									<sup>Email is Required!</sup>
-								</ion-text>
 
-								<ion-item class="ion-no-padding">
+								<ion-item [counter]="true">
+									<ion-label position="floating">Password</ion-label>
 									<ion-input
-										labelPlacement="stacked"
+										maxlength="50"
+										fill="solid"
 										placeholder="Enter your password"
 										type="password"
 										name="password"
-										label="Password"
 										formControlName="password"></ion-input>
+									<ion-note
+										slot="error"
+										color="danger"
+										*ngIf="form.controls['password'].touched && form.controls['password'].hasError('required')">
+										Password required
+									</ion-note>
 								</ion-item>
 							</ion-list>
 							<div class="ion-margin-vertical">
