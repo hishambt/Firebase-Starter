@@ -14,9 +14,11 @@
 						<div class="ion-margin-vertical mb-0">
 							<ion-button
 								(click)="verifyEmail()"
+								[appAsyncRef]="sendingEmailVerification"
 								fill="solid"
 								color="primary"
-								size="full">
+								size="full"
+								[disableAfterResolve]="true">
 								Send again
 							</ion-button>
 						</div>
@@ -27,6 +29,7 @@
 					<ion-text>Wrong email?</ion-text>
 					<ion-button
 						(click)="logout()"
+						[appAsyncRef]="loggingOut"
 						fill="clear"
 						color="primary"
 						size="small">

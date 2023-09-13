@@ -3,14 +3,11 @@
 	size="full"
 	(click)="buttonClicked()"
 	type="button"
+	[appAsyncRef]="isWaiting"
 	[disabled]="isWaiting">
 	<ion-icon
 		size="small"
 		slot="start"
-		[ngClass]="{ invisible : isWaiting }"
 		name="logo-google"></ion-icon>
-	<ion-label [ngClass]="{ invisible : isWaiting }">Sign in With Google</ion-label>
-	<ion-spinner
-		[ngClass]="{ invisible : !isWaiting }"
-		name="dots"></ion-spinner>
+	<ion-label>Sign in With Google</ion-label>
 </ion-button>

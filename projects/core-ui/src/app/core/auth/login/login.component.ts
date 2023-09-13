@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
 		password: new FormControl('', [Validators.required]),
 	});
 
-	emailPasswordLoading = false;
-	googleLoading = false;
+	emailPasswordLoading!: boolean;
+	googleLoading!: boolean;
 
 	ngOnInit(): void {
 		const success = this.route.snapshot.queryParams['passwordChanged'];

@@ -17,7 +17,6 @@ export class VerifyEmailComponent implements OnInit {
 
 	sendingEmailVerification = false;
 	loggingOut = false;
-	sendDisabled = true;
 	user: User | null = null;
 
 	ngOnInit(): void {
@@ -26,7 +25,6 @@ export class VerifyEmailComponent implements OnInit {
 			.subscribe((user: User | null) => {
 				if (user) {
 					this.user = user;
-					this.sendDisabled = false;
 				}
 			});
 	}
@@ -39,7 +37,6 @@ export class VerifyEmailComponent implements OnInit {
 				take(1),
 				finalize(() => {
 					this.sendingEmailVerification = false;
-					this.sendDisabled = true;
 				}),
 			)
 			.subscribe();

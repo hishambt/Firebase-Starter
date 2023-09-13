@@ -152,7 +152,7 @@ export class AuthService {
 	}
 
 	loginWithEmailAndPassword(email: string, password: string): Observable<UserCredential> {
-		return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
+		return from(signInWithEmailAndPassword(this.auth, email, password));
 	}
 
 	forgetPassword(email: string): Observable<void> {
