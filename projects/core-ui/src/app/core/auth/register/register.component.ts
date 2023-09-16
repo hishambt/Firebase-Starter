@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
@@ -7,20 +7,7 @@ import { UserCredential } from '@angular/fire/auth';
 import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
-
-function passwordMatcherValidator(): ValidatorFn {
-	return (form: AbstractControl): ValidationErrors | null => {
-		const { password, confirmPassword } = form.value;
-
-		if (password && confirmPassword) {
-			const isMatching = password === confirmPassword;
-
-			return isMatching ? null : { mismatch: true };
-		}
-
-		return null;
-	};
-}
+import { passwordMatchValidator } from '../../../shared/helpers/confirmed.validator';
 
 @Component({
 	selector: 'app-register',
@@ -39,7 +26,7 @@ export class RegisterComponent {
 			password: new FormControl<string>('', [Validators.required]),
 			confirmPassword: new FormControl<string>('', [Validators.required]),
 		},
-		{ validators: [passwordMatcherValidator()] },
+		{ validators: passwordMatchValidator('password', 'confirmPassword') },
 	);
 
 	register$: Subscription | null = null;

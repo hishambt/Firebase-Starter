@@ -41,6 +41,8 @@
 										placeholder="Enter your password"
 										type="password"
 										name="password"
+										[clearInput]="true"
+										[clearOnEdit]="false"
 										formControlName="password"></ion-input>
 									<ion-note
 										slot="error"
@@ -63,6 +65,8 @@
 										autocomplete="disabled"
 										placeholder="Enter your password"
 										type="password"
+										[clearInput]="true"
+										[clearOnEdit]="false"
 										name="confirmPassword"
 										formControlName="confirmPassword"></ion-input>
 									<ion-note
@@ -74,7 +78,7 @@
 									<ion-note
 										slot="error"
 										color="danger"
-										*ngIf="form.hasError('mismatch')">
+										*ngIf="form.hasError('passwordMismatch')">
 										Passwords should match
 									</ion-note>
 								</ion-item>
