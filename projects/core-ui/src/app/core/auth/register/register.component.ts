@@ -4,7 +4,7 @@ import { Observable, finalize, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { CustomValidators, ConfirmPasswordMatcher } from 'projects/core-ui/src/app/shared/helpers/confirmed.validator';
+import { passwordMatchValidator } from 'projects/core-ui/src/app/shared/helpers/confirmed.validator';
 import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
@@ -26,15 +26,14 @@ export class RegisterComponent {
 			password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
 			confirmPassword: new FormControl<string>('', [Validators.required]),
 		},
-		[CustomValidators.MatchValidator('password', 'confirmPassword')],
+		[passwordMatchValidator('password', 'confirmPassword')],
 	);
-
-	matcher = new ConfirmPasswordMatcher();
 
 	emailPasswordLoading: boolean = false;
 
 	get passwordMatchError(): boolean {
-		const hasError = this.form.getError('mismatch') && this.form.get('confirmPassword')?.touched;
+		const hasError =
+			this.form.getError('mismatch') && this.form.get('confirmPassword')?.touched && !this.form.get('confirmPassword')?.errors?.['required'];
 
 		return hasError;
 	}
