@@ -1,8 +1,4 @@
-@import 'tailwindcss/base';
-
-@import 'tailwindcss/components';
-
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -33,3 +29,9 @@
 /* Custom theme css files */
 
 @import "theme/main";
+
+.main-bg {
+	background-image: url("/assets/background/bg-login.jpg");
+	background-size: cover;
+	background-position: center;
+}
