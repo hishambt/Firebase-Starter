@@ -4,11 +4,19 @@ import { ToastController } from '@ionic/angular';
 @Injectable({
 	providedIn: 'root',
 })
-export class CustomToastService {
+export class AppToastService {
 	toast = inject(ToastController);
 
-	openSnackBar(message: string, duration: number, classObj: ToastClass = { color: 'secondary', size: 'small' }): void {
+	createToast(message: string, duration: number, classObj?: ToastClass): void {
 		this.dismissSnackBar();
+
+		if (!classObj) {
+			classObj = {
+				color: 'primary',
+				size: 'small',
+			};
+		}
+
 		this.toast
 			.create({
 				message,

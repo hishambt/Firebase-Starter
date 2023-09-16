@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
-import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
+import { AppToastService } from 'projects/core-ui/src/app/shared/services/app-toast.service';
 
 import { AuthService } from '../../core/services/auth.service';
 
@@ -14,14 +14,14 @@ import { AuthService } from '../../core/services/auth.service';
 export class HeaderComponent {
 	authService = inject(AuthService);
 	router = inject(Router);
-	_customToastService = inject(CustomToastService);
+	_appToast = inject(AppToastService);
 
 	@Output() toggleDrawer = new EventEmitter();
 
 	user$ = this.authService.currentUserProfile$;
 
 	revealId(id: string): void {
-		this._customToastService.openSnackBar(id, 0);
+		this._appToast.createToast(id, 0);
 	}
 
 	logout(): void {

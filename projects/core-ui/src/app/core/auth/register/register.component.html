@@ -7,7 +7,9 @@
 			<ion-card-content class="ion-no-padding">
 				<ion-row>
 					<ion-col class="ion-no-padding">
-						<form [formGroup]="form">
+						<form
+							[formGroup]="form"
+							(ngSubmit)="submitRecord()">
 							<ion-list lines="auto">
 								<ion-item [counter]="true">
 									<ion-label position="floating">Email</ion-label>
@@ -21,7 +23,8 @@
 									<ion-note
 										slot="error"
 										color="danger"
-										*ngIf="form.controls['email'].touched && form.controls['email'].hasError('required')">
+										*ngIf="form.controls['email'].dirty && 
+										form.controls['email'].touched && form.controls['email'].hasError('required')">
 										Email required
 									</ion-note>
 									<ion-note
@@ -34,11 +37,12 @@
 
 								<ion-item [counter]="true">
 									<ion-label position="floating">Password</ion-label>
-									<app-show-hide-password>
+									<app-show-hide-password class="flex w-full items-center">
 										<ion-input
 											maxlength="50"
 											minlength="6"
 											fill="solid"
+											autocomplete="disabled"
 											placeholder="Enter your password"
 											type="password"
 											name="password"
@@ -62,7 +66,7 @@
 
 								<ion-item [counter]="true">
 									<ion-label position="floating">Confirm password</ion-label>
-									<app-show-hide-password>
+									<app-show-hide-password class="flex w-full items-center">
 										<ion-input
 											maxlength="50"
 											fill="solid"
@@ -94,7 +98,6 @@
 									expand="fill"
 									size="full"
 									color="primary"
-									(click)="submitRecord()"
 									[appAsyncRef]="register$"
 									type="submit">
 									Register

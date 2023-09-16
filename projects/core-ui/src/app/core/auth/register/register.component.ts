@@ -4,7 +4,7 @@ import { Subscription, Observable, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
+import { AppToastService } from 'projects/core-ui/src/app/shared/services/app-toast.service';
 
 import { AuthService } from '../../services/auth.service';
 import { passwordMatchValidator } from '../../../shared/helpers/confirmed.validator';
@@ -18,7 +18,7 @@ export class RegisterComponent {
 	authService = inject(AuthService);
 	route = inject(ActivatedRoute);
 	router = inject(Router);
-	_customSnackBar = inject(CustomToastService);
+	_appToast = inject(AppToastService);
 
 	form: FormGroup = new FormGroup(
 		{
@@ -62,6 +62,6 @@ export class RegisterComponent {
 	}
 
 	onFailure(message: string): void {
-		this._customSnackBar.openSnackBar(message, 0);
+		this._appToast.createToast(message, 0, { color: 'danger', size: 'medium' });
 	}
 }

@@ -4,7 +4,7 @@ import { Observable, Subscription, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
+import { AppToastService } from 'projects/core-ui/src/app/shared/services/app-toast.service';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 	router = inject(Router);
 	route = inject(ActivatedRoute);
 	authService = inject(AuthService);
-	_customToast = inject(CustomToastService);
+	_appToast = inject(AppToastService);
 
 	form: FormGroup = new FormGroup({
 		email: new FormControl('', [Validators.email, Validators.required]),
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 		const success = this.route.snapshot.queryParams['passwordChanged'];
 
 		if (success) {
-			this._customToast.openSnackBar('You have successfully changed your password', 0);
+			this._appToast.createToast('You have successfully changed your password', 0);
 		}
 	}
 
@@ -64,11 +64,14 @@ export class LoginComponent implements OnInit {
 	onSuccess(): void {
 		const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 		this.router.navigateByUrl(returnUrl, { replaceUrl: true });
-		this._customToast.dismissSnackBar();
+		this._appToast.dismissSnackBar();
 	}
 
 	onFailure(message: string): void {
-		this._customToast.openSnackBar(message, 0);
+		this._appToast.createToast(message, 0, {
+			color: 'danger',
+			size: 'small',
+		});
 	}
 
 	loginWithGoogle(): void {
