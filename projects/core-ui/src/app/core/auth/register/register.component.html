@@ -34,16 +34,18 @@
 
 								<ion-item [counter]="true">
 									<ion-label position="floating">Password</ion-label>
-									<ion-input
-										maxlength="50"
-										minlength="6"
-										fill="solid"
-										placeholder="Enter your password"
-										type="password"
-										name="password"
-										[clearInput]="true"
-										[clearOnEdit]="false"
-										formControlName="password"></ion-input>
+									<app-show-hide-password>
+										<ion-input
+											maxlength="50"
+											minlength="6"
+											fill="solid"
+											placeholder="Enter your password"
+											type="password"
+											name="password"
+											[clearInput]="true"
+											[clearOnEdit]="false"
+											formControlName="password"></ion-input>
+									</app-show-hide-password>
 									<ion-note
 										slot="error"
 										color="danger"
@@ -57,18 +59,21 @@
 										Password should be at least {{form.controls['password'].errors?.['minlength'].requiredLength}} characters long
 									</ion-note>
 								</ion-item>
+
 								<ion-item [counter]="true">
 									<ion-label position="floating">Confirm password</ion-label>
-									<ion-input
-										maxlength="50"
-										fill="solid"
-										autocomplete="disabled"
-										placeholder="Enter your password"
-										type="password"
-										[clearInput]="true"
-										[clearOnEdit]="false"
-										name="confirmPassword"
-										formControlName="confirmPassword"></ion-input>
+									<app-show-hide-password>
+										<ion-input
+											maxlength="50"
+											fill="solid"
+											autocomplete="disabled"
+											placeholder="Enter your password"
+											type="password"
+											[clearInput]="true"
+											[clearOnEdit]="false"
+											name="confirmPassword"
+											formControlName="confirmPassword"></ion-input>
+									</app-show-hide-password>
 									<ion-note
 										slot="error"
 										color="danger"
