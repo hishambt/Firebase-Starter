@@ -11,10 +11,4 @@ import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service
 export class HomeViewComponent {
 	router = inject(Router);
 	authService = inject(AuthService);
-
-	// user$ = this.authService.currentUserProfile$;
-
-	goTo(url: string): void {
-		this.router.navigateByUrl(url);
-	}
 }

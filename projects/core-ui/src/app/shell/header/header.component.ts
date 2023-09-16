@@ -26,12 +26,14 @@ export class HeaderComponent {
 
 	logout(): void {
 		this.authService.logout().subscribe(() => {
-			this.router.navigateByUrl('auth/login');
+			this.router.navigateByUrl('auth/login', { replaceUrl: true });
 		});
 	}
 
 	getUserDisplay(user: IUser): string {
-		if (!user) { return ''; }
+		if (!user) {
+			return '';
+		}
 
 		return this.authService.getUserDisplay(user);
 	}

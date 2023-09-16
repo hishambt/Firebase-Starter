@@ -8,6 +8,7 @@ export class CustomToastService {
 	toast = inject(ToastController);
 
 	openSnackBar(message: string, duration: number, classObj: ToastClass = { color: 'secondary', size: 'small' }): void {
+		this.dismissSnackBar();
 		this.toast
 			.create({
 				message,

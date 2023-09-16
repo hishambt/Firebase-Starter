@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, finalize, switchMap, take } from 'rxjs';
+import { Observable, Subscription, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
 		password: new FormControl('', [Validators.required]),
 	});
 
-	emailPasswordLoading!: boolean;
-	googleLoading!: boolean;
+	login$: Subscription | null = null;
+	loginWithGoogle$: Subscription | null = null;
 
 	ngOnInit(): void {
 		const success = this.route.snapshot.queryParams['passwordChanged'];
@@ -42,22 +42,17 @@ export class LoginComponent implements OnInit {
 			return;
 		}
 
-		this.emailPasswordLoading = true;
 		const { email, password } = this.form.value;
 
-		this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));
+		this.login$ = this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));
 	}
 
-	loginFollowUp(login: Observable<UserCredential>): void {
-		login
+	loginFollowUp(login: Observable<UserCredential>): Subscription | null {
+		return login
 			.pipe(
 				take(1),
 				switchMap(() => {
 					return this.authService.currentUserProfile$.pipe(take(1));
-				}),
-				finalize(() => {
-					this.emailPasswordLoading = false;
-					this.googleLoading = false;
 				}),
 			)
 			.subscribe({
@@ -68,7 +63,7 @@ export class LoginComponent implements OnInit {
 
 	onSuccess(): void {
 		const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-		this.router.navigateByUrl(returnUrl);
+		this.router.navigateByUrl(returnUrl, { replaceUrl: true });
 		this._customToast.dismissSnackBar();
 	}
 
@@ -77,7 +72,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	loginWithGoogle(): void {
-		this.googleLoading = true;
-		this.loginFollowUp(this.authService.loginWithGoogle());
+		this.loginWithGoogle$ = this.loginFollowUp(this.authService.loginWithGoogle());
 	}
 }

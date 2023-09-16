@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { verifyGuard } from '../guards/auth.guard';
+import { AuthShellComponent } from './auth-shell/auth-shell.component';
 
 const redirectLoggedInToHome = (): AuthPipe => redirectLoggedInTo(['home']);
 const routes: Routes = [
@@ -16,24 +17,30 @@ const routes: Routes = [
 		pathMatch: 'full',
 	},
 	{
-		path: 'login',
-		component: LoginComponent,
-		...canActivate(redirectLoggedInToHome),
-	},
-	{
-		path: 'register',
-		component: RegisterComponent,
-		...canActivate(redirectLoggedInToHome),
-	},
-	{
-		path: 'forget-password',
-		component: ForgetPasswordComponent,
-		...canActivate(redirectLoggedInToHome),
-	},
-	{
-		path: 'verify-email',
-		component: VerifyEmailComponent,
-		...canActivate(verifyGuard),
+		path: '',
+		component: AuthShellComponent,
+		children: [
+			{
+				path: 'login',
+				component: LoginComponent,
+				...canActivate(redirectLoggedInToHome),
+			},
+			{
+				path: 'register',
+				component: RegisterComponent,
+				...canActivate(redirectLoggedInToHome),
+			},
+			{
+				path: 'forget-password',
+				component: ForgetPasswordComponent,
+				...canActivate(redirectLoggedInToHome),
+			},
+			{
+				path: 'verify-email',
+				component: VerifyEmailComponent,
+				...canActivate(verifyGuard),
+			},
+		],
 	},
 ];
 

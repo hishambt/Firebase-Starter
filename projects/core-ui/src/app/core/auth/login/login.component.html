@@ -1,5 +1,5 @@
 <ion-content>
-	<div class="flex items-center justify-center h-full main-bg">
+	<div class="flex items-center justify-center h-full">
 		<ion-card class="w-full max-w-lg">
 			<ion-card-header class="ion-text-center ion-no-padding ion-margin-bottom">
 				<ion-card-title>Login</ion-card-title>
@@ -55,23 +55,32 @@
 								<ion-button
 									class="ion-margin-vertical"
 									expand="fill"
-									[appAsyncRef]="emailPasswordLoading"
+									[appAsyncRef]="login$"
 									size="full"
 									color="primary"
 									type="submit">
 									Login
 								</ion-button>
-								<app-google-btn
+								<ion-button
 									class="ion-margin-vertical"
-									ion-button
-									(buttonClick)="loginWithGoogle()"
-									[isWaiting]="googleLoading"></app-google-btn>
+									expand="fill"
+									size="full"
+									[appAsyncRef]="loginWithGoogle$"
+									(click)="loginWithGoogle()"
+									type="button">
+									<ion-icon
+										size="small"
+										slot="start"
+										name="logo-google"></ion-icon>
+									<ion-label>Sign in With Google</ion-label>
+								</ion-button>
 							</div>
 						</form>
 					</ion-col>
 				</ion-row>
 				<ion-buttons class="ion-justify-content-between">
 					<ion-button
+						replaceUrl="true"
 						routerLink="/auth/register"
 						color="primary"
 						size="small"
@@ -79,6 +88,7 @@
 						Create account
 					</ion-button>
 					<ion-button
+						replaceUrl="true"
 						routerLink="/auth/forget-password"
 						color="primary"
 						size="small"

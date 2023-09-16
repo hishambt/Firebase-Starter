@@ -14,6 +14,6 @@ export class NotFoundComponent {
 	router = inject(Router);
 
 	goTo(url: string): void {
-		this.router.navigateByUrl(url);
+		this.router.navigateByUrl(url, { replaceUrl: true });
 	}
 }

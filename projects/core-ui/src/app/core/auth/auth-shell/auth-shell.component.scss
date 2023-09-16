@@ -1,0 +1,17 @@
+.auth-shell-bg {
+	--ion-background-color: transparent;
+
+	> ion-router-outlet {
+		background-image: url("/assets/background/bg-login.jpg");
+		background-size: cover;
+		background-position: center;
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			background-color: rgb(0 0 0 / 30%);
+		}
+	}
+}

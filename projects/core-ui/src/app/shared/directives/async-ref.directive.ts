@@ -1,10 +1,11 @@
 import { Directive, Input, OnInit, ElementRef, Renderer2, SimpleChanges } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Directive({
 	selector: '[appAsyncRef]',
 })
 export class AsyncRefDirective implements OnInit {
-	@Input() appAsyncRef: boolean = false;
+	@Input() appAsyncRef: Subscription | null = null;
 	@Input() disableAfterResolve: boolean = false;
 	spinnerContainer: HTMLElement = this.renderer.createElement('ion-spinner');
 
@@ -28,15 +29,14 @@ export class AsyncRefDirective implements OnInit {
 	}
 
 	ngOnChanges(simpleChanges: SimpleChanges): void {
-		if (simpleChanges['appAsyncRef'].firstChange) {
+		if (simpleChanges['appAsyncRef'].firstChange || !this.appAsyncRef) {
 			return;
 		}
 
-		if (this.appAsyncRef) {
-			this.showLoader();
-		} else {
+		this.showLoader();
+		this.appAsyncRef.add(() => {
 			this.hideLoader();
-		}
+		});
 	}
 
 	showLoader(): void {

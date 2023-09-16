@@ -71,50 +71,12 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => { },
+				next: () => {},
 				error: (_error: Error) => {
 					this._customSnackBar.openSnackBar('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},
 			});
 	}
-
-	// submitRecord<Actions>(action: Actions): void {
-	// 	switch (action) {
-	// 		case this.actions.save:
-	// 			const user: IUser = this.form.value;
-
-	// 			if (!user.uid) {
-	// 				return;
-	// 			}
-
-	// 			this.savingUser = true;
-	// 			this.authService
-	// 				.updateUser(user)
-	// 				.pipe(
-	// 					take(1),
-	// 					finalize(() => (this.savingUser = false)),
-	// 				)
-	// 				.subscribe();
-
-	// 			break;
-	// 		case this.actions.delete:
-	// 			this.deletingUser = true;
-	// 			authState(this.auth)
-	// 				.pipe(
-	// 					take(1),
-	// 					switchMap((user: User | null) => {
-	// 						return this.authService.deleteUser(user!);
-	// 					}),
-	// 				)
-	// 				.subscribe({
-	// 					next: () => this.router.navigateByUrl('/auth/login'),
-	// 				});
-
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// }
 }
 
 enum Actions {

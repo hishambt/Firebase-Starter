@@ -1,10 +1,12 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function passwordMatchValidator(controlName: string, matchingControlName: string): ValidatorFn {
-	return (control: AbstractControl): ValidationErrors | null => {
-		const sourceCtrl = control.get(controlName);
-		const targetCtrl = control.get(matchingControlName);
+export class CustomValidators {
+	static MatchValidator(source: string, target: string): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			const sourceCtrl = control.get(source);
+			const targetCtrl = control.get(target);
 
-		return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value ? { mismatch: true } : null;
-	};
+			return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value ? { mismatch: true } : null;
+		};
+	}
 }

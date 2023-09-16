@@ -1,13 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, finalize, switchMap, take } from 'rxjs';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Subscription, Observable, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
-import { passwordMatchValidator } from 'projects/core-ui/src/app/shared/helpers/confirmed.validator';
 import { CustomToastService } from 'projects/core-ui/src/app/shared/services/custom-snackbar.service';
 
 import { AuthService } from '../../services/auth.service';
+
+function passwordMatcherValidator(): ValidatorFn {
+	return (form: AbstractControl): ValidationErrors | null => {
+		const { password, confirmPassword } = form.value;
+
+		if (password && confirmPassword) {
+			const isMatching = password === confirmPassword;
+
+			return isMatching ? null : { mismatch: true };
+		}
+
+		return null;
+	};
+}
 
 @Component({
 	selector: 'app-register',
@@ -23,20 +36,13 @@ export class RegisterComponent {
 	form: FormGroup = new FormGroup(
 		{
 			email: new FormControl<string>('', [Validators.email, Validators.required]),
-			password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
+			password: new FormControl<string>('', [Validators.required]),
 			confirmPassword: new FormControl<string>('', [Validators.required]),
 		},
-		[passwordMatchValidator('password', 'confirmPassword')],
+		{ validators: [passwordMatcherValidator()] },
 	);
 
-	emailPasswordLoading: boolean = false;
-
-	get passwordMatchError(): boolean {
-		const hasError =
-			this.form.getError('mismatch') && this.form.get('confirmPassword')?.touched && !this.form.get('confirmPassword')?.errors?.['required'];
-
-		return hasError;
-	}
+	register$: Subscription | null = null;
 
 	submitRecord(): void {
 		if (this.form.invalid) {
@@ -45,11 +51,9 @@ export class RegisterComponent {
 			return;
 		}
 
-		this.emailPasswordLoading = true;
-
 		const { email, password } = this.form.value;
 
-		this.registerFollowUp(
+		this.register$ = this.registerFollowUp(
 			this.authService.registerNewAccount(email, password).pipe(
 				switchMap((creds: UserCredential) => {
 					return this.authService.sendVerificationEmail(creds.user);
@@ -58,23 +62,16 @@ export class RegisterComponent {
 		);
 	}
 
-	registerFollowUp(register: Observable<void>): void {
-		register
-			.pipe(
-				take(1),
-				finalize(() => {
-					this.emailPasswordLoading = false;
-				}),
-			)
-			.subscribe({
-				next: () => this.onSuccess(),
-				error: (error: Error) => this.onFailure(error.message),
-			});
+	registerFollowUp(register: Observable<void>): Subscription | null {
+		return register.pipe(take(1)).subscribe({
+			next: () => this.onSuccess(),
+			error: (error: Error) => this.onFailure(error.message),
+		});
 	}
 
 	onSuccess(): void {
 		const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-		this.router.navigateByUrl(returnUrl);
+		this.router.navigateByUrl(returnUrl, { replaceUrl: true });
 	}
 
 	onFailure(message: string): void {

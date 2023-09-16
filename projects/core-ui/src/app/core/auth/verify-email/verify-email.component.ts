@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { take, finalize } from 'rxjs';
+import { take, Subscription } from 'rxjs';
 import { authState, Auth, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
@@ -15,8 +15,9 @@ export class VerifyEmailComponent implements OnInit {
 	private auth = inject(Auth);
 	private router = inject(Router);
 
-	sendingEmailVerification = false;
-	loggingOut = false;
+	signOut$: Subscription | null = null;
+	verifyEmail$: Subscription | null = null;
+
 	user: User | null = null;
 
 	ngOnInit(): void {
@@ -30,25 +31,15 @@ export class VerifyEmailComponent implements OnInit {
 	}
 
 	verifyEmail(): void {
-		this.sendingEmailVerification = true;
-		this.authService
-			.sendVerificationEmail(this.user!)
-			.pipe(
-				take(1),
-				finalize(() => {
-					this.sendingEmailVerification = false;
-				}),
-			)
-			.subscribe();
+		this.verifyEmail$ = this.authService.sendVerificationEmail(this.user!).pipe(take(1)).subscribe();
 	}
 
 	logout(): void {
-		this.loggingOut = true;
-		this.authService
+		this.signOut$ = this.authService
 			.logout()
 			.pipe(take(1))
 			.subscribe(() => {
-				this.router.navigateByUrl('auth/login');
+				this.router.navigateByUrl('auth/login', { replaceUrl: true });
 			});
 	}
 }

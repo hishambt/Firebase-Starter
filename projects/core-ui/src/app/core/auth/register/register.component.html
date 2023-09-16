@@ -7,9 +7,7 @@
 			<ion-card-content class="ion-no-padding">
 				<ion-row>
 					<ion-col class="ion-no-padding">
-						<form
-							[formGroup]="form"
-							(ngSubmit)="submitRecord()">
+						<form [formGroup]="form">
 							<ion-list lines="auto">
 								<ion-item [counter]="true">
 									<ion-label position="floating">Email</ion-label>
@@ -61,7 +59,6 @@
 									<ion-label position="floating">Confirm password</ion-label>
 									<ion-input
 										maxlength="50"
-										minlength="6"
 										fill="solid"
 										autocomplete="disabled"
 										placeholder="Enter your password"
@@ -77,7 +74,7 @@
 									<ion-note
 										slot="error"
 										color="danger"
-										*ngIf="passwordMatchError">
+										*ngIf="form.hasError('mismatch')">
 										Passwords should match
 									</ion-note>
 								</ion-item>
@@ -88,7 +85,8 @@
 									expand="fill"
 									size="full"
 									color="primary"
-									[appAsyncRef]="emailPasswordLoading"
+									(click)="submitRecord()"
+									[appAsyncRef]="register$"
 									type="submit">
 									Register
 								</ion-button>
@@ -99,6 +97,7 @@
 				<ion-buttons class="ion-justify-content-center">
 					<ion-text>Have an account?</ion-text>
 					<ion-button
+						replaceUrl="true"
 						routerLink="/auth/login"
 						color="primary"
 						size="small"

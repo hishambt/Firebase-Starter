@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, createAnimation } from '@ionic/angular';
 import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app';
 import { FunctionsModule } from '@angular/fire/functions';
 import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
@@ -20,7 +20,19 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
 	declarations: [AppComponent],
 	imports: [
 		BrowserModule,
-		IonicModule.forRoot(),
+		IonicModule.forRoot({
+			navAnimation: (_baseEl, opts) => {
+				const { enteringEl, leavingEl } = opts;
+				const enteringPage = createAnimation('entering-page-animation')
+					.addElement(enteringEl)
+					.duration(250)
+					.fromTo('transform', 'translateY(20px)', 'translateY(0px)')
+					.fromTo('opacity', '0.6', '1');
+				const leavingPage = createAnimation('leaving-page-animation').addElement(leavingEl).fromTo('opacity', 0, 0);
+
+				return createAnimation('root-transition').easing('ease-in-out').addAnimation([enteringPage, leavingPage]);
+			},
+		}),
 		AppRoutingModule,
 		HttpClientModule,
 		FunctionsModule,
