@@ -10,9 +10,13 @@ export function passwordMatchValidator(controlName: string, matchingControlName:
 		}
 
 		if (passwordControl.value !== confirmPasswordControl.value) {
-			confirmPasswordControl.setErrors({ passwordMismatch: true });
+			confirmPasswordControl.setErrors({ ...confirmPasswordControl.errors, passwordMismatch: true });
 
 			return { passwordMismatch: true };
+		} else if (!confirmPasswordControl.value) {
+			confirmPasswordControl.setErrors({ required: true });
+
+			return { required: true };
 		} else {
 			confirmPasswordControl.setErrors(null);
 

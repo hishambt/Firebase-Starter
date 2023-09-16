@@ -78,7 +78,7 @@
 									<ion-note
 										slot="error"
 										color="danger"
-										*ngIf="form.hasError('passwordMismatch')">
+										*ngIf="form.hasError('passwordMismatch') && !form.controls['confirmPassword'].hasError('required')">
 										Passwords should match
 									</ion-note>
 								</ion-item>
