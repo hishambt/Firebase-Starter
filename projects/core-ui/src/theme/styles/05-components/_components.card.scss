@@ -1,4 +1,9 @@
 ion-card {
-	padding: 2rem;
 	border-radius: 1rem;
+}
+
+.auth-shell-bg {
+	.ion-padding {
+		--ion-padding: 2rem;
+	}
 }

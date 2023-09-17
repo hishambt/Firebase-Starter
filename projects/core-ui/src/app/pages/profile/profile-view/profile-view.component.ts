@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { take, switchMap } from 'rxjs/operators';
+import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
@@ -22,9 +23,10 @@ export class ProfileViewComponent {
 	router = inject(Router);
 	_appToast = inject(AppToastService);
 
+	saveProfile$: Subscription | null = null;
+
 	form: FormGroup = new FormGroup({
-		uid: new FormControl(''),
-		firstName: new FormControl(''),
+		firstName: new FormControl('', [Validators.required]),
 		lastName: new FormControl(''),
 		phone: new FormControl(''),
 		address: new FormControl(''),
@@ -32,18 +34,17 @@ export class ProfileViewComponent {
 
 	imageUploadService = inject(ImageUploadService);
 
-	// $user = this.authService.currentUserProfile$.pipe(
-	// 	take(1),
-	// 	tap((user: IUser | null) => {
-	// 		this.form.patchValue({
-	// 			uid: user?.uid,
-	// 			firstName: user?.firstName,
-	// 			lastName: user?.lastName,
-	// 			phone: user?.phone,
-	// 			address: user?.address,
-	// 		});
-	// 	}),
-	// );
+	$user = this.authService.currentUserProfile$.pipe(
+		take(1),
+		tap((user: IUser | null) => {
+			this.form.patchValue({
+				firstName: user?.firstName,
+				lastName: user?.lastName,
+				phone: user?.phone,
+				address: user?.address,
+			});
+		}),
+	);
 
 	deletingUser = false;
 	savingUser = false;
@@ -71,11 +72,30 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => {},
+				next: () => { },
 				error: (_error: Error) => {
 					this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},
 			});
+	}
+
+	submitRecord(user: IUser): void {
+		if (this.form.invalid) {
+			this.form.markAllAsTouched();
+
+			return;
+		}
+
+		const { firstName, lastName } = this.form.value;
+		const updatedUser = { ...user, firstName, lastName };
+
+		this.saveProfile$ = this.authService.updateUser(updatedUser).pipe(take(1)).subscribe({
+			next: () => { },
+			error: (_error: Error) => {
+				this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
+			},
+		});
+
 	}
 }
 

@@ -1,118 +1,176 @@
-<!-- <div class="container-fluid">
-	<app-page-header
-		title="My profile"
-		[breadcrumbItems]="[
-            {
-                text: 'Dashboard',
-                link: '/home'
-            },
-            {
-                text: 'Profile',
-                link: '/profile'
-            }
-        ]"></app-page-header>
-
-	<ng-container *ngLet="$user | async as user">
-		<h1>Update Profile</h1>
-		<div class="profile-image">
-			<img
-				width="120"
-				height="120"
-				class="margin-top mat-elevation-z1"
-				*ngIf="user?.photoURL"
-				[src]="user?.photoURL" />
-			<mat-icon *ngIf="!user?.photoURL">person_2</mat-icon>
-			<button
-				mat-mini-fab
-				(click)="inputField.click()">
-				<mat-icon>edit</mat-icon>
-			</button>
-		</div>
-		<input
-			#inputField
-			hidden
-			type="file"
-			(change)="uploadFile($event, user!)" />
-
-		<form
-			class="margin-top"
-			[formGroup]="form">
-			<div class="row">
-				<mat-form-field>
-					<input
-						type="text"
-						matInput
-						formControlName="firstName"
-						placeholder="First Name" />
-				</mat-form-field>
-				<mat-form-field>
-					<input
-						type="text"
-						matInput
-						formControlName="lastName"
-						placeholder="Last Name" />
-				</mat-form-field>
-			</div>
-
-			<div class="row">
-				<mat-form-field>
-					<input
-						type="number"
-						matInput
-						formControlName="phone"
-						placeholder="Phone" />
-				</mat-form-field>
-			</div>
-			<mat-form-field>
-				<input
-					type="text"
-					matInput
-					formControlName="address"
-					placeholder="Address" />
-			</mat-form-field>
-
-			<app-form-action-bar
-				[endButtons]="[
-                    {
-                        visible: true,
-                        disabled: false,
-                        class: 'w-100',
-                        color: 'primary',
-                        text: 'Save',
-                        action: actions.save,
-                        isWaiting: savingUser
-                    },
-                    {
-                        visible: true,
-                        disabled: false,
-                        class: 'w-100',
-                        color: 'warn',
-                        text: 'Delete Account',
-                        action: actions.delete,
-                        isWaiting: deletingUser
-                    }
-                ]"
-				(buttonClick)="submitRecord($event)"></app-form-action-bar>
-		</form>
-	</ng-container>
-</div> -->
-
 <ion-content>
 	<app-page-header [title]="'Profile'"></app-page-header>
 	<ion-card>
-		<ion-card-header>
-			<ion-text color="primary">
-				<h1>Header 1</h1>
-			</ion-text>
-			<ion-text color="primary">
-				<h2>Header 2</h2>
-			</ion-text>
-			<ion-text color="primary"><h3>Header 3</h3></ion-text>
-			<ion-text color="primary"><h4>Header 4</h4></ion-text>
-			<ion-text color="primary"><h5>Header 5</h5></ion-text>
-			<ion-text color="primary"><h6>Header 6</h6></ion-text>
-			<hr />
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		</ion-card-header>
+		<ion-card-content class="ion-no-padding">
+			<ion-list [inset]="true">
+				<ion-item>
+					<ion-grid>
+						<ion-row class="ion-justify-content-start">
+							<ion-col
+								class="ion-padding-vertical"
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Personal Info</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								size="12"
+								class="ion-no-padding"
+								size-md="9">
+								<ion-row>
+									<ng-container *ngLet="$user | async as user">
+										<ion-col
+											size="12"
+											size-md="6"
+											push-md="6"
+											size-lg="7"
+											push-lg="5">
+											<div class="profile-pic relative ion-padding-horizontal">
+												<ion-avatar class="m-auto">
+													<img
+														width="300"
+														height="300"
+														class="margin-top mat-elevation-z1"
+														*ngIf="user?.photoURL"
+														[src]="user?.photoURL" />
+												</ion-avatar>
+												<span *ngIf="!user?.photoURL">person_2</span>
+												<ion-fab
+													slot="fixed"
+													vertical="bottom"
+													(click)="inputField.click()"
+													horizontal="center">
+													<ion-fab-button size="small">
+														<ion-icon
+															name="camera"
+															class="camera-icon"></ion-icon>
+													</ion-fab-button>
+												</ion-fab>
+											</div>
+											<input
+												#inputField
+												hidden
+												type="file"
+												(change)="uploadFile($event, user!)" />
+										</ion-col>
+										<ion-col
+											size-md="6"
+											pull-md="6"
+											size-lg="5"
+											pull-lg="7">
+											<form
+												[formGroup]="form"
+												(ngSubmit)="submitRecord(user!)">
+												<ion-item [counter]="true">
+													<ion-label position="floating">First Name</ion-label>
+													<ion-input
+														fill="solid"
+														placeholder="First Name"
+														type="text"
+														name="First Name"
+														maxlength="50"
+														formControlName="firstName"></ion-input>
+												</ion-item>
+												<ion-note
+													slot="error"
+													color="danger"
+													*ngIf="form.controls['firstName'].touched && form.controls['firstName'].hasError('required')">
+													Required
+												</ion-note>
+												<ion-item [counter]="true">
+													<ion-label position="floating">Last Name</ion-label>
+													<ion-input
+														fill="solid"
+														placeholder="Last Name"
+														type="text"
+														name="First Name"
+														maxlength="50"
+														formControlName="lastName"></ion-input>
+												</ion-item>
+
+												<ion-button
+													class="ion-margin-vertical"
+													expand="fill"
+													size="full"
+													color="primary"
+													[appAsyncRef]="saveProfile$"
+													type="submit">
+													Save
+												</ion-button>
+											</form>
+										</ion-col>
+									</ng-container>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+				<ion-item>
+					<ion-grid class="ion-padding-vertical">
+						<ion-row class="flex justify-start">
+							<ion-col
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Password</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								size-md="9"
+								class="ion-no-padding">
+								<ion-row>
+									<ion-col
+										size="12"
+										start="true">
+										<ion-text class="block">Change your password set</ion-text>
+
+										<ion-button
+											class="ion-margin-vertical flex-initial"
+											size="small"
+											color="primary"
+											type="button">
+											Change Password
+										</ion-button>
+									</ion-col>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+				<ion-item>
+					<ion-grid class="ion-padding-vertical">
+						<ion-row class="flex justify-start">
+							<ion-col
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Account</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								class="ion-no-padding"
+								size-md="9">
+								<ion-row>
+									<ion-col
+										size="12"
+										start="true">
+										<ion-text class="block">Deactivate your account</ion-text>
+
+										<ion-button
+											class="ion-margin-vertical flex-initial"
+											size="small"
+											color="danger"
+											type="button">
+											Delete Account
+										</ion-button>
+									</ion-col>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
 	</ion-card>
 </ion-content>
