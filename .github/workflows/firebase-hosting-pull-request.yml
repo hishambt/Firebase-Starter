@@ -17,5 +17,5 @@ jobs:
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: '${{ secrets.GITHUB_TOKEN }}'
-                  firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRO_CV_390512 }}'
-                  projectId: pro-cv-390512
+                  firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_IONIC-FIREBASE-DB453 }}'
+                  projectId: ionic-firebase-db453

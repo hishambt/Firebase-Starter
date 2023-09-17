@@ -5,6 +5,7 @@
 	<ion-title>
 		<div
 			class="title"
+			replaceUrl="true"
 			routerLink="/home">
 			<ion-icon
 				size="medium"
@@ -40,7 +41,9 @@
 				alignment="end">
 				<ng-template>
 					<ion-list lines="none">
-						<ion-item routerLink="/profile">
+						<ion-item
+							routerLink="/profile"
+							replaceUrl="true">
 							<ion-icon
 								class="ion-padding-horizontal"
 								name="person-circle-outline"></ion-icon>

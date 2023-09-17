@@ -6,6 +6,7 @@
 			<ion-item
 				lines="none"
 				[routerLink]="p.url"
+				replaceUrl="true"
 				routerDirection="forward"
 				routerLinkActive="active">
 				<ion-icon
@@ -50,6 +51,7 @@
 					lines="none"
 					class="sub-item"
 					*ngIf="sub.url"
+					replaceUrl="true"
 					[routerLink]="sub.url"
 					routerDirection="forward"
 					routerLinkActive="active">
