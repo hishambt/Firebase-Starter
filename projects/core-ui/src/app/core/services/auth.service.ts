@@ -15,7 +15,7 @@ import {
 	UserCredential,
 	Auth,
 } from '@angular/fire/auth';
-import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError } from 'rxjs';
+import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -39,6 +39,8 @@ export class AuthService {
 	route = inject(ActivatedRoute);
 	imageService = inject(ImageUploadService);
 	userIsGettingDeleted$ = new Subject<boolean>();
+	loggedInWithGoogle = false;
+	loggedInWithPassword = false;
 
 	get currentUserProfile$(): Observable<IUser | null> {
 		return authState(this.auth).pipe(
@@ -50,8 +52,12 @@ export class AuthService {
 					return of(null);
 				}
 
+				this.loggedInWithGoogle = this.hasProvider(user, ProviderId.GOOGLE);
+				this.loggedInWithPassword = this.hasProvider(user, ProviderId.PASSWORD);
+
 				// user is logged in
-				if (this.hasProvider(user, ProviderId.GOOGLE) || (this.hasProvider(user, ProviderId.PASSWORD) && user.emailVerified)) {
+				if (this.loggedInWithGoogle
+					|| (this.loggedInWithPassword && user.emailVerified)) {
 					// get user from database only in case the user is logged in with google or his email is verified
 					const ref = doc(this.db, 'users', user?.uid);
 
@@ -87,8 +93,8 @@ export class AuthService {
 		);
 	}
 
-	hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]): UserInfo | undefined {
-		return user.providerData.find((info: UserInfo) => info.providerId == providerId);
+	hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]): boolean {
+		return !!user.providerData.find((info: UserInfo) => info.providerId == providerId);
 	}
 
 	populateUser({ uid, displayName, email, phoneNumber, photoURL }: User): IUser {
@@ -106,7 +112,7 @@ export class AuthService {
 		return newUser;
 	}
 
-	getUserNames(displayName: string): { firstName: string; lastName: string } {
+	getUserNames(displayName: string): { firstName: string; lastName: string; } {
 		const name = displayName?.split(' ');
 
 		let firstName = displayName || '',
@@ -189,6 +195,8 @@ export class AuthService {
 						// TODO: Test application after deleting user (setting userIsGettingDeleted$ to false again).
 					}),
 				);
+			}), finalize(() => {
+				this.userIsGettingDeleted$.next(false);
 			}),
 		);
 	}

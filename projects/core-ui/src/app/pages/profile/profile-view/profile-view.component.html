@@ -32,15 +32,14 @@
 														width="300"
 														height="300"
 														class="margin-top mat-elevation-z1"
-														*ngIf="user?.photoURL"
-														[src]="user?.photoURL" />
+														[src]="user?.photoURL? user?.photoURL :'https://ionicframework.com/docs/img/demos/avatar.svg'" />
 												</ion-avatar>
-												<span *ngIf="!user?.photoURL">person_2</span>
 												<ion-fab
 													slot="fixed"
 													vertical="bottom"
-													(click)="inputField.click()"
-													horizontal="center">
+													horizontal="center"
+													class="bottom-[-25px]"
+													(click)="inputField.click()">
 													<ion-fab-button size="small">
 														<ion-icon
 															name="camera"
@@ -92,7 +91,7 @@
 												<ion-button
 													class="ion-margin-vertical"
 													expand="fill"
-													size="full"
+													size="small"
 													color="primary"
 													[appAsyncRef]="saveProfile$"
 													type="submit">
@@ -123,14 +122,14 @@
 									<ion-col
 										size="12"
 										start="true">
-										<ion-text class="block">Change your password set</ion-text>
+										<ion-text class="block">{{authService.loggedInWithPassword?'Change':'Set'}} your password set</ion-text>
 
 										<ion-button
 											class="ion-margin-vertical flex-initial"
 											size="small"
 											color="primary"
 											type="button">
-											Change Password
+											{{authService.loggedInWithPassword?'Change':'Set'}} Password
 										</ion-button>
 									</ion-col>
 								</ion-row>
@@ -158,12 +157,23 @@
 										<ion-text class="block">Deactivate your account</ion-text>
 
 										<ion-button
+											id="present-alert"
 											class="ion-margin-vertical flex-initial"
 											size="small"
 											color="danger"
+											[appAsyncRef]="deleteUser$"
 											type="button">
 											Delete Account
 										</ion-button>
+
+										<ion-alert
+											trigger="present-alert"
+											header="Alert"
+											subHeader="Delete Account"
+											message="Deleting your account cannot be undone. Any personal identifiable information will
+													 be deleted and any in-progress data will be lost."
+											[buttons]="alertButtons"
+											(didDismiss)="setResult($event)"></ion-alert>
 									</ion-col>
 								</ion-row>
 							</ion-col>

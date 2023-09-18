@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
-import { Auth } from '@angular/fire/auth';
+import { Auth, User, authState } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 
 import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
@@ -24,6 +24,24 @@ export class ProfileViewComponent {
 	_appToast = inject(AppToastService);
 
 	saveProfile$: Subscription | null = null;
+	deleteUser$: Subscription | null = null;
+
+	alertButtons = [
+		{
+			text: 'Cancel',
+			role: 'cancel',
+			handler: (): void => {
+				console.log('Cancel');
+			},
+		},
+		{
+			text: 'OK',
+			role: 'confirm',
+			handler: (): void => {
+				this.deleteUser();
+			},
+		},
+	];
 
 	form: FormGroup = new FormGroup({
 		firstName: new FormControl('', [Validators.required]),
@@ -92,10 +110,41 @@ export class ProfileViewComponent {
 		this.saveProfile$ = this.authService.updateUser(updatedUser).pipe(take(1)).subscribe({
 			next: () => { },
 			error: (_error: Error) => {
-				this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
+				this._appToast.createToast('Opps! Please try gain later.', 0);
 			},
 		});
 
+	}
+
+	deleteUser(): void {
+
+		this.deleteUser$ = authState(this.auth)
+			.pipe(
+				take(1),
+				switchMap((user: User | null) => {
+					if (!user) {
+						return of(null);
+					}
+
+					return this.authService.deleteUser(user).pipe(
+						take(1),
+					);
+
+				}))
+			.subscribe({
+				next: () => {
+					this.router.navigateByUrl('auth/login', { replaceUrl: true });
+				},
+				error: (_error: Error) => {
+					this._appToast.createToast('Opps! Please try gain later.', 0);
+				},
+			});
+
+	}
+
+	setResult(event: Event): void {
+
+		console.log(`Dismissed with role: ${event}`);
 	}
 }
 
