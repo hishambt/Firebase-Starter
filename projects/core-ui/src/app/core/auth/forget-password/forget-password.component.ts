@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs';
-// import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { AppToastService, ToastClass } from '../../../shared/services/app-toast.service';
@@ -21,7 +20,17 @@ export class ForgetPasswordComponent {
 		email: new FormControl('', [Validators.email, Validators.required]),
 	});
 
-	isWaiting: boolean = false;
+	get getEmailError(): string {
+		const email = this.form.get('email');
+
+		if (!email) {
+			return '';
+		}
+
+		return this.authService.getError(email, 'Email');
+	}
+
+	forget$: Subscription | null = null;
 
 	submitRecord(): void {
 		if (this.form.invalid) {
@@ -30,20 +39,12 @@ export class ForgetPasswordComponent {
 			return;
 		}
 
-		this.isWaiting = true;
 		const { email } = this.form.value;
 
-		this.authService
-			.forgetPassword(email)
-			.pipe(
-				finalize(() => {
-					this.isWaiting = false;
-				}),
-			)
-			.subscribe({
-				next: () => this.onPasswordReset(`An email has been sent to ${email}`),
-				error: (error: Error) => this.onPasswordReset(error.message, true),
-			});
+		this.forget$ = this.authService.forgetPassword(email).subscribe({
+			next: () => this.onPasswordReset(`An email has been sent to ${email}`),
+			error: (error: Error) => this.onPasswordReset(error.message, true),
+		});
 	}
 
 	onPasswordReset(message: string, error: boolean = false): void {

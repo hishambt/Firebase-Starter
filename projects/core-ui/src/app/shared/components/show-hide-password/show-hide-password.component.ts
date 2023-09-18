@@ -19,7 +19,7 @@ export class ShowHidePasswordComponent implements AfterContentInit, OnDestroy {
 				if (this.input.value) {
 					this.input.getInputElement().then((element: HTMLInputElement) => {
 						element.classList.add('!w-[70%]', '!flex-none');
-						element.parentElement?.querySelector('button')?.classList.add('absolute', 'right-0');
+						element.parentElement?.querySelector('button')?.classList.add('absolute', 'right-0', 'top-[4px]');
 					});
 
 					this.show = true;

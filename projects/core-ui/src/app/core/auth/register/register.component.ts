@@ -29,6 +29,36 @@ export class RegisterComponent {
 		{ validators: passwordMatchValidator('password', 'confirmPassword') },
 	);
 
+	get getEmailError(): string {
+		const email = this.form.get('email');
+
+		if (!email) {
+			return '';
+		}
+
+		return this.authService.getError(email, 'Email');
+	}
+
+	get getPasswordError(): string {
+		const password = this.form.get('password');
+
+		if (!password) {
+			return '';
+		}
+
+		return this.authService.getError(password, 'Password');
+	}
+
+	get getConfirmPasswordError(): string {
+		const confirmPassword = this.form.get('confirmPassword');
+
+		if (!confirmPassword) {
+			return '';
+		}
+
+		return this.authService.getError(confirmPassword, 'Password');
+	}
+
 	register$: Subscription | null = null;
 
 	submitRecord(): void {

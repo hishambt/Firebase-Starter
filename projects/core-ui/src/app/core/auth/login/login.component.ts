@@ -24,6 +24,26 @@ export class LoginComponent implements OnInit {
 		password: new FormControl('', [Validators.required]),
 	});
 
+	get getEmailError(): string {
+		const email = this.form.get('email');
+
+		if (!email) {
+			return '';
+		}
+
+		return this.authService.getError(email, 'Email');
+	}
+
+	get getPasswordError(): string {
+		const password = this.form.get('password');
+
+		if (!password) {
+			return '';
+		}
+
+		return this.authService.getError(password, 'Password');
+	}
+
 	login$: Subscription | null = null;
 	loginWithGoogle$: Subscription | null = null;
 
@@ -45,6 +65,10 @@ export class LoginComponent implements OnInit {
 		const { email, password } = this.form.value;
 
 		this.login$ = this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));
+	}
+
+	loginWithGoogle(): void {
+		this.loginWithGoogle$ = this.loginFollowUp(this.authService.loginWithGoogle());
 	}
 
 	loginFollowUp(login: Observable<UserCredential>): Subscription | null {
@@ -72,9 +96,5 @@ export class LoginComponent implements OnInit {
 			color: 'danger',
 			size: 'small',
 		});
-	}
-
-	loginWithGoogle(): void {
-		this.loginWithGoogle$ = this.loginFollowUp(this.authService.loginWithGoogle());
 	}
 }

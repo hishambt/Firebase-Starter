@@ -19,6 +19,7 @@ import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Sub
 import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { AbstractControl } from '@angular/forms';
 
 import { AppSettingsService } from 'projects/core-ui/src/app/shared/services/app-settings.service';
 import { StorageAccessorService } from 'projects/core-ui/src/app/shared/services/storage-accessor.service';
@@ -190,5 +191,25 @@ export class AuthService {
 				);
 			}),
 		);
+	}
+
+	getError(formControl: AbstractControl, label: string): string {
+		const ctrl = formControl;
+
+		switch (true) {
+			case ctrl?.hasError('required'):
+				return label + ' is required';
+			case ctrl?.hasError('email'):
+				return label + ' must follow a valid format';
+			case ctrl?.hasError('minlength'):
+				return `${label} should be at least ${ctrl?.errors?.['minlength'].requiredLength} characters long`;
+			case ctrl?.hasError('passwordMismatch'):
+				return label + 's should match';
+			case ctrl?.hasError('required'):
+				return label + ' is required';
+
+			default:
+				return '';
+		}
 	}
 }

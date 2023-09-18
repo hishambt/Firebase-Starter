@@ -1,4 +1,6 @@
 ion-input {
+	--ion-color-step-750: var(--ion-color-primary);
+
 	&.input-fill-solid {
 		--background: transparent !important;
 		--padding-start: 0 !important;
@@ -6,8 +8,6 @@ ion-input {
 	}
 }
 
-.native-input.sc-ion-input-md:-webkit-autofill {
-	background-color: transparent !important;
-	box-shadow: 0 0 0 10px rgb(34 34 34) inset;
-	height: 0;
+input:-webkit-autofill {
+	box-shadow: 0 0 0 1000px var(--ion-item-background) inset;
 }
