@@ -9,16 +9,14 @@ export class StorageHelper {
 	 * @param parseAsJSON boolean, Optional convert to JSON
 	 * @returns Json | Value:any
 	 */
-	//TODO: Replace with generics
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	public get(key: string, parseAsJSON?: boolean): any {
+	public get<T>(key: string, parseAsJSON?: boolean): T {
 		const data = localStorage.getItem(key) as string;
 
 		if (parseAsJSON && this.isValidJSONString(data)) {
-			return JSON.parse(data);
+			return JSON.parse(data) as T;
 		}
 
-		return data;
+		return data as T;
 	}
 
 	/**
@@ -40,12 +38,16 @@ export class StorageHelper {
 	 * @param data Value/Data to be saved
 	 * @param stringifyJSON boolean, Optional convert to JSON
 	 */
-	public set(key: string, data: unknown, stringifyJSON = false): void {
-		if (stringifyJSON) {
-			data = JSON.stringify(data);
+	public set<T = unknown>(key: string, data: T, stringifyJSON = false): void {
+		if (!data) {
+			return;
 		}
 
-		localStorage.setItem(key, data! as string);
+		if (stringifyJSON) {
+			data = JSON.stringify(data) as T;
+		}
+
+		localStorage.setItem(key, data as string);
 	}
 
 	/**

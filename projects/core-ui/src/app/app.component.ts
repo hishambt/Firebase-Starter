@@ -8,5 +8,4 @@ import { Auth } from '@angular/fire/auth';
 })
 export class AppComponent {
 	auth = inject(Auth);
-	constructor() {}
 }

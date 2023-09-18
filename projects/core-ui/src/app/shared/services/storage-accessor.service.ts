@@ -26,13 +26,15 @@ export class StorageAccessorService {
 	 * @param data any | unknown
 	 * @param stringifyJSON boolean
 	 */
-	setLocalStorage(key: string, data: unknown, stringifyJSON = false): void {
-		if (isPlatformBrowser(this.platformId)) {
-			if (this.hasLocalStorage) {
-				this.storageHelper.set(key, data, stringifyJSON);
-			} else {
-				this.cookieHelper.setCookie(key, data);
-			}
+	setLocalStorage<T>(key: string, data: T, stringifyJSON = false): void {
+		if (!isPlatformBrowser(this.platformId)) {
+			throw Error("Make sure you're using a browser to use local storage");
+		}
+
+		if (this.hasLocalStorage) {
+			this.storageHelper.set(key, data, stringifyJSON);
+		} else {
+			this.cookieHelper.setCookie(key, data);
 		}
 	}
 
@@ -42,15 +44,16 @@ export class StorageAccessorService {
 	 * @param parseAsJSON boolean
 	 * @returns json|value
 	 */
-	// TODO: Replace with generics 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	getLocalStorage(key: string, parseAsJSON = false): any {
-		if (isPlatformBrowser(this.platformId)) {
-			if (this.hasLocalStorage) {
-				return this.storageHelper.get(key, parseAsJSON);
-			} else {
-				return this.cookieHelper.getCookie(key);
-			}
+
+	getLocalStorage<T>(key: string, parseAsJSON = false): T | string {
+		if (!isPlatformBrowser(this.platformId)) {
+			throw Error("Make sure you're using a browser to use local storage");
+		}
+
+		if (this.hasLocalStorage) {
+			return this.storageHelper.get<T>(key, parseAsJSON);
+		} else {
+			return this.cookieHelper.getCookie(key);
 		}
 	}
 
