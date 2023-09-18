@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { StorageHelper } from '../helpers/data-storage-helper';
@@ -14,11 +14,9 @@ import { CookieHelper } from '../helpers/data-cookie-helper';
 export class StorageAccessorService {
 	private storageHelper: StorageHelper = new StorageHelper();
 	private cookieHelper: CookieHelper = new CookieHelper();
-	private hasLocalStorage: boolean = false;
-
-	constructor(@Inject(PLATFORM_ID) private platformId: object) {
-		this.hasLocalStorage = this.isLocalStorageAvailable();
-	}
+	private hasLocalStorage = this.isLocalStorageAvailable();
+	private platformId = inject(PLATFORM_ID);
+	private isBrowser = isPlatformBrowser(this.platformId);
 
 	/**
 	 * Set local storage by key
@@ -26,9 +24,9 @@ export class StorageAccessorService {
 	 * @param data any | unknown
 	 * @param stringifyJSON boolean
 	 */
-	setLocalStorage<T>(key: string, data: T, stringifyJSON = false): void {
-		if (!isPlatformBrowser(this.platformId)) {
-			throw Error("Make sure you're using a browser to use local storage");
+	setLocalStorage(key: string, data: unknown, stringifyJSON = false): void {
+		if (!this.isBrowser) {
+			return;
 		}
 
 		if (this.hasLocalStorage) {
@@ -45,9 +43,9 @@ export class StorageAccessorService {
 	 * @returns json|value
 	 */
 
-	getLocalStorage<T>(key: string, parseAsJSON = false): T | string {
-		if (!isPlatformBrowser(this.platformId)) {
-			throw Error("Make sure you're using a browser to use local storage");
+	getLocalStorage<T>(key: string, parseAsJSON = false): T | string | void {
+		if (!this.isBrowser) {
+			return;
 		}
 
 		if (this.hasLocalStorage) {
@@ -62,12 +60,14 @@ export class StorageAccessorService {
 	 * @param key string
 	 */
 	removeLocalStorageKey(key: string): void {
-		if (isPlatformBrowser(this.platformId)) {
-			if (this.hasLocalStorage) {
-				this.storageHelper.remove(key);
-			} else {
-				this.cookieHelper.deleteCookie(key);
-			}
+		if (!this.isBrowser) {
+			return;
+		}
+
+		if (this.hasLocalStorage) {
+			this.storageHelper.remove(key);
+		} else {
+			this.cookieHelper.deleteCookie(key);
 		}
 	}
 
@@ -75,32 +75,28 @@ export class StorageAccessorService {
 	 * Check if lists are existing in local storage
 	 * @returns Boolean
 	 */
-	checkExistance(key: string): boolean {
-		if (isPlatformBrowser(this.platformId)) {
-			if (this.hasLocalStorage) {
-				return this.storageHelper.check(key);
-			} else {
-				return this.cookieHelper.check(key);
-			}
+	checkExistance(key: string): boolean | void {
+		if (!this.isBrowser) {
+			return;
 		}
 
-		return false;
+		if (this.hasLocalStorage) {
+			return this.storageHelper.check(key);
+		} else {
+			return this.cookieHelper.check(key);
+		}
 	}
 
 	private isLocalStorageAvailable(): boolean {
 		const test = 'test';
 
-		if (isPlatformBrowser(this.platformId)) {
-			try {
-				localStorage.setItem(test, test);
-				localStorage.removeItem(test);
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
 
-				return true;
-			} catch (e) {
-				return false;
-			}
+			return true;
+		} catch (e) {
+			return false;
 		}
-
-		return false;
 	}
 }

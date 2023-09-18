@@ -38,13 +38,13 @@ export class StorageHelper {
 	 * @param data Value/Data to be saved
 	 * @param stringifyJSON boolean, Optional convert to JSON
 	 */
-	public set<T = unknown>(key: string, data: T, stringifyJSON = false): void {
+	public set(key: string, data: unknown, stringifyJSON = false): void {
 		if (!data) {
 			return;
 		}
 
 		if (stringifyJSON) {
-			data = JSON.stringify(data) as T;
+			data = JSON.stringify(data);
 		}
 
 		localStorage.setItem(key, data as string);
