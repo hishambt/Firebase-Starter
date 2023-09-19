@@ -1,9 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { take, Subscription } from 'rxjs';
-import { authState, Auth, User } from '@angular/fire/auth';
+import { authState, Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { AuthUser } from '../../../shared/models/IUser.model';
 
 @Component({
 	selector: 'app-verify-email',
@@ -18,12 +19,12 @@ export class VerifyEmailComponent implements OnInit {
 	signOut$: Subscription | null = null;
 	verifyEmail$: Subscription | null = null;
 
-	user: User | null = null;
+	user: AuthUser = null;
 
 	ngOnInit(): void {
 		authState(this.auth)
 			.pipe(take(1))
-			.subscribe((user: User | null) => {
+			.subscribe((user: AuthUser) => {
 				if (user) {
 					this.user = user;
 				}

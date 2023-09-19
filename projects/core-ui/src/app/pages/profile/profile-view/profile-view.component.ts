@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
-import { Auth, User, UserCredential, authState } from '@angular/fire/auth';
+import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 
-import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
+import { AuthUser, IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
 import { environment } from 'projects/core-ui/src/environments/environment';
 import { AppToastService } from 'projects/core-ui/src/app/shared/services/app-toast.service';
@@ -92,17 +92,14 @@ export class ProfileViewComponent {
 	}
 
 	linkAccount(): void {
-		this.changingPassword$ = authState(this.auth)
-			.pipe(
-				take(1),
-				switchMap((user: User | null) => {
-					if (!user) {
-						return of(null);
-					}
+		this.changingPassword$ = this.authService
+			.userProvider((user: User | null) => {
+				if (!user) {
+					return of(null);
+				}
 
-					return this.authService.linkUser(user);
-				}),
-			)
+				return this.authService.linkUser(user);
+			})
 			.subscribe({
 				next: (creds: UserCredential | null) => console.log(creds),
 				error: () => null,
@@ -131,17 +128,14 @@ export class ProfileViewComponent {
 	}
 
 	deleteUser(): void {
-		this.deleteUser$ = authState(this.auth)
-			.pipe(
-				take(1),
-				switchMap((user: User | null) => {
-					if (!user) {
-						return of(null);
-					}
+		this.deleteUser$ = this.authService
+			.userProvider((user: AuthUser): Observable<void> => {
+				if (!user) {
+					return of(undefined);
+				}
 
-					return this.authService.deleteUser(user).pipe(take(1));
-				}),
-			)
+				return this.authService.deleteUser(user);
+			})
 			.subscribe({
 				next: () => {
 					this.router.navigateByUrl('auth/login', { replaceUrl: true });

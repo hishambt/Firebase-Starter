@@ -28,7 +28,7 @@ import { StorageAccessorService } from 'projects/core-ui/src/app/shared/services
 import { ImageUploadService } from 'projects/core-ui/src/app/shared/services/image-upload.service';
 import { environment } from 'projects/core-ui/src/environments/environment';
 
-import { IUser } from '../../shared/models/IUser.model';
+import { AuthUser, IUser } from '../../shared/models/IUser.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -48,7 +48,7 @@ export class AuthService {
 		return authState(this.auth).pipe(
 			traceUntilFirst('auth'),
 			take(1),
-			switchMap((user: User | null): Observable<IUser | null> => {
+			switchMap((user: AuthUser): Observable<IUser | null> => {
 				if (!user?.uid) {
 					// user has signed out
 					return of(null);
@@ -91,6 +91,13 @@ export class AuthService {
 					return of(newUser);
 				}
 			}),
+		);
+	}
+
+	userProvider<T = unknown>(callback: (user: AuthUser) => Observable<T>): Observable<T> {
+		return authState(this.auth).pipe(
+			take(1),
+			switchMap((user: AuthUser): Observable<T> => callback(user)),
 		);
 	}
 
@@ -181,8 +188,8 @@ export class AuthService {
 		return from(updateDoc(ref, { ...user }));
 	}
 
-	linkUser(user: User): Observable<UserCredential> {
-		const creds = EmailAuthProvider.credential('chicken.olive.16@example.com', 'myPassword');
+	linkUser(user: User, _newPassword?: string): Observable<UserCredential> {
+		const creds = EmailAuthProvider.credential(user.email!, 'myPassword');
 
 		return from(linkWithCredential(user, creds)).pipe(take(1));
 	}
