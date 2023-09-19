@@ -56,8 +56,7 @@ export class AuthService {
 				this.loggedInWithPassword = this.hasProvider(user, ProviderId.PASSWORD);
 
 				// user is logged in
-				if (this.loggedInWithGoogle
-					|| (this.loggedInWithPassword && user.emailVerified)) {
+				if (this.loggedInWithGoogle || (this.loggedInWithPassword && user.emailVerified)) {
 					// get user from database only in case the user is logged in with google or his email is verified
 					const ref = doc(this.db, 'users', user?.uid);
 
@@ -112,7 +111,7 @@ export class AuthService {
 		return newUser;
 	}
 
-	getUserNames(displayName: string): { firstName: string; lastName: string; } {
+	getUserNames(displayName: string): { firstName: string; lastName: string } {
 		const name = displayName?.split(' ');
 
 		let firstName = displayName || '',
@@ -192,10 +191,10 @@ export class AuthService {
 					}),
 					switchMap(() => {
 						return deleteUser(user);
-						// TODO: Test application after deleting user (setting userIsGettingDeleted$ to false again).
 					}),
 				);
-			}), finalize(() => {
+			}),
+			finalize(() => {
 				this.userIsGettingDeleted$.next(false);
 			}),
 		);

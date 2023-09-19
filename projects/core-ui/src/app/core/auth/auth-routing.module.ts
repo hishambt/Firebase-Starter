@@ -8,6 +8,7 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { verifyGuard } from '../guards/auth.guard';
 import { AuthShellComponent } from './auth-shell/auth-shell.component';
+import { NotFoundComponent } from '../../pages/not-found/not-found.component';
 
 const redirectLoggedInToHome = (): AuthPipe => redirectLoggedInTo(['home']);
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
 				path: 'verify-email',
 				component: VerifyEmailComponent,
 				...canActivate(verifyGuard),
+			},
+			{
+				path: '404',
+				component: NotFoundComponent,
 			},
 		],
 	},
