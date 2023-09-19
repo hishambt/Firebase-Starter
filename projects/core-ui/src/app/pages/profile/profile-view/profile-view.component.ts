@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
-import { Auth, User, authState } from '@angular/fire/auth';
+import { Auth, User, UserCredential, authState } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, of } from 'rxjs';
@@ -25,6 +25,7 @@ export class ProfileViewComponent {
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
+	changingPassword$: Subscription | null = null;
 
 	alertButtons = [
 		{
@@ -64,13 +65,6 @@ export class ProfileViewComponent {
 		}),
 	);
 
-	deletingUser = false;
-	savingUser = false;
-
-	get actions(): typeof Actions {
-		return Actions;
-	}
-
 	uploadFile(event: Event, user: IUser): void {
 		const target = event.target as HTMLInputElement;
 		const file: File | null = (target.files?.length && target.files[0]) || null;
@@ -90,10 +84,28 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => { },
+				next: () => {},
 				error: (_error: Error) => {
 					this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},
+			});
+	}
+
+	linkAccount(): void {
+		this.changingPassword$ = authState(this.auth)
+			.pipe(
+				take(1),
+				switchMap((user: User | null) => {
+					if (!user) {
+						return of(null);
+					}
+
+					return this.authService.linkUser(user);
+				}),
+			)
+			.subscribe({
+				next: (creds: UserCredential | null) => console.log(creds),
+				error: () => null,
 			});
 	}
 
@@ -107,17 +119,18 @@ export class ProfileViewComponent {
 		const { firstName, lastName } = this.form.value;
 		const updatedUser = { ...user, firstName, lastName };
 
-		this.saveProfile$ = this.authService.updateUser(updatedUser).pipe(take(1)).subscribe({
-			next: () => { },
-			error: (_error: Error) => {
-				this._appToast.createToast('Opps! Please try gain later.', 0);
-			},
-		});
-
+		this.saveProfile$ = this.authService
+			.updateUser(updatedUser)
+			.pipe(take(1))
+			.subscribe({
+				next: () => {},
+				error: (_error: Error) => {
+					this._appToast.createToast('Opps! Please try gain later.', 0);
+				},
+			});
 	}
 
 	deleteUser(): void {
-
 		this.deleteUser$ = authState(this.auth)
 			.pipe(
 				take(1),
@@ -126,11 +139,9 @@ export class ProfileViewComponent {
 						return of(null);
 					}
 
-					return this.authService.deleteUser(user).pipe(
-						take(1),
-					);
-
-				}))
+					return this.authService.deleteUser(user).pipe(take(1));
+				}),
+			)
 			.subscribe({
 				next: () => {
 					this.router.navigateByUrl('auth/login', { replaceUrl: true });
@@ -139,16 +150,9 @@ export class ProfileViewComponent {
 					this._appToast.createToast('Opps! Please try gain later.', 0);
 				},
 			});
-
 	}
 
 	setResult(event: Event): void {
-
 		console.log(`Dismissed with role: ${event}`);
 	}
-}
-
-enum Actions {
-	save,
-	delete,
 }

@@ -9,11 +9,13 @@ import {
 	signOut,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
+	linkWithCredential,
 	deleteUser,
 	ProviderId,
 	UserInfo,
 	UserCredential,
 	Auth,
+	EmailAuthProvider,
 } from '@angular/fire/auth';
 import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
@@ -177,6 +179,12 @@ export class AuthService {
 		const ref = doc(this.db, 'users', user.uid);
 
 		return from(updateDoc(ref, { ...user }));
+	}
+
+	linkUser(user: User): Observable<UserCredential> {
+		const creds = EmailAuthProvider.credential('chicken.olive.16@example.com', 'myPassword');
+
+		return from(linkWithCredential(user, creds)).pipe(take(1));
 	}
 
 	deleteUser(user: User): Observable<void> {
