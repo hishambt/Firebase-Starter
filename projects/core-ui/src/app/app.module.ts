@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy, createAnimation } from '@ionic/angular';
@@ -7,7 +7,8 @@ import { FunctionsModule } from '@angular/fire/functions';
 import { connectFirestoreEmulator, getFirestore, provideFirestore, initializeFirestore, Firestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { take } from 'rxjs';
 
 import { environment } from 'projects/core-ui/src/environments/environment';
 
@@ -85,7 +86,31 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
 			useClass: LoadingHttpInterceptorService,
 			multi: true,
 		},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: initializeWhiteLabeling,
+			deps: [HttpClient],
+			multi: true,
+		},
 	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
+// End of App module
+// -----------------
+// Initialize whitelabeling function (Get app config)
+export function initializeWhiteLabeling(httpClient: HttpClient) {
+	// returning promise so that getting this file is blocking to the UI
+	// TODO: For whitelabeling purposes (it can be a get request from a DB instead of a json file)
+	// Delay is added here to test that it is really blocking the UI
+	return (): Promise<void> =>
+		new Promise((resolve, _reject) => {
+			httpClient
+				.get('/assets/test.json')
+				.pipe(take(1) /*delay(5000)*/)
+				.subscribe((res) => {
+					console.log(res);
+					resolve();
+				});
+		});
+}
