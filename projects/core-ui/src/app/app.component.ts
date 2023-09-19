@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 
+import { ThemeService } from './core/services/theme.service';
+
 @Component({
 	selector: 'app-root',
 	templateUrl: 'app.component.html',
@@ -8,4 +10,5 @@ import { Auth } from '@angular/fire/auth';
 })
 export class AppComponent {
 	auth = inject(Auth);
+	theme = inject(ThemeService);
 }
