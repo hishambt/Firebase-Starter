@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { ToggleCustomEvent } from '@ionic/angular';
 
 import { AuthService } from './auth.service';
 import { StorageAccessorService } from '../../shared/services/storage-accessor.service';
@@ -21,6 +22,10 @@ export class ThemeService {
 		}
 
 		this.toggleDarkTheme(this.isDarkMode);
+	}
+
+	toggleChange(ev: Event): void {
+		this.toggleDarkTheme((ev as ToggleCustomEvent).detail.checked);
 	}
 
 	toggleDarkTheme(isDark: boolean): void {
