@@ -39,7 +39,7 @@ export class StorageHelper {
 	 * @param stringifyJSON boolean, Optional convert to JSON
 	 */
 	public set(key: string, data: unknown, stringifyJSON = false): void {
-		if (!data) {
+		if ((data ?? null) === null) {
 			return;
 		}
 
