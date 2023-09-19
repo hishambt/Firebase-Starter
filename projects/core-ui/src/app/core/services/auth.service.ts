@@ -17,6 +17,7 @@ import {
 	Auth,
 	EmailAuthProvider,
 	reauthenticateWithCredential,
+	updatePassword,
 } from '@angular/fire/auth';
 import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
@@ -121,7 +122,7 @@ export class AuthService {
 		return newUser;
 	}
 
-	getUserNames(displayName: string): { firstName: string; lastName: string } {
+	getUserNames(displayName: string): { firstName: string; lastName: string; } {
 		const name = displayName?.split(' ');
 
 		let firstName = displayName || '',
@@ -189,8 +190,8 @@ export class AuthService {
 		return from(updateDoc(ref, { ...user }));
 	}
 
-	linkUser(user: User, _newPassword?: string): Observable<UserCredential> {
-		const creds = EmailAuthProvider.credential(user.email!, 'myPassword');
+	linkUser(user: User, newPassword: string): Observable<UserCredential> {
+		const creds = EmailAuthProvider.credential(user.email!, newPassword);
 
 		return from(linkWithCredential(user, creds)).pipe(take(1));
 	}
@@ -199,6 +200,10 @@ export class AuthService {
 		const creds = EmailAuthProvider.credential(user.email!, currentPassword);
 
 		return from(reauthenticateWithCredential(user, creds)).pipe(take(1));
+	}
+
+	updatePassword(user: User, newPassword: string): Observable<void> {
+		return from(updatePassword(user, newPassword)).pipe(take(1));
 	}
 
 	deleteUser(user: User): Observable<void> {
