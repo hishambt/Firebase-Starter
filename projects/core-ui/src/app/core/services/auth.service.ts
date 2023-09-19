@@ -16,6 +16,7 @@ import {
 	UserCredential,
 	Auth,
 	EmailAuthProvider,
+	reauthenticateWithCredential,
 } from '@angular/fire/auth';
 import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
@@ -194,6 +195,12 @@ export class AuthService {
 		return from(linkWithCredential(user, creds)).pipe(take(1));
 	}
 
+	validatePassword(user: User, currentPassword: string): Observable<UserCredential> {
+		const creds = EmailAuthProvider.credential(user.email!, currentPassword);
+
+		return from(reauthenticateWithCredential(user, creds)).pipe(take(1));
+	}
+
 	deleteUser(user: User): Observable<void> {
 		const ref = doc(this.db, 'users', user.uid);
 		this.userIsGettingDeleted$.next(true);
@@ -215,6 +222,7 @@ export class AuthService {
 		);
 	}
 
+	// TODO: move this function to a global error handling service
 	getError(formControl: AbstractControl, label: string): string {
 		const ctrl = formControl;
 
@@ -227,8 +235,6 @@ export class AuthService {
 				return `${label} should be at least ${ctrl?.errors?.['minlength'].requiredLength} characters long`;
 			case ctrl?.hasError('passwordMismatch'):
 				return label + 's should match';
-			case ctrl?.hasError('required'):
-				return label + ' is required';
 
 			default:
 				return '';
