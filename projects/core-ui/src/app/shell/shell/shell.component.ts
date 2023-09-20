@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { ToastController } from '@ionic/angular';
 
 import { IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { StorageAccessorService } from 'projects/core-ui/src/app/shared/services/storage-accessor.service';
 
 import { AuthService } from '../../core/services/auth.service';
 import { IMenuItem, appPages } from '../side-navbar/side-navbar';
+import { AppToastService } from '../../shared/services/app-toast.service';
 
 @Component({
 	selector: 'app-shell',
@@ -15,7 +15,7 @@ import { IMenuItem, appPages } from '../side-navbar/side-navbar';
 })
 export class ShellComponent implements OnInit {
 	appPages: Array<IMenuItem> = appPages;
-	toast = inject(ToastController);
+	_appToast = inject(AppToastService);
 	authService = inject(AuthService);
 	storage = inject(StorageAccessorService);
 	user$ = this.authService.currentUserProfile$;
@@ -25,15 +25,10 @@ export class ShellComponent implements OnInit {
 			if (this.storage.checkExistance(user!.uid)) {
 				this.storage.removeLocalStorageKey(user!.uid);
 
-				this.toast
-					.create({
-						message: `Welcome ${this.authService.getUserDisplay(user!)}`,
-						duration: 3000,
-						position: 'top',
-					})
-					.then((toast) => {
-						toast.present();
-					});
+				this._appToast.createToast(`Welcome ${this.authService.getUserDisplay(user!)}`, 3000, {
+					color: 'secondary',
+					size: 'medium',
+				});
 			}
 		});
 	}
