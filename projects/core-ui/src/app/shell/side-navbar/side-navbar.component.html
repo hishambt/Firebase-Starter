@@ -1,4 +1,4 @@
-<div class="ion-padding-top">
+<div class="ion-padding-top bg-[var(--ion-menu-background)]">
 	<div *ngFor="let p of appPages">
 		<ion-menu-toggle
 			autoHide="false"
@@ -43,7 +43,9 @@
 				*ngIf="p.open"></ion-icon>
 		</ion-item>
 
-		<ion-list *ngIf="p.open">
+		<ion-list
+			*ngIf="p.open"
+			class="bg-[var(--ion-menu-background)]">
 			<ion-menu-toggle
 				autoHide="false"
 				*ngFor="let sub of p.children">

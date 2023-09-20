@@ -8,6 +8,7 @@
 }
 
 ion-item {
+	--background: transparent;
 	--inner-padding-end: 0;
 
 	ion-label {
@@ -26,6 +27,6 @@ ion-item {
 }
 
 ion-list {
-	transition: all 200ms;
 	padding-top: 0;
+	background: var(--ion-menu-background);
 }

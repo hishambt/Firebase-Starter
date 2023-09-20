@@ -5,7 +5,6 @@
 /** Ionic CSS Variables **/
 :root {
 	/* tertiary */
-
 	--ion-color-tertiary: #8d61f5;
 	--ion-color-tertiary-rgb: 141, 97, 245;
 	--ion-color-tertiary-contrast: #fff;
@@ -135,6 +134,7 @@ body.dark {
 
 	/* item */
 
+	--ion-menu-background: rgb(30 30 30);
 	--ion-item-background: #1e1e1e;
 
 	/* toolbar */
@@ -191,6 +191,7 @@ body.dark {
 
 	/* item */
 
+	--ion-menu-background: rgb(30 30 30);
 	--ion-item-background: #000;
 
 	/* card */
@@ -246,6 +247,7 @@ body.dark {
 
 	/* item */
 
+	--ion-menu-background: rgb(30 30 30);
 	--ion-item-background: #1e1e1e00;
 
 	/* toolbar */
@@ -282,8 +284,8 @@ body.light {
 	/* ... (continue with the rest of the steps) ... */
 
 	/* item */
-
-	--ion-item-background: #fff0;
+	--ion-menu-background: #f5f5f5;
+	--ion-item-background: #fff;
 
 	/* toolbar */
 
@@ -321,6 +323,7 @@ body.light {
 
 	/* item */
 
+	--ion-menu-background: #f5f5f5;
 	--ion-item-background: #fff;
 
 	/* card */
@@ -351,8 +354,8 @@ body.light {
 	/* ... (continue with the rest of the steps) ... */
 
 	/* item */
-
-	--ion-item-background: #fff0;
+	--ion-menu-background: #f5f5f5;
+	--ion-item-background: #fff;
 
 	/* toolbar */
 
