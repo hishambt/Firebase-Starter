@@ -1,24 +1,24 @@
-import { AfterContentInit, Component, ContentChild, signal } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, OnDestroy, signal } from '@angular/core';
 import { IonInput } from '@ionic/angular';
-import { take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-show-hide-password',
 	templateUrl: './show-hide-password.component.html',
 	styleUrls: ['./show-hide-password.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShowHidePasswordComponent implements AfterContentInit {
+export class ShowHidePasswordComponent implements AfterContentInit, OnDestroy {
 	showPassword = signal(false);
 	show = signal(false);
 	@ContentChild(IonInput) input!: IonInput;
+	ionInputEvent$: Subscription | null = null;
 
 	ngAfterContentInit(): void {
 		if (this.input.clearInput) {
-			this.input.ionInput.pipe(take(1)).subscribe(() => this.onChange());
+			this.ionInputEvent$ = this.input.ionInput.subscribe(() => this.onChange());
 			this.input.getInputElement().then((element: HTMLInputElement) => {
-				element.oninput = (_e): void => {
-					this.onChange();
-				};
+				element.parentElement?.querySelector('button')?.addEventListener('click', () => this.onChange());
 			});
 		}
 	}
@@ -49,5 +49,21 @@ export class ShowHidePasswordComponent implements AfterContentInit {
 	toggleShow(): void {
 		this.showPassword.set(!this.showPassword());
 		this.input.type = this.showPassword() ? 'text' : 'password';
+	}
+
+	ngOnDestroy(): void {
+		if (!this.input.clearInput) {
+			return;
+		}
+
+		if (this.ionInputEvent$) {
+			this.ionInputEvent$.unsubscribe();
+		}
+
+		if (this.input) {
+			this.input.getInputElement().then((element: HTMLInputElement) => {
+				element.parentElement?.querySelector('button')?.removeEventListener('click', () => this.onChange());
+			});
+		}
 	}
 }

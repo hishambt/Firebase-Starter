@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { AppToastService, ToastClass } from '../../../shared/services/app-toast.
 	selector: 'app-forget-password',
 	templateUrl: './forget-password.component.html',
 	styleUrls: ['./forget-password.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgetPasswordComponent {
 	router = inject(Router);

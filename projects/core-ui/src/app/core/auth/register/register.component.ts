@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { passwordMatchValidator } from '../../../shared/helpers/confirmed.valida
 	selector: 'app-register',
 	templateUrl: './register.component.html',
 	styleUrls: ['./register.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
 	authService = inject(AuthService);

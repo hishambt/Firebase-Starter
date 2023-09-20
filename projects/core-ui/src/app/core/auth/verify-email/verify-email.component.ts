@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { take, Subscription } from 'rxjs';
 import { authState, Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { AuthUser } from '../../../shared/models/IUser.model';
 	selector: 'app-verify-email',
 	templateUrl: './verify-email.component.html',
 	styleUrls: ['./verify-email.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerifyEmailComponent implements OnInit {
 	private authService = inject(AuthService);
