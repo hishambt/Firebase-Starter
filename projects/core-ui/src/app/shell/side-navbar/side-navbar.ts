@@ -15,20 +15,27 @@ export const appPages: Array<IMenuItem> = [
 	{
 		title: 'Contacts',
 		url: '/contacts',
-		icon: 'person',
+		icon: 'people',
 	},
 	{
-		title: 'Test',
-		icon: 'home',
+		title: 'Settings',
+		icon: 'settings',
 		children: [
 			{
-				title: 'Home',
-				url: '/home',
-				icon: 'home',
+				title: 'Profile',
+				url: '/profile',
+				icon: 'person',
 			},
-			{ title: 'Profile', url: '/profile', icon: 'heart' },
-			{ title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-			{ title: 'Archived', url: '/folder/archived', icon: 'archive' },
+			{
+				title: 'Favorites',
+				url: '/test/favorites',
+				icon: 'star',
+			},
+			{
+				title: 'Archived',
+				url: '/test/archived',
+				icon: 'archive',
+			},
 		],
 	},
 ];
