@@ -53,8 +53,43 @@
 												#inputField
 												hidden
 												type="file"
-												(change)="uploadFile($event, user!)" />
+												(change)="fileChangeEvent($event)" />
 										</ion-col>
+										<ion-modal #modalImageCrop>
+											<ng-template>
+												<ion-header>
+													<ion-toolbar>
+														<ion-buttons slot="start">
+															<ion-button (click)="modalImageCrop.dismiss()">Cancel</ion-button>
+														</ion-buttons>
+														<ion-title>Preview profile picture</ion-title>
+														<ion-buttons slot="end">
+															<ion-button
+																[appAsyncRef]="uploadingImage$"
+																(click)="uploadFile(user!)"
+																[strong]="true">
+																Save
+															</ion-button>
+														</ion-buttons>
+													</ion-toolbar>
+												</ion-header>
+												<ion-content>
+													<ion-row>
+														<image-cropper
+															backgroundColor="transparent"
+															[imageChangedEvent]="imageChangedEvent"
+															[maintainAspectRatio]="true"
+															[aspectRatio]="1/1"
+															format="png"
+															[roundCropper]="true"
+															[cropperMinHeight]="200"
+															[cropperMinWidth]="200"
+															(imageCropped)="imageCropped($event)"
+															(loadImageFailed)="loadImageFailed()"></image-cropper>
+													</ion-row>
+												</ion-content>
+											</ng-template>
+										</ion-modal>
 										<ion-col
 											size-md="6"
 											pull-md="6"

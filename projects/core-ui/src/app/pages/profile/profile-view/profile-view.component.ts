@@ -6,6 +6,8 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { AuthUser, IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/core-ui/src/app/core/services/auth.service';
@@ -25,6 +27,7 @@ import { ThemeService } from '../../../core/services/theme.service';
 export class ProfileViewComponent {
 	@ViewChild('modalChangePassword') modalChangePassword!: IonModal;
 	@ViewChild('modalVerifyEmail') modalValidatePassword!: IonModal;
+	@ViewChild('modalImageCrop') modalImageCrop!: IonModal;
 
 	authService = inject(AuthService);
 	auth = inject(Auth);
@@ -32,11 +35,16 @@ export class ProfileViewComponent {
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
 	fb = inject(NonNullableFormBuilder);
+	sanitizer = inject(DomSanitizer);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
 	modifyPassword$: Subscription | null = null;
 	validatePassword$: Subscription | null = null;
+	uploadingImage$: Subscription | null = null;
+
+	imageChangedEvent!: Event;
+	imageCroped!: ImageCroppedEvent;
 
 	alertButtons = [
 		{
@@ -109,16 +117,9 @@ export class ProfileViewComponent {
 		}),
 	);
 
-	uploadFile(event: Event, user: IUser): void {
-		const target = event.target as HTMLInputElement;
-		const file: File | null = (target.files?.length && target.files[0]) || null;
-
-		if (!target || !file) {
-			return;
-		}
-
-		this.imageUploadService
-			.uploadImage(file, `${environment.profileCDNPath}${user.uid}`)
+	uploadFile(user: IUser): void {
+		this.uploadingImage$ = this.imageUploadService
+			.uploadImage(this.imageCroped.blob as File, `${environment.profileCDNPath}${user.uid}`)
 			.pipe(
 				take(1),
 				switchMap((photoURL: string) => {
@@ -128,7 +129,9 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => {},
+				next: () => {
+					this.modalImageCrop.dismiss();
+				},
 				error: (_error: Error) => {
 					this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},
@@ -275,5 +278,21 @@ export class ProfileViewComponent {
 				},
 				error: () => null,
 			});
+	}
+
+	public fileChangeEvent(event: Event): void {
+		this.imageChangedEvent = event;
+		this.modalImageCrop.present();
+
+	}
+
+	imageCropped(event: ImageCroppedEvent): void {
+		this.imageCroped = event;
+
+	}
+
+	public loadImageFailed(): void {
+		this.modalImageCrop.dismiss();
+		this._appToast.createToast('Opps! Incorrect image format.', 2000, { color: 'danger', size: 'small' });
 	}
 }
