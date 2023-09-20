@@ -51,9 +51,11 @@
 												#inputField
 												hidden
 												type="file"
-												(change)="fileChangeEvent($event)" />
+												(input)="fileChangeEvent($event)" />
 										</ion-col>
-										<ion-modal #modalImageCrop>
+										<ion-modal
+											#modalImageCrop
+											(ionModalWillDismiss)="willDismiss()">
 											<ng-template>
 												<ion-header>
 													<ion-toolbar>

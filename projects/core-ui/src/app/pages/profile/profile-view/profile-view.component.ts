@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -6,7 +6,6 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { AuthUser, IUser } from 'projects/core-ui/src/app/shared/models/IUser.model';
@@ -28,6 +27,7 @@ export class ProfileViewComponent {
 	@ViewChild('modalChangePassword') modalChangePassword!: IonModal;
 	@ViewChild('modalVerifyEmail') modalValidatePassword!: IonModal;
 	@ViewChild('modalImageCrop') modalImageCrop!: IonModal;
+	@ViewChild('inputField') inputField!: HTMLInputElement;
 
 	authService = inject(AuthService);
 	auth = inject(Auth);
@@ -35,7 +35,7 @@ export class ProfileViewComponent {
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
 	fb = inject(NonNullableFormBuilder);
-	sanitizer = inject(DomSanitizer);
+	cdr = inject(ChangeDetectorRef);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
@@ -43,8 +43,13 @@ export class ProfileViewComponent {
 	validatePassword$: Subscription | null = null;
 	uploadingImage$: Subscription | null = null;
 
-	imageChangedEvent!: Event;
-	imageCroped!: ImageCroppedEvent;
+	imageChangedEvent: Event | null = null;
+	imageCroped: ImageCroppedEvent | null = null;
+	// ngAfterViewInit(): void {
+	// 	this.inputField.addEventListener('input', () => {
+	// 		console.log('test');
+	// 	});
+	// }
 
 	alertButtons = [
 		{
@@ -119,7 +124,7 @@ export class ProfileViewComponent {
 
 	uploadFile(user: IUser): void {
 		this.uploadingImage$ = this.imageUploadService
-			.uploadImage(this.imageCroped.blob as File, `${environment.profileCDNPath}${user.uid}`)
+			.uploadImage(this.imageCroped!.blob as File, `${environment.profileCDNPath}${user.uid}`)
 			.pipe(
 				take(1),
 				switchMap((photoURL: string) => {
@@ -283,16 +288,21 @@ export class ProfileViewComponent {
 	public fileChangeEvent(event: Event): void {
 		this.imageChangedEvent = event;
 		this.modalImageCrop.present();
-
 	}
 
 	imageCropped(event: ImageCroppedEvent): void {
 		this.imageCroped = event;
-
 	}
 
 	public loadImageFailed(): void {
 		this.modalImageCrop.dismiss();
+
 		this._appToast.createToast('Opps! Incorrect image format.', 2000, { color: 'danger', size: 'small' });
+	}
+
+	willDismiss(): void {
+		this.cdr.detectChanges();
+		this.imageChangedEvent = null;
+		this.imageCroped = null;
 	}
 }
