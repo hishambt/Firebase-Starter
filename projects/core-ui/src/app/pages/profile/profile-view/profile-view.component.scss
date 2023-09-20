@@ -1,0 +1,20 @@
+ion-avatar {
+	--border-radius: 50%;
+	width: 164px;
+	height: 164px;
+
+	.profile-pic {
+		width: 150px;
+		height: 150px;
+	}
+
+	img {
+		width: 164px;
+		height: 164px;
+	}
+}
+
+image-cropper {
+	/* stylelint-disable-next-line color-function-notation */
+	--cropper-outline-color: rgba(var(--ion-card-background-rgb), 0.3);
+}

@@ -1,0 +1,6 @@
+ion-icon[tabIndex] {
+	&:focus-visible {
+		outline: none;
+		opacity: 0.6;
+	}
+}

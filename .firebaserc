@@ -1,14 +1,5 @@
 {
-  "targets": {
-    "pro-cv-390512": {
-      "hosting": {
-        "cv-generator": [
-          "pro-cv-390512"
-        ]
-      }
-    }
-  },
   "projects": {
-    "default": "pro-cv-390512"
+    "default": "ionic-firebase-db453"
   }
 }

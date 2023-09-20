@@ -1,0 +1,70 @@
+<div class="ion-padding-top bg-[var(--ion-menu-background)]">
+	<div *ngFor="let p of appPages">
+		<ion-menu-toggle
+			autoHide="false"
+			*ngIf="p.url">
+			<ion-item
+				lines="none"
+				[routerLink]="p.url"
+				replaceUrl="true"
+				routerDirection="forward"
+				routerLinkActive="active">
+				<ion-icon
+					class="ion-padding-start"
+					size="small"
+					[name]="p.icon"
+					slot="start"></ion-icon>
+				<ion-label>{{p.title}}</ion-label>
+			</ion-item>
+		</ion-menu-toggle>
+
+		<ion-item
+			lines="none"
+			button
+			*ngIf="p.children && p.children.length > 0"
+			(click)="p.open = !p.open"
+			[class.active-parent]="p.open"
+			detail="false">
+			<ion-icon
+				class="ion-padding-start"
+				size="small"
+				[name]="p.icon"
+				slot="start"></ion-icon>
+			<ion-label>{{p.title}}</ion-label>
+			<ion-icon
+				size="small"
+				slot="end"
+				name="chevron-forward-outline"
+				*ngIf="!p.open"></ion-icon>
+			<ion-icon
+				size="small"
+				slot="end"
+				name="chevron-down-outline"
+				*ngIf="p.open"></ion-icon>
+		</ion-item>
+
+		<ion-list
+			*ngIf="p.open"
+			class="bg-[var(--ion-menu-background)]">
+			<ion-menu-toggle
+				autoHide="false"
+				*ngFor="let sub of p.children">
+				<ion-item
+					lines="none"
+					class="sub-item"
+					*ngIf="sub.url"
+					replaceUrl="true"
+					[routerLink]="sub.url"
+					routerDirection="forward"
+					routerLinkActive="active">
+					<ion-icon
+						class="ion-padding-start"
+						size="small"
+						[name]="sub.icon"
+						slot="start"></ion-icon>
+					<ion-label>{{sub.title}}</ion-label>
+				</ion-item>
+			</ion-menu-toggle>
+		</ion-list>
+	</div>
+</div>

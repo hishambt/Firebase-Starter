@@ -1,8 +1,5 @@
 {
-	"ignoreFiles": [
-		"**/*.bootstrap-customizations.scss",
-		"**/*.theme-utils.scss"
-	],
+	"ignoreFiles": ["**/global.scss"],
 	"extends": ["stylelint-config-standard"],
 	"plugins": ["stylelint-scss"],
 	"rules": {

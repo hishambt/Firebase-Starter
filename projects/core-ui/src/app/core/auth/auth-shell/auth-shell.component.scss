@@ -1,0 +1,28 @@
+.auth-shell-bg {
+	--ion-background-color: transparent;
+
+	> ion-router-outlet {
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			background-color: rgb(0 0 0 / 30%);
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			filter: blur(8px);
+			background-image: url("/assets/background/bg-login.jpg");
+			background-size: cover;
+			background-position: center;
+		}
+	}
+
+	.ion-padding {
+		--ion-padding: 2rem;
+	}
+}

@@ -1,0 +1,11 @@
+#!/bin/sh
+# .git/hooks/pre-commit
+. "$(dirname "$0")/_/husky.sh"
+# npm test
+# npm run lint
+# npx pretty-quick --staged
+# npm run lint
+echo 'the pre-commit hook started'
+npx lint-staged
+echo 'the pre-commit hook is done'
+exit 0

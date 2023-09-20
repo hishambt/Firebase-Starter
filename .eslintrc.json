@@ -96,6 +96,14 @@
 					"error",
 					{ "argsIgnorePattern": "^_", "args": "all" }
 				],
+				"@typescript-eslint/no-inferrable-types": [
+					"off",
+					{
+						"ignoreParameters": false,
+						"ignoreProperties": false
+					}
+				],
+				"@angular-eslint/use-lifecycle-interface": ["off"],
 				//TODO(style): Enable member accessor and resolve errors
 				"@typescript-eslint/explicit-member-accessibility": [
 					"off",
@@ -229,7 +237,7 @@
 			"files": ["*.html"],
 			"extends": ["plugin:@angular-eslint/template/recommended"],
 			"rules": {
-				"max-lines": ["error", 400]
+				"max-lines": ["error", 500]
 			}
 		},
 		{
