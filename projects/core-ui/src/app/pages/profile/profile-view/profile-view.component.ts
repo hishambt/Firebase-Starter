@@ -1,8 +1,8 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
@@ -20,6 +20,7 @@ import { ThemeService } from '../../../core/services/theme.service';
 	selector: 'app-profile-view',
 	templateUrl: './profile-view.component.html',
 	styleUrls: ['./profile-view.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileViewComponent {
 	@ViewChild('modalChangePassword') modalChangePassword!: IonModal;
@@ -30,6 +31,7 @@ export class ProfileViewComponent {
 	router = inject(Router);
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
+	fb = inject(NonNullableFormBuilder);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
@@ -53,7 +55,7 @@ export class ProfileViewComponent {
 		},
 	];
 
-	form: FormGroup = new FormGroup({
+	profileForm: FormGroup = this.fb.group({
 		firstName: new FormControl('', [Validators.required]),
 		lastName: new FormControl('', [Validators.required]),
 		email: new FormControl({ disabled: true, value: '' }),
@@ -61,7 +63,7 @@ export class ProfileViewComponent {
 		address: new FormControl(''),
 	});
 
-	formChangePassword: FormGroup = new FormGroup(
+	formChangePassword: FormGroup = this.fb.group(
 		{
 			password: new FormControl<string>('', [Validators.required]),
 			confirmPassword: new FormControl<string>('', [Validators.required]),
@@ -69,38 +71,35 @@ export class ProfileViewComponent {
 		{ validators: passwordMatchValidator('password', 'confirmPassword') },
 	);
 
-	formValidatePassword: FormGroup = new FormGroup(
-		{
-			currentPassword: new FormControl<string>('', [Validators.required]),
-		},
-	);
+	formValidatePassword: FormGroup = this.fb.group({
+		currentPassword: new FormControl<string>('', [Validators.required]),
+	});
 
-	get getPasswordError(): string {
-		const password = this.form.get('password');
-
-		if (!password) {
-			return '';
-		}
-
-		return this.authService.getError(password, 'Password');
+	get firstNameError(): string {
+		return this.authService.getError(this.profileForm.get('firstName') as FormControl<string>, 'First Name');
 	}
 
-	get getConfirmPasswordError(): string {
-		const confirmPassword = this.form.get('confirmPassword');
+	get lastNameError(): string {
+		return this.authService.getError(this.profileForm.get('lastName') as FormControl<string>, 'Last Name');
+	}
 
-		if (!confirmPassword) {
-			return '';
-		}
+	get getChangePasswordError(): string {
+		return this.authService.getError(this.formChangePassword.get('password') as FormControl<string>, 'Password');
+	}
 
-		return this.authService.getError(confirmPassword, 'Password');
+	get getChangeConfirmPasswordError(): string {
+		return this.authService.getError(this.formChangePassword.get('confirmPassword') as FormControl<string>, 'Password');
+	}
+
+	get getValidatePasswordError(): string {
+		return this.authService.getError(this.formValidatePassword.get('currentPassword') as FormControl<string>, 'Password');
 	}
 
 	imageUploadService = inject(ImageUploadService);
 
 	$user = this.authService.currentUserProfile$.pipe(
-		take(1),
 		tap((user: IUser | null) => {
-			this.form.patchValue({
+			this.profileForm.patchValue({
 				firstName: user?.firstName,
 				lastName: user?.lastName,
 				email: user?.email,
@@ -129,7 +128,7 @@ export class ProfileViewComponent {
 				}),
 			)
 			.subscribe({
-				next: () => { },
+				next: () => {},
 				error: (_error: Error) => {
 					this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
 				},
@@ -137,22 +136,27 @@ export class ProfileViewComponent {
 	}
 
 	submitRecord(user: IUser): void {
-		if (this.form.invalid) {
-			this.form.markAllAsTouched();
+		if (this.profileForm.invalid) {
+			this.profileForm.markAllAsTouched();
 
 			return;
 		}
 
-		const { firstName, lastName, phone, address } = this.form.value;
+		const { firstName, lastName, phone, address } = this.profileForm.value;
 		const updatedUser = { ...user, firstName, lastName, phone, address };
 
 		this.saveProfile$ = this.authService
 			.updateUser(updatedUser)
 			.pipe(take(1))
 			.subscribe({
-				next: () => { },
+				next: () => {
+					this._appToast.createToast('Your profile has been successfully saved', 0, {
+						color: 'success',
+						size: 'small',
+					});
+				},
 				error: (_error: Error) => {
-					this._appToast.createToast('Opps! Please try gain later.', 0);
+					this._appToast.createToast('Opps! Please try gain later.', 2000, { color: 'danger', size: 'small' });
 				},
 			});
 	}
@@ -171,7 +175,7 @@ export class ProfileViewComponent {
 					this.router.navigateByUrl('auth/login', { replaceUrl: true });
 				},
 				error: (_error: Error) => {
-					this._appToast.createToast('Opps! Please try gain later.', 0);
+					this._appToast.createToast('Opps! Please try gain later.', 2000, { color: 'danger', size: 'small' });
 				},
 			});
 	}
@@ -189,7 +193,7 @@ export class ProfileViewComponent {
 
 		const { password } = this.formChangePassword.value;
 
-		if (this.authService.loggedInWithGoogle && !this.authService.loggedInWithPassword) {
+		if (this.authService.loggedInWithGoogle() && !this.authService.loggedInWithPassword()) {
 			this.linkAccount(password);
 		} else {
 			this.updatePassword(password);
@@ -199,7 +203,7 @@ export class ProfileViewComponent {
 	}
 
 	modifyPassword(): void {
-		this.authService.loggedInWithPassword ? this.modalValidatePassword.present() : this.modalChangePassword.present();
+		this.authService.loggedInWithPassword() ? this.modalValidatePassword.present() : this.modalChangePassword.present();
 	}
 
 	confirmValidatePassword(): void {
@@ -211,45 +215,49 @@ export class ProfileViewComponent {
 
 		const { currentPassword } = this.formValidatePassword.value;
 
-		this.validatePassword$ = this.authService.userProvider((user: AuthUser) => {
-			if (!user) {
-				return of(undefined);
-			}
+		this.validatePassword$ = this.authService
+			.userProvider((user: AuthUser) => {
+				if (!user) {
+					return of(undefined);
+				}
 
-			return this.authService.validatePassword(user, currentPassword);
-		}).subscribe({
-			next: () => {
-				this.modalValidatePassword.dismiss();
-				this.modalChangePassword.present();
-			},
-			error: (_error: Error) => {
-				this.formValidatePassword.reset();
-				this._appToast.createToast('Opps! Incorrect password.', 2000, { color: 'danger', size: 'small' });
-			},
-		});
-
+				return this.authService.validatePassword(user, currentPassword);
+			})
+			.subscribe({
+				next: () => {
+					this.modalValidatePassword.dismiss();
+					this.modalChangePassword.present();
+				},
+				error: (_error: Error) => {
+					this._appToast.createToast('Opps! Incorrect password.', 2000, { color: 'danger', size: 'small' });
+				},
+			});
 	}
 
 	private updatePassword(currentPassword: string): void {
-		this.modifyPassword$ = this.authService.userProvider((user: AuthUser) => {
-			if (!user) {
-				return of(undefined);
-			}
+		this.modifyPassword$ = this.authService
+			.userProvider((user: AuthUser) => {
+				if (!user) {
+					return of(undefined);
+				}
 
-			return this.authService.updatePassword(user, currentPassword);
-		}).subscribe({
-			next: () => {
-				this.authService.logout().subscribe(
-					(): void => {
-						this.router.navigateByUrl('auth/login', { replaceUrl: true });
-
+				return this.authService.updatePassword(user, currentPassword);
+			})
+			.subscribe({
+				next: () => {
+					this._appToast.createToast('Your password has been successfully updated!', 2000, {
+						color: 'success',
+						size: 'medium',
 					});
-			},
-			error: (_error: Error) => {
-				this._appToast.createToast('Opps! Please try gain later.', 0);
-			},
-		});
 
+					this.authService.logout().subscribe((): void => {
+						this.router.navigateByUrl('auth/login', { replaceUrl: true });
+					});
+				},
+				error: (_error: Error) => {
+					this._appToast.createToast('Opps! Please try gain later.', 2000, { color: 'danger', size: 'small' });
+				},
+			});
 	}
 
 	private linkAccount(password: string): void {
@@ -263,7 +271,7 @@ export class ProfileViewComponent {
 			})
 			.subscribe({
 				next: (_creds: UserCredential | null) => {
-					this.authService.loggedInWithPassword = true;
+					this.authService.loggedInWithPassword.set(true);
 				},
 				error: () => null,
 			});

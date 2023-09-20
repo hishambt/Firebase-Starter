@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import {
 	GoogleAuthProvider,
 	User,
@@ -43,8 +43,8 @@ export class AuthService {
 	route = inject(ActivatedRoute);
 	imageService = inject(ImageUploadService);
 	userIsGettingDeleted$ = new Subject<boolean>();
-	loggedInWithGoogle = false;
-	loggedInWithPassword = false;
+	loggedInWithGoogle = signal(false);
+	loggedInWithPassword = signal(false);
 
 	get currentUserProfile$(): Observable<IUser | null> {
 		return authState(this.auth).pipe(
@@ -56,11 +56,11 @@ export class AuthService {
 					return of(null);
 				}
 
-				this.loggedInWithGoogle = this.hasProvider(user, ProviderId.GOOGLE);
-				this.loggedInWithPassword = this.hasProvider(user, ProviderId.PASSWORD);
+				this.loggedInWithGoogle.set(this.hasProvider(user, ProviderId.GOOGLE));
+				this.loggedInWithPassword.set(this.hasProvider(user, ProviderId.PASSWORD));
 
 				// user is logged in
-				if (this.loggedInWithGoogle || (this.loggedInWithPassword && user.emailVerified)) {
+				if (this.loggedInWithGoogle() || (this.loggedInWithPassword() && user.emailVerified)) {
 					// get user from database only in case the user is logged in with google or his email is verified
 					const ref = doc(this.db, 'users', user?.uid);
 
@@ -122,7 +122,7 @@ export class AuthService {
 		return newUser;
 	}
 
-	getUserNames(displayName: string): { firstName: string; lastName: string; } {
+	getUserNames(displayName: string): { firstName: string; lastName: string } {
 		const name = displayName?.split(' ');
 
 		let firstName = displayName || '',

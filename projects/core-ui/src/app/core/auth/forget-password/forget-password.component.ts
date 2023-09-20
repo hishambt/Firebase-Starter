@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -15,19 +15,14 @@ export class ForgetPasswordComponent {
 	router = inject(Router);
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
+	fb = inject(NonNullableFormBuilder);
 
-	form: FormGroup = new FormGroup({
+	form: FormGroup = this.fb.group({
 		email: new FormControl('', [Validators.email, Validators.required]),
 	});
 
 	get getEmailError(): string {
-		const email = this.form.get('email');
-
-		if (!email) {
-			return '';
-		}
-
-		return this.authService.getError(email, 'Email');
+		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
 	}
 
 	forget$: Subscription | null = null;

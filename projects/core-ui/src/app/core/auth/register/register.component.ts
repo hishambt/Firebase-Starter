@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable, switchMap, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
@@ -19,8 +19,9 @@ export class RegisterComponent {
 	route = inject(ActivatedRoute);
 	router = inject(Router);
 	_appToast = inject(AppToastService);
+	fb = inject(NonNullableFormBuilder);
 
-	form: FormGroup = new FormGroup(
+	form: FormGroup = this.fb.group(
 		{
 			email: new FormControl<string>('', [Validators.email, Validators.required]),
 			password: new FormControl<string>('', [Validators.required]),
@@ -30,33 +31,15 @@ export class RegisterComponent {
 	);
 
 	get getEmailError(): string {
-		const email = this.form.get('email');
-
-		if (!email) {
-			return '';
-		}
-
-		return this.authService.getError(email, 'Email');
+		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
 	}
 
 	get getPasswordError(): string {
-		const password = this.form.get('password');
-
-		if (!password) {
-			return '';
-		}
-
-		return this.authService.getError(password, 'Password');
+		return this.authService.getError(this.form.get('password') as FormControl<string>, 'Password');
 	}
 
 	get getConfirmPasswordError(): string {
-		const confirmPassword = this.form.get('confirmPassword');
-
-		if (!confirmPassword) {
-			return '';
-		}
-
-		return this.authService.getError(confirmPassword, 'Password');
+		return this.authService.getError(this.form.get('confirmPassword') as FormControl<string>, 'Password');
 	}
 
 	register$: Subscription | null = null;

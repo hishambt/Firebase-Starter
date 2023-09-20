@@ -15,7 +15,7 @@ export const appPages: Array<IMenuItem> = [
 	{
 		title: 'Contacts',
 		url: '/contacts',
-		icon: 'contacts',
+		icon: 'person',
 	},
 	{
 		title: 'Test',

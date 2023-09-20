@@ -61,7 +61,7 @@
 											size-lg="5"
 											pull-lg="7">
 											<form
-												[formGroup]="form"
+												[formGroup]="profileForm"
 												(ngSubmit)="submitRecord(user!)">
 												<ion-item lines="none">
 													<ion-input
@@ -72,6 +72,7 @@
 														type="text"
 														name="First Name"
 														maxlength="25"
+														[errorText]="firstNameError"
 														formControlName="firstName"></ion-input>
 												</ion-item>
 
@@ -84,6 +85,7 @@
 														type="text"
 														name="First Name"
 														maxlength="25"
+														[errorText]="lastNameError"
 														formControlName="lastName"></ion-input>
 												</ion-item>
 												<ion-item lines="none">
@@ -155,7 +157,7 @@
 									<ion-col
 										size="12"
 										start="true">
-										<ion-text class="block">{{authService.loggedInWithPassword?'Change':'Set'}} your password</ion-text>
+										<ion-text class="block">{{authService.loggedInWithPassword()?'Change':'Set'}} your password</ion-text>
 
 										<ion-button
 											class="ion-margin-vertical flex-initial"
@@ -163,7 +165,7 @@
 											color="primary"
 											(click)="modifyPassword()"
 											type="button">
-											{{authService.loggedInWithPassword?'Change':'Set'}} Password
+											{{authService.loggedInWithPassword()?'Change':'Set'}} Password
 										</ion-button>
 										<ion-modal
 											#modalChangePassword
@@ -207,7 +209,7 @@
 																				name="password"
 																				[clearInput]="true"
 																				[clearOnEdit]="false"
-																				[errorText]="getPasswordError"
+																				[errorText]="getChangeConfirmPasswordError"
 																				formControlName="password"></ion-input>
 																		</app-show-hide-password>
 																	</ion-item>
@@ -226,7 +228,7 @@
 																				[clearInput]="true"
 																				[clearOnEdit]="false"
 																				name="confirmPassword"
-																				[errorText]="getConfirmPasswordError"
+																				[errorText]="getChangeConfirmPasswordError"
 																				formControlName="confirmPassword"></ion-input>
 																		</app-show-hide-password>
 																	</ion-item>
@@ -279,7 +281,7 @@
 																				name="password"
 																				[clearInput]="true"
 																				[clearOnEdit]="false"
-																				[errorText]="getPasswordError"
+																				[errorText]="getValidatePasswordError"
 																				formControlName="currentPassword"></ion-input>
 																		</app-show-hide-password>
 																	</ion-item>
