@@ -7,6 +7,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { HomeModule } from './pages/home/home.module';
 import { ProfileModule } from './pages/profile/profile.module';
 import { AuthModule } from './core/auth/auth.module';
+import { ContactsModule } from './pages/contacts/contacts.module';
 
 const routes: Routes = [
 	{
@@ -26,6 +27,10 @@ const routes: Routes = [
 			{
 				path: 'profile',
 				loadChildren: () => ProfileModule,
+			},
+			{
+				path: 'contacts',
+				loadChildren: () => ContactsModule,
 			},
 		],
 	},
