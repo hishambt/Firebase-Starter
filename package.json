@@ -11,7 +11,6 @@
 		"angular:serve": "ng serve",
 		"build": "set NODE_ENV=build && ng build",
 		"deploy:local": "servor public index.html 4321 --secure --browse",
-		"prepare": "husky install && xcopy /E /I /Y .husky\\* .git\\hooks\\",
 		"watch": "ng build --watch --configuration development",
 		"test": "ng test",
 		"lint": "ng lint",
