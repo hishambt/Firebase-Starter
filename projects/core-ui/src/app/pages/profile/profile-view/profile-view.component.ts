@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, inject, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ import { ThemeService } from '../../../core/services/theme.service';
 	styleUrls: ['./profile-view.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileViewComponent {
+export class ProfileViewComponent implements OnDestroy {
 	@ViewChild('modalChangePassword') modalChangePassword!: IonModal;
 	@ViewChild('modalVerifyEmail') modalValidatePassword!: IonModal;
 	@ViewChild('modalImageCrop') modalImageCrop!: IonModal;
@@ -304,5 +304,13 @@ export class ProfileViewComponent {
 		this.cdr.detectChanges();
 		this.imageChangedEvent = null;
 		this.imageCroped = null;
+	}
+
+	ngOnDestroy(): void {
+		this.saveProfile$?.unsubscribe();
+		this.deleteUser$?.unsubscribe();
+		this.modifyPassword$?.unsubscribe();
+		this.validatePassword$?.unsubscribe();
+		this.uploadingImage$?.unsubscribe();
 	}
 }

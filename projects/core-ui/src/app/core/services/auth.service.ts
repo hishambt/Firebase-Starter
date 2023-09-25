@@ -19,7 +19,7 @@ import {
 	reauthenticateWithCredential,
 	updatePassword,
 } from '@angular/fire/auth';
-import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
+import { switchMap, of, from, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -49,7 +49,6 @@ export class AuthService {
 	get currentUserProfile$(): Observable<IUser | null> {
 		return authState(this.auth).pipe(
 			traceUntilFirst('auth'),
-			take(1),
 			switchMap((user: AuthUser): Observable<IUser | null> => {
 				if (!user?.uid) {
 					// user has signed out
@@ -79,7 +78,6 @@ export class AuthService {
 							const newUser = this.populateUser(user);
 
 							return from(setDoc(ref, newUser)).pipe(
-								take(1),
 								// returning null since docData will listen to the change and rerun on its own,
 								// so no need to return anything at this stage.
 								map(() => null),
@@ -97,10 +95,7 @@ export class AuthService {
 	}
 
 	userProvider<T = unknown>(callback: (user: AuthUser) => Observable<T>): Observable<T> {
-		return authState(this.auth).pipe(
-			take(1),
-			switchMap((user: AuthUser): Observable<T> => callback(user)),
-		);
+		return authState(this.auth).pipe(switchMap((user: AuthUser): Observable<T> => callback(user)));
 	}
 
 	hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]): boolean {
@@ -153,7 +148,7 @@ export class AuthService {
 	}
 
 	registerNewAccount(email: string, password: string): Observable<UserCredential> {
-		return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(take(1));
+		return from(createUserWithEmailAndPassword(this.auth, email, password));
 	}
 
 	sendVerificationEmail(user: User): Observable<void> {
@@ -165,7 +160,7 @@ export class AuthService {
 	}
 
 	loginWithGoogle(): Observable<UserCredential> {
-		return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(take(1));
+		return from(signInWithPopup(this.auth, new GoogleAuthProvider()));
 	}
 
 	loginWithEmailAndPassword(email: string, password: string): Observable<UserCredential> {
@@ -177,11 +172,11 @@ export class AuthService {
 			sendPasswordResetEmail(this.auth, email, {
 				url: this.appSettings.getUrlOrigin() + '/auth/login?passwordChanged=true',
 			}),
-		).pipe(take(1));
+		);
 	}
 
 	logout(): Observable<void> {
-		return from(signOut(this.auth)).pipe(take(1));
+		return from(signOut(this.auth));
 	}
 
 	updateUser(user: IUser): Observable<void> {
@@ -193,17 +188,17 @@ export class AuthService {
 	linkUser(user: User, newPassword: string): Observable<UserCredential> {
 		const creds = EmailAuthProvider.credential(user.email!, newPassword);
 
-		return from(linkWithCredential(user, creds)).pipe(take(1));
+		return from(linkWithCredential(user, creds));
 	}
 
 	validatePassword(user: User, currentPassword: string): Observable<UserCredential> {
 		const creds = EmailAuthProvider.credential(user.email!, currentPassword);
 
-		return from(reauthenticateWithCredential(user, creds)).pipe(take(1));
+		return from(reauthenticateWithCredential(user, creds));
 	}
 
 	updatePassword(user: User, newPassword: string): Observable<void> {
-		return from(updatePassword(user, newPassword)).pipe(take(1));
+		return from(updatePassword(user, newPassword));
 	}
 
 	deleteUser(user: User): Observable<void> {

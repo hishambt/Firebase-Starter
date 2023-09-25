@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Observable, Subscription, switchMap, take } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 	styleUrls: ['./login.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 	router = inject(Router);
 	route = inject(ActivatedRoute);
 	authService = inject(AuthService);
@@ -64,9 +64,8 @@ export class LoginComponent implements OnInit {
 	loginFollowUp(login: Observable<UserCredential>): Subscription | null {
 		return login
 			.pipe(
-				take(1),
 				switchMap(() => {
-					return this.authService.currentUserProfile$.pipe(take(1));
+					return this.authService.currentUserProfile$;
 				}),
 			)
 			.subscribe({
@@ -86,5 +85,10 @@ export class LoginComponent implements OnInit {
 			color: 'danger',
 			size: 'small',
 		});
+	}
+
+	ngOnDestroy(): void {
+		this.login$?.unsubscribe();
+		this.loginWithGoogle$?.unsubscribe();
 	}
 }
