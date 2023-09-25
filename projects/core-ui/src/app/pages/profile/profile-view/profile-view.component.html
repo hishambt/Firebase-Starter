@@ -50,12 +50,13 @@
 											<input
 												#inputField
 												hidden
+												accept=".png, .jpg, .jpeg"
 												type="file"
 												(input)="fileChangeEvent($event)" />
 										</ion-col>
 										<ion-modal
 											#modalImageCrop
-											(ionModalWillDismiss)="willDismiss()">
+											(ionModalWillDismiss)="clearImageData()">
 											<ng-template>
 												<ion-header>
 													<ion-toolbar>
@@ -66,6 +67,7 @@
 														<ion-buttons slot="end">
 															<ion-button
 																[appAsyncRef]="uploadingImage$"
+																[disabled]="!canSave()"
 																(click)="uploadFile(user!)"
 																[strong]="true">
 																Save
@@ -74,18 +76,21 @@
 													</ion-toolbar>
 												</ion-header>
 												<ion-content>
-													<ion-row>
+													<ion-row
+														class="h-full items-center"
+														slot="fixed">
 														<image-cropper
+															class="!p-0"
 															backgroundColor="transparent"
 															[imageChangedEvent]="imageChangedEvent"
 															[maintainAspectRatio]="true"
 															[aspectRatio]="1/1"
-															format="png"
 															[roundCropper]="true"
 															[cropperMinHeight]="200"
 															[cropperMinWidth]="200"
-															(imageCropped)="imageCropped($event)"
-															(loadImageFailed)="loadImageFailed()"></image-cropper>
+															(imageCropped)="onImageCropped($event)"
+															(imageLoaded)="onImageLoaded()"
+															(loadImageFailed)="onLoadImageFailed()"></image-cropper>
 													</ion-row>
 												</ion-content>
 											</ng-template>
