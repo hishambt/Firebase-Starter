@@ -1,0 +1,14 @@
+image-cropper {
+	--cropper-outline-color: var(--ion-card-background);
+	--cropper-overlay-color: var(--ion-card-background);
+
+	.ngx-ic-cropper {
+		.ngx-ic-resize {
+			z-index: 2 !important;
+		}
+
+		&:focus .ngx-ic-move {
+			border-color: var(--ion-color-primary) !important;
+		}
+	}
+}

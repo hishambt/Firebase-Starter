@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ViewChild, inject, ChangeDetectionStrategy, OnDestroy, ElementRef, signal } from '@angular/core';
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class ProfileViewComponent implements OnDestroy {
 	@ViewChild('modalChangePassword') modalChangePassword!: IonModal;
 	@ViewChild('modalVerifyEmail') modalValidatePassword!: IonModal;
 	@ViewChild('modalImageCrop') modalImageCrop!: IonModal;
-	@ViewChild('inputField') inputField!: HTMLInputElement;
+	@ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
 
 	authService = inject(AuthService);
 	auth = inject(Auth);
@@ -35,7 +35,7 @@ export class ProfileViewComponent implements OnDestroy {
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
 	fb = inject(NonNullableFormBuilder);
-	cdr = inject(ChangeDetectorRef);
+	canSave = signal(false);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
@@ -44,12 +44,7 @@ export class ProfileViewComponent implements OnDestroy {
 	uploadingImage$: Subscription | null = null;
 
 	imageChangedEvent: Event | null = null;
-	imageCroped: ImageCroppedEvent | null = null;
-	// ngAfterViewInit(): void {
-	// 	this.inputField.addEventListener('input', () => {
-	// 		console.log('test');
-	// 	});
-	// }
+	imageCropped: ImageCroppedEvent | null = null;
 
 	alertButtons = [
 		{
@@ -124,7 +119,7 @@ export class ProfileViewComponent implements OnDestroy {
 
 	uploadFile(user: IUser): void {
 		this.uploadingImage$ = this.imageUploadService
-			.uploadImage(this.imageCroped!.blob as File, `${environment.profileCDNPath}${user.uid}`)
+			.uploadImage(this.imageCropped?.blob as File, `${environment.profileCDNPath}${user.uid}`)
 			.pipe(
 				take(1),
 				switchMap((photoURL: string) => {
@@ -136,9 +131,16 @@ export class ProfileViewComponent implements OnDestroy {
 			.subscribe({
 				next: () => {
 					this.modalImageCrop.dismiss();
+					this._appToast.createToast('Your profile image has been updated successfully', 0, {
+						color: 'success',
+						size: 'medium',
+					});
 				},
 				error: (_error: Error) => {
-					this._appToast.createToast('Image format not supported, or file size exceeds the 2mb limit!', 0);
+					this._appToast.createToast('Check file size. Limit: 2mb. Try resizing or choose another image', 5000, {
+						color: 'danger',
+						size: 'medium',
+					});
 				},
 			});
 	}
@@ -287,23 +289,40 @@ export class ProfileViewComponent implements OnDestroy {
 
 	public fileChangeEvent(event: Event): void {
 		this.imageChangedEvent = event;
-		this.modalImageCrop.present();
+		const path = this.inputField.nativeElement.value;
+
+		if (!path) {
+			return;
+		}
+
+		const extension = path.match(/\.([^\.]+)$/)![1].toLowerCase();
+
+		if (extension == 'jpg' || extension == 'png' || extension == 'jpeg') {
+			this.modalImageCrop.present();
+		} else {
+			this.onLoadImageFailed();
+			this.clearImageData();
+		}
 	}
 
-	imageCropped(event: ImageCroppedEvent): void {
-		this.imageCroped = event;
+	onImageCropped(event: ImageCroppedEvent): void {
+		this.imageCropped = event;
 	}
 
-	public loadImageFailed(): void {
+	onImageLoaded(): void {
+		this.canSave.set(true);
+	}
+
+	onLoadImageFailed(): void {
 		this.modalImageCrop.dismiss();
 
 		this._appToast.createToast('Opps! Incorrect image format.', 2000, { color: 'danger', size: 'small' });
 	}
 
-	willDismiss(): void {
-		this.cdr.detectChanges();
+	clearImageData(): void {
+		this.inputField.nativeElement.value = '';
+		this.imageCropped = null;
 		this.imageChangedEvent = null;
-		this.imageCroped = null;
 	}
 
 	ngOnDestroy(): void {

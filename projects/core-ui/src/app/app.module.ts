@@ -58,56 +58,45 @@ import { LoadingHttpInterceptorService } from './core/interceptors/loading-http.
 						_baseEl,
 						opts,
 					) => {
-						const {
-							enteringEl,
-							leavingEl,
-						} =
-							opts;
-						const enteringPage =
-							createAnimation(
-								'entering-page-animation',
-							)
+						const enteringAnimation =
+							createAnimation()
 								.addElement(
-									enteringEl,
+									opts.enteringEl,
+								)
+								.fromTo(
+									'opacity',
+									0,
+									1,
+								)
+								.delay(
+									100,
 								)
 								.duration(
-									250,
-								)
-								.fromTo(
-									'transform',
-									'translateY(20px)',
-									'translateY(0px)',
-								)
-								.fromTo(
-									'opacity',
-									'0.6',
-									'1',
+									100,
 								);
-						const leavingPage =
-							createAnimation(
-								'leaving-page-animation',
-							)
+						const leavingAnimation =
+							createAnimation()
 								.addElement(
-									leavingEl,
+									opts.leavingEl,
 								)
 								.fromTo(
 									'opacity',
+									1,
 									0,
-									0,
+								)
+								.duration(
+									100,
+								);
+						const animation =
+							createAnimation()
+								.addAnimation(
+									enteringAnimation,
+								)
+								.addAnimation(
+									leavingAnimation,
 								);
 
-						return createAnimation(
-							'root-transition',
-						)
-							.easing(
-								'ease-in-out',
-							)
-							.addAnimation(
-								[
-									enteringPage,
-									leavingPage,
-								],
-							);
+						return animation;
 					},
 			},
 		),
