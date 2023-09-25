@@ -18,6 +18,7 @@ export class ShellComponent implements OnInit {
 	_appToast = inject(AppToastService);
 	authService = inject(AuthService);
 	storage = inject(StorageAccessorService);
+
 	user$ = this.authService.currentUserProfile$;
 
 	ngOnInit(): void {

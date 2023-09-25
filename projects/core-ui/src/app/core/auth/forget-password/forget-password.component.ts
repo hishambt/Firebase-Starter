@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { AppToastService, ToastClass } from '../../../shared/services/app-toast.
 	styleUrls: ['./forget-password.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForgetPasswordComponent {
+export class ForgetPasswordComponent implements OnDestroy {
 	router = inject(Router);
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
@@ -55,5 +55,9 @@ export class ForgetPasswordComponent {
 		}
 
 		this._appToast.createToast(message, 0, errorObj);
+	}
+
+	ngOnDestroy(): void {
+		this.forget$?.unsubscribe();
 	}
 }

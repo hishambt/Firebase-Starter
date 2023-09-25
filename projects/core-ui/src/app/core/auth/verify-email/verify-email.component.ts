@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { take, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +11,7 @@ import { AuthUser } from '../../../shared/models/IUser.model';
 	styleUrls: ['./verify-email.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerifyEmailComponent {
+export class VerifyEmailComponent implements OnDestroy {
 	private authService = inject(AuthService);
 	private router = inject(Router);
 
@@ -23,17 +23,19 @@ export class VerifyEmailComponent {
 	verifyEmail(): void {
 		this.verifyEmail$ = this.authService
 			.userProvider((user: AuthUser) => {
-				return this.authService.sendVerificationEmail(user!).pipe(take(1));
+				return this.authService.sendVerificationEmail(user!);
 			})
 			.subscribe();
 	}
 
 	logout(): void {
-		this.signOut$ = this.authService
-			.logout()
-			.pipe(take(1))
-			.subscribe(() => {
-				this.router.navigateByUrl('auth/login', { replaceUrl: true });
-			});
+		this.signOut$ = this.authService.logout().subscribe(() => {
+			this.router.navigateByUrl('auth/login', { replaceUrl: true });
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.signOut$?.unsubscribe();
+		this.verifyEmail$?.unsubscribe();
 	}
 }

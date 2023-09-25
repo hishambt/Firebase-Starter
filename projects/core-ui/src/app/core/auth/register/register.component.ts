@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Subscription, Observable, switchMap, take } from 'rxjs';
+import { Subscription, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
@@ -15,7 +15,7 @@ import { passwordMatchValidator } from '../../../shared/helpers/confirmed.valida
 	styleUrls: ['./register.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
 	authService = inject(AuthService);
 	route = inject(ActivatedRoute);
 	router = inject(Router);
@@ -64,7 +64,7 @@ export class RegisterComponent {
 	}
 
 	registerFollowUp(register: Observable<void>): Subscription | null {
-		return register.pipe(take(1)).subscribe({
+		return register.subscribe({
 			next: () => this.onSuccess(),
 			error: (error: Error) => this.onFailure(error.message),
 		});
@@ -77,5 +77,9 @@ export class RegisterComponent {
 
 	onFailure(message: string): void {
 		this._appToast.createToast(message, 0, { color: 'danger', size: 'medium' });
+	}
+
+	ngOnDestroy(): void {
+		this.register$?.unsubscribe();
 	}
 }
