@@ -289,20 +289,24 @@ export class ProfileViewComponent implements OnDestroy {
 
 	public fileChangeEvent(event: Event): void {
 		this.imageChangedEvent = event;
-		const path = this.inputField.nativeElement.value;
+		const element = this.inputField.nativeElement;
+		const path = element.value;
+		const file: File | null = (element.files?.length && element.files[0]) || null;
 
-		if (!path) {
+		if (!path || !file) {
 			return;
 		}
 
 		const extension = path.match(/\.([^\.]+)$/)![1].toLowerCase();
 
-		if (extension == 'jpg' || extension == 'png' || extension == 'jpeg') {
-			this.modalImageCrop.present();
-		} else {
+		if (file.size / 1024 / 1024 >= 5 || !(extension == 'jpg' || extension == 'png' || extension == 'jpeg')) {
 			this.onLoadImageFailed();
 			this.clearImageData();
+
+			return;
 		}
+
+		this.modalImageCrop.present();
 	}
 
 	onImageCropped(event: ImageCroppedEvent): void {
@@ -316,7 +320,7 @@ export class ProfileViewComponent implements OnDestroy {
 	onLoadImageFailed(): void {
 		this.modalImageCrop.dismiss();
 
-		this._appToast.createToast('Opps! Incorrect image format.', 2000, { color: 'danger', size: 'small' });
+		this._appToast.createToast('Opps! Incorrect image format or size too large', 2000, { color: 'danger', size: 'small' });
 	}
 
 	clearImageData(): void {
