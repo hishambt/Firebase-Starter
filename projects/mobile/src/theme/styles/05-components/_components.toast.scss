@@ -1,0 +1,59 @@
+ion-toast {
+	&.primary {
+		--background: var(--ion-color-primary);
+		--color: var(--ion-color-primary-contrast);
+		--button-color: var(--ion-color-primary-contrast);
+		--ripple-color: var(--ion-color-primary-contrast);
+	}
+
+	&.secondary {
+		--background: var(--ion-color-secondary);
+		--color: var(--ion-color-secondary-contrast);
+		--button-color: var(--ion-color-secondary-contrast);
+		--ripple-color: var(--ion-color-secondary-contrast);
+	}
+
+	&.tertiary {
+		--background: var(--ion-color-tertiary);
+		--color: var(--ion-color-tertiary-contrast);
+		--button-color: var(--ion-color-tertiary-contrast);
+		--ripple-color: var(--ion-color-tertiary-contrast);
+	}
+
+	&.success {
+		--background: var(--ion-color-success);
+		--color: var(--ion-color-success-contrast);
+		--button-color: var(--ion-color-success-contrast);
+		--ripple-color: var(--ion-color-success-contrast);
+	}
+
+	&.warning {
+		--background: var(--ion-color-warning);
+		--color: var(--ion-color-warning-contrast);
+		--button-color: var(--ion-color-warning-contrast);
+		--ripple-color: var(--ion-color-warning-contrast);
+	}
+
+	&.danger {
+		--background: var(--ion-color-danger);
+		--color: var(--ion-color-danger-contrast);
+		--button-color: var(--ion-color-danger-contrast);
+		--ripple-color: var(--ion-color-danger-contrast);
+	}
+
+	&::part(button) {
+		background-color: transparent;
+	}
+
+	&.small {
+		--max-width: 400px;
+	}
+
+	&.medium {
+		--max-width: 500px;
+	}
+
+	&.large {
+		--max-width: 600px;
+	}
+}

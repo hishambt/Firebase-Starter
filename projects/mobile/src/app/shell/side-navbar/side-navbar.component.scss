@@ -1,0 +1,32 @@
+.active,
+.active-parent {
+	--ion-text-color: var(--ion-color-primary);
+
+	ion-icon {
+		--ion-text-color-rgb: var(--ion-color-primary);
+	}
+}
+
+ion-item {
+	--background: transparent;
+	--inner-padding-end: 0;
+
+	ion-label {
+		margin: 0;
+		margin-top: 3px;
+	}
+
+	ion-icon {
+		margin: 0;
+		margin-right: 0.75rem;
+	}
+}
+
+.sub-item {
+	padding-left: 1.3rem;
+}
+
+ion-list {
+	padding-top: 0;
+	background: var(--ion-menu-background);
+}

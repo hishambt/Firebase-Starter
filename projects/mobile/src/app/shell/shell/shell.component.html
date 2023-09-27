@@ -1,0 +1,22 @@
+<app-shell-loading-bar class="position-absolute top-0 start-0 end-0"></app-shell-loading-bar>
+
+<ion-header>
+	<app-header></app-header>
+</ion-header>
+
+<ion-split-pane contentId="main">
+	<ion-menu contentId="main">
+		<ion-content id="menu">
+			<app-side-navbar></app-side-navbar>
+		</ion-content>
+	</ion-menu>
+	<div
+		class="ion-page"
+		id="main">
+		<ion-content>
+			<ion-router-outlet
+				id="shell"
+				[animated]="true"></ion-router-outlet>
+		</ion-content>
+	</div>
+</ion-split-pane>

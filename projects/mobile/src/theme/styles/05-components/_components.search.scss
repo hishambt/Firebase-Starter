@@ -1,0 +1,10 @@
+/* Scoped components require higher specificity to customize */
+ion-searchbar.custom {
+	--background: var(----ion-background-color);
+	--color: var(--ion-text-color);
+	--placeholder-color: var(--ion-text-color);
+	--icon-color: var(--ion-text-color);
+	--clear-button-color: var(--ion-text-color);
+	--border-radius: 4px;
+	--cancel-button-color: var(----ion-background-color);
+}
