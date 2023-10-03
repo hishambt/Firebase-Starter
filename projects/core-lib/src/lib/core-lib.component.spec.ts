@@ -9,8 +9,8 @@ describe('CoreLibComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoreLibComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CoreLibComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CoreLibComponent);

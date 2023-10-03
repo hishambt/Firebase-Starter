@@ -187,6 +187,15 @@
 						"tsConfig": "projects/core-lib/tsconfig.spec.json",
 						"polyfills": ["zone.js", "zone.js/testing"]
 					}
+				},
+				"lint": {
+					"builder": "@angular-eslint/builder:lint",
+					"options": {
+						"lintFilePatterns": [
+							"projects/core-lib/src/**/*.ts",
+							"projects/core-lib/src/**/*.html"
+						]
+					}
 				}
 			}
 		}
