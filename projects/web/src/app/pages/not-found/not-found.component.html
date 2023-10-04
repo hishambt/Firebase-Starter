@@ -1,0 +1,36 @@
+<ion-content>
+	<div class="flex items-center justify-center h-full">
+		<ion-card class="w-full max-w-lg">
+			<ion-card-header class="ion-text-center ion-padding pb-4">
+				<ion-icon
+					class="text-8xl m-auto mt-8"
+					name="help"></ion-icon>
+				<ion-card-title class="mt-8 text-2xl">Page Not Found</ion-card-title>
+			</ion-card-header>
+			<ion-card-content class="ion-padding text-center">
+				<div class="my-5">
+					<p>Oops! We couldn't find the page that you're looking for.</p>
+					<p>Please check the address and try again.</p>
+					<small>
+						<span class="font-extrabold">Error code:</span>
+						404
+					</small>
+				</div>
+				<div class="ion-margin-vertical">
+					<ion-button
+						routerLink="/"
+						replaceUrl="true"
+						class="ion-margin-vertical"
+						expand="fill"
+						type="button">
+						<ion-icon
+							size="small"
+							slot="start"
+							name="home"></ion-icon>
+						<ion-label>Return home</ion-label>
+					</ion-button>
+				</div>
+			</ion-card-content>
+		</ion-card>
+	</div>
+</ion-content>

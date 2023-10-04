@@ -1,11 +1,17 @@
 {
-	"defaultProject": "core-ui",
+	"defaultProject": "web",
 	"projects": {
-		"core-ui": {
-			"name": "Core UI",
+		"web": {
+			"name": "Web UI",
 			"integrations": {},
 			"type": "angular",
-			"root": "projects/core-ui"
+			"root": "projects/web"
+		},
+		"mobile": {
+			"name": "Mobile App",
+			"integrations": {},
+			"type": "angular",
+			"root": "projects/mobile"
 		}
 	}
 }

@@ -1,0 +1,417 @@
+<ion-content>
+	<app-page-header [title]="'Profile'"></app-page-header>
+	<ion-card>
+		<ion-card-content class="ion-no-padding">
+			<ion-list [inset]="true">
+				<ion-item>
+					<ion-grid>
+						<ion-row class="ion-justify-content-start">
+							<ion-col
+								class="ion-padding-vertical"
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Personal Info</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								size="12"
+								class="ion-no-padding"
+								size-md="9">
+								<ion-row>
+									<ng-container *ngLet="$user | async as user">
+										<ion-col
+											size="12"
+											size-md="6"
+											push-md="6"
+											size-lg="7"
+											push-lg="5">
+											<div class="profile-pic relative ion-padding-horizontal">
+												<ion-avatar class="m-auto">
+													<img
+														width="300"
+														height="300"
+														class="margin-top mat-elevation-z1"
+														[src]="user?.photoURL ? user?.photoURL :'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+												</ion-avatar>
+												<ion-fab
+													slot="fixed"
+													vertical="bottom"
+													horizontal="center"
+													class="bottom-[-25px]"
+													(click)="inputField.click()">
+													<ion-fab-button size="small">
+														<ion-icon
+															name="camera"
+															class="camera-icon"></ion-icon>
+													</ion-fab-button>
+												</ion-fab>
+											</div>
+											<input
+												#inputField
+												hidden
+												accept=".png, .jpg, .jpeg"
+												type="file"
+												(input)="fileChangeEvent($event)" />
+										</ion-col>
+										<ion-modal
+											#modalImageCrop
+											(ionModalWillDismiss)="clearImageData()">
+											<ng-template>
+												<ion-header>
+													<ion-toolbar>
+														<ion-buttons slot="start">
+															<ion-button (click)="modalImageCrop.dismiss()">Cancel</ion-button>
+														</ion-buttons>
+														<ion-title>Preview profile picture</ion-title>
+														<ion-buttons slot="end">
+															<ion-button
+																[appAsyncRef]="uploadingImage$"
+																[disabled]="!canSave()"
+																(click)="uploadFile(user!)"
+																[strong]="true">
+																Save
+															</ion-button>
+														</ion-buttons>
+													</ion-toolbar>
+												</ion-header>
+												<ion-content>
+													<ion-row
+														class="h-full w-full items-center"
+														slot="fixed">
+														<image-cropper
+															class="!p-0"
+															backgroundColor="transparent"
+															[imageChangedEvent]="imageChangedEvent"
+															[maintainAspectRatio]="true"
+															[aspectRatio]="1/1"
+															[roundCropper]="true"
+															[cropperMinHeight]="200"
+															[cropperMinWidth]="200"
+															(imageCropped)="onImageCropped($event)"
+															(imageLoaded)="onImageLoaded()"
+															(loadImageFailed)="onLoadImageFailed()"></image-cropper>
+													</ion-row>
+												</ion-content>
+											</ng-template>
+										</ion-modal>
+										<ion-col
+											size-md="6"
+											pull-md="6"
+											size-lg="5"
+											pull-lg="7">
+											<form
+												[formGroup]="profileForm"
+												(ngSubmit)="submitRecord(user!)">
+												<ion-item lines="none">
+													<ion-input
+														label="First Name"
+														labelPlacement="floating"
+														fill="solid"
+														placeholder="First Name"
+														type="text"
+														name="First Name"
+														maxlength="25"
+														[errorText]="firstNameError"
+														formControlName="firstName"></ion-input>
+												</ion-item>
+
+												<ion-item lines="none">
+													<ion-input
+														label="Last Name"
+														labelPlacement="floating"
+														fill="solid"
+														placeholder="Last Name"
+														type="text"
+														name="First Name"
+														maxlength="25"
+														[errorText]="lastNameError"
+														formControlName="lastName"></ion-input>
+												</ion-item>
+												<ion-item lines="none">
+													<ion-input
+														label="Email"
+														labelPlacement="floating"
+														fill="solid"
+														type="tel"
+														name="email"
+														maxlength="25"
+														formControlName="email"></ion-input>
+												</ion-item>
+
+												<ion-item lines="none">
+													<ion-input
+														label="Phone"
+														labelPlacement="floating"
+														fill="solid"
+														placeholder="Phone"
+														type="tel"
+														name="phone"
+														maxlength="25"
+														formControlName="phone"></ion-input>
+												</ion-item>
+
+												<ion-item lines="none">
+													<ion-textarea
+														label="Address"
+														labelPlacement="floating"
+														fill="solid"
+														placeholder="Address"
+														name="address"
+														maxlength="150"
+														[autoGrow]="true"
+														formControlName="address"></ion-textarea>
+												</ion-item>
+
+												<ion-button
+													class="ion-margin-vertical"
+													expand="fill"
+													size="small"
+													color="primary"
+													[appAsyncRef]="saveProfile$"
+													type="submit">
+													Save
+												</ion-button>
+											</form>
+										</ion-col>
+									</ng-container>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+				<ion-item>
+					<ion-grid class="ion-padding-vertical">
+						<ion-row class="flex justify-start">
+							<ion-col
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Password</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								size-md="9"
+								class="ion-no-padding">
+								<ion-row>
+									<ion-col
+										size="12"
+										start="true">
+										<ion-text class="block">{{authService.loggedInWithPassword()?'Change':'Set'}} your password</ion-text>
+
+										<ion-button
+											class="ion-margin-vertical flex-initial"
+											size="small"
+											color="primary"
+											(click)="modifyPassword()"
+											type="button">
+											{{authService.loggedInWithPassword()?'Change':'Set'}} Password
+										</ion-button>
+										<ion-modal
+											#modalChangePassword
+											(keyup.enter)="confirmChangePassword()">
+											<ng-template>
+												<ion-header>
+													<ion-toolbar>
+														<ion-buttons slot="start">
+															<ion-button (click)="modalChangePassword.dismiss()">Cancel</ion-button>
+														</ion-buttons>
+														<ion-title>Set new password</ion-title>
+														<ion-buttons slot="end">
+															<ion-button
+																(click)="confirmChangePassword()"
+																[appAsyncRef]="modifyPassword$"
+																[strong]="true">
+																Confirm
+															</ion-button>
+														</ion-buttons>
+													</ion-toolbar>
+												</ion-header>
+												<ion-content>
+													<ion-row>
+														<ion-col>
+															<form [formGroup]="formChangePassword">
+																<ion-list
+																	lines="none"
+																	class="p-6">
+																	<ion-item>
+																		<app-show-hide-password>
+																			<ion-input
+																				label="Password"
+																				labelPlacement="floating"
+																				[counter]="true"
+																				maxlength="50"
+																				minlength="6"
+																				fill="solid"
+																				autocomplete="disabled"
+																				placeholder="Enter your password"
+																				type="password"
+																				name="password"
+																				[clearInput]="true"
+																				[clearOnEdit]="false"
+																				[errorText]="getChangePasswordError"
+																				formControlName="password"></ion-input>
+																		</app-show-hide-password>
+																	</ion-item>
+
+																	<ion-item>
+																		<app-show-hide-password>
+																			<ion-input
+																				labelPlacement="floating"
+																				label="Confirm password"
+																				[counter]="true"
+																				maxlength="50"
+																				fill="solid"
+																				autocomplete="disabled"
+																				placeholder="Enter your password"
+																				type="password"
+																				[clearInput]="true"
+																				[clearOnEdit]="false"
+																				name="confirmPassword"
+																				[errorText]="getChangeConfirmPasswordError"
+																				formControlName="confirmPassword"></ion-input>
+																		</app-show-hide-password>
+																	</ion-item>
+																</ion-list>
+															</form>
+														</ion-col>
+													</ion-row>
+												</ion-content>
+											</ng-template>
+										</ion-modal>
+										<ion-modal
+											#modalVerifyEmail
+											(keyup.enter)="confirmValidatePassword()">
+											<ng-template>
+												<ion-header>
+													<ion-toolbar>
+														<ion-buttons slot="start">
+															<ion-button (click)="modalVerifyEmail.dismiss()">Cancel</ion-button>
+														</ion-buttons>
+														<ion-title>Verify password</ion-title>
+														<ion-buttons slot="end">
+															<ion-button
+																(click)="confirmValidatePassword()"
+																[appAsyncRef]="validatePassword$"
+																[strong]="true">
+																Confirm
+															</ion-button>
+														</ion-buttons>
+													</ion-toolbar>
+												</ion-header>
+												<ion-content>
+													<ion-row>
+														<ion-col>
+															<form [formGroup]="formValidatePassword">
+																<ion-list
+																	lines="none"
+																	class="p-6">
+																	<ion-item>
+																		<app-show-hide-password>
+																			<ion-input
+																				label="Current Password"
+																				labelPlacement="floating"
+																				[counter]="true"
+																				maxlength="50"
+																				minlength="6"
+																				fill="solid"
+																				autocomplete="disabled"
+																				placeholder="Enter Current password"
+																				type="password"
+																				name="password"
+																				[clearInput]="true"
+																				[clearOnEdit]="false"
+																				[errorText]="getValidatePasswordError"
+																				formControlName="currentPassword"></ion-input>
+																		</app-show-hide-password>
+																	</ion-item>
+																</ion-list>
+															</form>
+														</ion-col>
+													</ion-row>
+												</ion-content>
+											</ng-template>
+										</ion-modal>
+									</ion-col>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+				<ion-item>
+					<ion-grid class="ion-padding-vertical">
+						<ion-row class="flex justify-start">
+							<ion-col
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Personalize</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								size-md="9"
+								class="ion-no-padding">
+								<ion-row>
+									<ion-col
+										size="12"
+										start="true">
+										<ion-text class="block">Change Theme</ion-text>
+										<ion-toggle
+											justify="start"
+											[checked]="theme.isDarkMode"
+											(ionChange)="theme.toggleChange($event)">
+											{{theme.isDarkMode?'Dark mode':'Light mode'}}
+										</ion-toggle>
+									</ion-col>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+				<ion-item>
+					<ion-grid class="ion-padding-vertical">
+						<ion-row class="flex justify-start">
+							<ion-col
+								size="12"
+								size-md="3">
+								<ion-text>
+									<h2>Account</h2>
+								</ion-text>
+							</ion-col>
+							<ion-col
+								class="ion-no-padding"
+								size-md="9">
+								<ion-row>
+									<ion-col
+										size="12"
+										start="true">
+										<ion-text class="block">Deactivate your account</ion-text>
+
+										<ion-button
+											id="present-alert"
+											class="ion-margin-vertical flex-initial"
+											size="small"
+											color="danger"
+											[appAsyncRef]="deleteUser$"
+											type="button">
+											Delete Account
+										</ion-button>
+
+										<ion-alert
+											trigger="present-alert"
+											header="Alert"
+											subHeader="Delete Account"
+											message="Deleting your account cannot be undone. Any personal identifiable information will
+													 be deleted and any in-progress data will be lost."
+											[buttons]="alertButtons"
+											(didDismiss)="setResult($event)"></ion-alert>
+									</ion-col>
+								</ion-row>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

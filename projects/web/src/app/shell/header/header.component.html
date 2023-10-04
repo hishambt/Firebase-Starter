@@ -1,0 +1,74 @@
+<ion-toolbar class="flex align-center">
+	<ion-buttons slot="start">
+		<ion-menu-button></ion-menu-button>
+		<ion-title>
+			<div
+				class="title"
+				replaceUrl="true"
+				routerLink="/home">
+				<ion-icon
+					size="large"
+					name="code-slash"></ion-icon>
+				<p>Soft Side</p>
+			</div>
+		</ion-title>
+	</ion-buttons>
+	<ion-searchbar class="m-auto max-w-[400px] hidden md:block custom"></ion-searchbar>
+	<ion-buttons slot="end">
+		<ng-container *ngLet="user$ | async as user">
+			<ion-button
+				shape="round"
+				id="profile-menu">
+				<ion-chip>
+					<ion-avatar>
+						<img
+							*ngIf="user?.photoURL"
+							alt="Profile pic"
+							[src]="user?.photoURL" />
+						<img
+							*ngIf="!user?.photoURL"
+							alt="Profile pic"
+							src="assets/icon/pp.jpg" />
+					</ion-avatar>
+					<ion-label class="ion-text-capitalize">{{getUserDisplay(user!)}}</ion-label>
+				</ion-chip>
+			</ion-button>
+			<ion-popover
+				trigger="profile-menu"
+				triggerAction="click"
+				dismissOnSelect="true"
+				size="cover"
+				side="bottom"
+				alignment="end">
+				<ng-template>
+					<ion-list lines="none">
+						<ion-item
+							routerLink="/profile"
+							replaceUrl="true">
+							<ion-icon
+								class="ion-padding-horizontal"
+								name="person-circle-outline"></ion-icon>
+							<ion-label>My profile</ion-label>
+						</ion-item>
+						<ion-item
+							button
+							(click)="revealId(user?.uid!)">
+							<ion-icon
+								class="ion-padding-horizontal"
+								name="id-card-outline"></ion-icon>
+							<ion-label>Show Id</ion-label>
+						</ion-item>
+						<ion-item
+							button
+							(click)="logout()">
+							<ion-icon
+								class="ion-padding-horizontal"
+								name="log-out-outline"></ion-icon>
+							<ion-label>Sign out</ion-label>
+						</ion-item>
+					</ion-list>
+				</ng-template>
+			</ion-popover>
+		</ng-container>
+	</ion-buttons>
+</ion-toolbar>

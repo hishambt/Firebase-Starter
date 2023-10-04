@@ -1,0 +1,95 @@
+<ion-content>
+	<div class="flex items-center justify-center h-full">
+		<ion-card class="w-full max-w-lg">
+			<ion-card-header class="ion-text-center ion-padding ion-margin-bottom">
+				<ion-card-title>Login -- Mobileeeeeeeee</ion-card-title>
+			</ion-card-header>
+			<ion-card-content class="ion-padding">
+				<ion-row>
+					<ion-col class="ion-no-padding">
+						<form
+							[formGroup]="form"
+							(ngSubmit)="submitRecord()">
+							<ion-list lines="none">
+								<ion-item>
+									<ion-input
+										[counter]="true"
+										label="Email"
+										labelPlacement="floating"
+										fill="solid"
+										placeholder="Enter your email address"
+										type="email"
+										name="email"
+										maxlength="50"
+										[errorText]="getEmailError"
+										formControlName="email"></ion-input>
+								</ion-item>
+
+								<ion-item>
+									<app-show-hide-password>
+										<ion-input
+											[counter]="true"
+											label="Password"
+											labelPlacement="floating"
+											maxlength="50"
+											fill="solid"
+											placeholder="Enter your password"
+											name="password"
+											type="password"
+											[clearOnEdit]="false"
+											[clearInput]="true"
+											[errorText]="getPasswordError"
+											formControlName="password"></ion-input>
+									</app-show-hide-password>
+								</ion-item>
+							</ion-list>
+							<div class="ion-margin-vertical">
+								<ion-button
+									class="ion-margin-vertical"
+									expand="fill"
+									[appAsyncRef]="login$"
+									size="full"
+									color="primary"
+									type="submit">
+									Login
+								</ion-button>
+								<ion-button
+									class="ion-margin-vertical"
+									expand="fill"
+									size="full"
+									[appAsyncRef]="loginWithGoogle$"
+									(click)="loginWithGoogle()"
+									type="button">
+									<ion-icon
+										size="small"
+										slot="start"
+										name="logo-google"></ion-icon>
+									<ion-label>Sign in With Google</ion-label>
+								</ion-button>
+							</div>
+						</form>
+					</ion-col>
+				</ion-row>
+				<ion-buttons class="ion-justify-content-between">
+					<ion-button
+						replaceUrl="true"
+						routerLink="/auth/register"
+						color="primary"
+						size="small"
+						fill="clear">
+						Create account
+					</ion-button>
+					<ion-button
+						replaceUrl="true"
+						routerLink="/auth/forget-password"
+						color="primary"
+						size="small"
+						class="ion-text-end"
+						fill="clear">
+						Forgot Password
+					</ion-button>
+				</ion-buttons>
+			</ion-card-content>
+		</ion-card>
+	</div>
+</ion-content>

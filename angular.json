@@ -3,30 +3,30 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"core-ui": {
+		"web": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
 			},
-			"root": "projects/core-ui",
-			"sourceRoot": "projects/core-ui/src",
+			"root": "projects/web",
+			"sourceRoot": "projects/web/src",
 			"prefix": "app",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"outputPath": "public",
-						"index": "projects/core-ui/src/index.html",
-						"main": "projects/core-ui/src/main.ts",
-						"polyfills": "projects/core-ui/src/polyfills.ts",
-						"tsConfig": "projects/core-ui/tsconfig.app.json",
+						"index": "projects/web/src/index.html",
+						"main": "projects/web/src/main.ts",
+						"polyfills": "projects/web/src/polyfills.ts",
+						"tsConfig": "projects/web/tsconfig.app.json",
 						"inlineStyleLanguage": "scss",
 						"assets": [
 							{
 								"glob": "**/*",
-								"input": "projects/core-ui/src/assets",
+								"input": "projects/web/src/assets",
 								"output": "assets"
 							},
 							{
@@ -35,7 +35,7 @@
 								"output": "./svg"
 							}
 						],
-						"styles": ["projects/core-ui/src/global.scss"],
+						"styles": ["projects/web/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
@@ -54,8 +54,8 @@
 							],
 							"fileReplacements": [
 								{
-									"replace": "projects/core-ui/src/environments/environment.ts",
-									"with": "projects/core-ui/src/environments/environment.prod.ts"
+									"replace": "projects/web/src/environments/environment.ts",
+									"with": "projects/web/src/environments/environment.prod.ts"
 								}
 							],
 							"outputHashing": "all"
@@ -75,10 +75,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "core-ui:build:production"
+							"browserTarget": "web:build:production"
 						},
 						"development": {
-							"browserTarget": "core-ui:build:development"
+							"browserTarget": "web:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -86,21 +86,21 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "core-ui:build"
+						"browserTarget": "web:build"
 					}
 				},
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"main": "projects/core-ui/src/test.ts",
-						"polyfills": "projects/core-ui/src/polyfills.ts",
-						"tsConfig": "projects/core-ui/tsconfig.spec.json",
+						"main": "projects/web/src/test.ts",
+						"polyfills": "projects/web/src/polyfills.ts",
+						"tsConfig": "projects/web/tsconfig.spec.json",
 						"karmaConfig": "karma.conf.js",
 						"inlineStyleLanguage": "scss",
 						"assets": [
 							{
 								"glob": "**/*",
-								"input": "projects/core-ui/src/assets",
+								"input": "projects/web/src/assets",
 								"output": "assets"
 							},
 							{
@@ -109,7 +109,7 @@
 								"output": "./svg"
 							}
 						],
-						"styles": ["projects/core-ui/src/global.scss"],
+						"styles": ["projects/web/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
@@ -123,60 +123,197 @@
 					"builder": "@angular-eslint/builder:lint",
 					"options": {
 						"lintFilePatterns": [
-							"projects/core-ui/src/**/*.ts",
-							"projects/core-ui/src/**/*.html"
+							"projects/web/src/**/*.ts",
+							"projects/web/src/**/*.html"
 						]
 					}
 				},
 				"storybook": {
 					"builder": "@storybook/angular:start-storybook",
 					"options": {
-						"configDir": "projects/core-ui/.storybook",
-						"browserTarget": "core-ui:build",
+						"configDir": "projects/web/.storybook",
+						"browserTarget": "web:build",
 						"compodoc": true,
-						"compodocArgs": [
-							"-e",
-							"json",
-							"-d",
-							"projects/core-ui"
-						],
+						"compodocArgs": ["-e", "json", "-d", "projects/web"],
 						"port": 6006
 					}
 				},
 				"build-storybook": {
 					"builder": "@storybook/angular:build-storybook",
 					"options": {
-						"configDir": "projects/core-ui/.storybook",
-						"browserTarget": "core-ui:build",
+						"configDir": "projects/web/.storybook",
+						"browserTarget": "web:build",
 						"compodoc": true,
-						"compodocArgs": [
-							"-e",
-							"json",
-							"-d",
-							"projects/core-ui"
-						],
+						"compodocArgs": ["-e", "json", "-d", "projects/web"],
 						"outputDir": "storybook-static"
 					}
 				}
 			}
 		},
-		"core-lib": {
+		"mobile": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "projects/mobile",
+			"sourceRoot": "projects/mobile/src",
+			"prefix": "app",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "public",
+						"index": "projects/mobile/src/index.html",
+						"main": "projects/mobile/src/main.ts",
+						"polyfills": "projects/mobile/src/polyfills.ts",
+						"tsConfig": "projects/mobile/tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/mobile/src/assets",
+								"output": "assets"
+							},
+							{
+								"glob": "**/*.svg",
+								"input": "node_modules/ionicons/dist/ionicons/svg",
+								"output": "./svg"
+							}
+						],
+						"styles": ["projects/mobile/src/global.scss"],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "3kb",
+									"maximumError": "5kb"
+								}
+							],
+							"fileReplacements": [
+								{
+									"replace": "projects/mobile/src/environments/environment.ts",
+									"with": "projects/mobile/src/environments/environment.prod.ts"
+								}
+							],
+							"outputHashing": "all"
+						},
+						"development": {
+							"buildOptimizer": false,
+							"optimization": false,
+							"vendorChunk": true,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"configurations": {
+						"production": {
+							"browserTarget": "mobile:build:production"
+						},
+						"development": {
+							"browserTarget": "mobile:build:development"
+						}
+					},
+					"defaultConfiguration": "development"
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "mobile:build"
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "projects/mobile/src/test.ts",
+						"polyfills": "projects/mobile/src/polyfills.ts",
+						"tsConfig": "projects/mobile/tsconfig.spec.json",
+						"karmaConfig": "karma.conf.js",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/mobile/src/assets",
+								"output": "assets"
+							},
+							{
+								"glob": "**/*.svg",
+								"input": "node_modules/ionicons/dist/ionicons/svg",
+								"output": "./svg"
+							}
+						],
+						"styles": ["projects/mobile/src/global.scss"],
+						"scripts": []
+					},
+					"configurations": {
+						"ci": {
+							"progress": false,
+							"watch": false
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-eslint/builder:lint",
+					"options": {
+						"lintFilePatterns": [
+							"projects/mobile/src/**/*.ts",
+							"projects/mobile/src/**/*.html"
+						]
+					}
+				},
+				"storybook": {
+					"builder": "@storybook/angular:start-storybook",
+					"options": {
+						"configDir": "projects/mobile/.storybook",
+						"browserTarget": "mobile:build",
+						"compodoc": true,
+						"compodocArgs": ["-e", "json", "-d", "projects/mobile"],
+						"port": 6006
+					}
+				},
+				"build-storybook": {
+					"builder": "@storybook/angular:build-storybook",
+					"options": {
+						"configDir": "projects/mobile/.storybook",
+						"browserTarget": "mobile:build",
+						"compodoc": true,
+						"compodocArgs": ["-e", "json", "-d", "projects/mobile"],
+						"outputDir": "storybook-static"
+					}
+				}
+			}
+		},
+		"lib": {
 			"projectType": "library",
-			"root": "projects/core-lib",
-			"sourceRoot": "projects/core-lib/src",
+			"root": "projects/lib",
+			"sourceRoot": "projects/lib/src",
 			"prefix": "lib",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:ng-packagr",
 					"options": {
-						"project": "projects/core-lib/ng-package.json"
+						"project": "projects/lib/ng-package.json"
 					},
 					"configurations": {
 						"production": {
-							"tsConfig": "projects/core-lib/tsconfig.lib.prod.json"
+							"tsConfig": "projects/lib/tsconfig.lib.prod.json"
 						},
 						"development": {
-							"tsConfig": "projects/core-lib/tsconfig.lib.json"
+							"tsConfig": "projects/lib/tsconfig.lib.json"
 						}
 					},
 					"defaultConfiguration": "production"
@@ -184,7 +321,7 @@
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"tsConfig": "projects/core-lib/tsconfig.spec.json",
+						"tsConfig": "projects/lib/tsconfig.spec.json",
 						"polyfills": ["zone.js", "zone.js/testing"]
 					}
 				},
@@ -192,9 +329,29 @@
 					"builder": "@angular-eslint/builder:lint",
 					"options": {
 						"lintFilePatterns": [
-							"projects/core-lib/src/**/*.ts",
-							"projects/core-lib/src/**/*.html"
+							"projects/lib/src/**/*.ts",
+							"projects/lib/src/**/*.html"
 						]
+					}
+				},
+				"storybook": {
+					"builder": "@storybook/angular:start-storybook",
+					"options": {
+						"configDir": "projects/lib/.storybook",
+						"browserTarget": "lib:build",
+						"compodoc": true,
+						"compodocArgs": ["-e", "json", "-d", "projects/lib"],
+						"port": 6006
+					}
+				},
+				"build-storybook": {
+					"builder": "@storybook/angular:build-storybook",
+					"options": {
+						"configDir": "projects/lib/.storybook",
+						"browserTarget": "lib:build",
+						"compodoc": true,
+						"compodocArgs": ["-e", "json", "-d", "projects/lib"],
+						"outputDir": "storybook-static"
 					}
 				}
 			}
