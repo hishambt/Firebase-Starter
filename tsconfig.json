@@ -4,7 +4,8 @@
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
-			"lib": ["dist/lib"]
+			"softside-ui": ["dist/softside-ui", "projects/softside-ui"],
+			"softside-ui/*": ["dist/softside-ui/*", "projects/softside-ui/*"]
 		},
 		"outDir": "./dist/out-tsc",
 		"forceConsistentCasingInFileNames": true,

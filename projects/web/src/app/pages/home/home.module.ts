@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { CoreLibModule } from 'lib';
+import { SSInputComponent } from 'softside-ui/src/lib/controls/_input';
 
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
@@ -8,7 +8,7 @@ import { HomeViewComponent } from './home-view/home-view.component';
 
 @NgModule({
 	declarations: [HomeViewComponent],
-	imports: [HomeRoutingModule, CoreLibModule, SharedModule],
+	imports: [HomeRoutingModule, SSInputComponent, SharedModule],
 	exports: [],
 	providers: [],
 })

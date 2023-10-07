@@ -6,8 +6,8 @@
 			"files": ["*.ts"],
 			"parserOptions": {
 				"project": [
-					"projects/lib/tsconfig.lib.json",
-					"projects/lib/tsconfig.spec.json"
+					"projects/softside-ui/tsconfig.lib.json",
+					"projects/softside-ui/tsconfig.spec.json"
 				],
 				"createDefaultProgram": true
 			},
@@ -16,7 +16,7 @@
 					"error",
 					{
 						"type": "attribute",
-						"prefix": ["app", "lib", "fs"],
+						"prefix": ["app", "lib", "ss"],
 						"style": "camelCase"
 					}
 				],
@@ -24,7 +24,7 @@
 					"error",
 					{
 						"type": "element",
-						"prefix": ["app", "lib", "fs"],
+						"prefix": ["app", "lib", "ss"],
 						"style": "kebab-case"
 					}
 				]
