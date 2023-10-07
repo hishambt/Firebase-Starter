@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
 	selector: 'ss-input',
 	template: `
+		<img src="/assets/1.jpg" />
 		<ion-input
 			label="Password"
 			labelPlacement="floating"
@@ -24,10 +25,9 @@ import { IonicModule } from '@ionic/angular';
 	standalone: true,
 	styles: [''],
 	imports: [IonicModule],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SSInputComponent {
-	constructor() {}
-
 	get getPasswordError(): string {
 		return ''; //ErrorMessages.getError(this.form.get('password') as FormControl<string>, 'Password');
 	}

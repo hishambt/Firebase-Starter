@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SSInputComponent } from 'softside-ui/src/lib/controls/_input';
+import { SSEmailComponent } from 'softside-ui/lib/ui/controls';
 
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
@@ -12,7 +12,7 @@ import { HomeViewComponent } from './home-view/home-view.component';
 	],
 	imports: [
 		HomeRoutingModule,
-		SSInputComponent,
+		SSEmailComponent,
 		SharedModule,
 	],
 	exports: [],

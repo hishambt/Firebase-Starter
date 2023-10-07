@@ -33,9 +33,17 @@
 								"glob": "**/*.svg",
 								"input": "node_modules/ionicons/dist/ionicons/svg",
 								"output": "./svg"
+							},
+							{
+								"glob": "**/*.*",
+								"input": "node_modules/softside-ui/assets",
+								"output": "assets"
 							}
 						],
-						"styles": ["projects/web/src/global.scss"],
+						"styles": [
+							"projects/web/src/global.scss",
+							"node_modules/softside-ui/css/styles.scss"
+						],
 						"scripts": []
 					},
 					"configurations": {
@@ -109,7 +117,10 @@
 								"output": "./svg"
 							}
 						],
-						"styles": ["projects/web/src/global.scss"],
+						"styles": [
+							"projects/web/src/global.scss",
+							"node_modules/softside-ui/css/styles.scss"
+						],
 						"scripts": []
 					},
 					"configurations": {
@@ -180,9 +191,17 @@
 								"glob": "**/*.svg",
 								"input": "node_modules/ionicons/dist/ionicons/svg",
 								"output": "./svg"
+							},
+							{
+								"glob": "**/*.*",
+								"input": "dist/softside-ui/assets",
+								"output": "assets"
 							}
 						],
-						"styles": ["projects/mobile/src/global.scss"],
+						"styles": [
+							"projects/mobile/src/global.scss",
+							"dist/softside-ui/css/styles.scss"
+						],
 						"scripts": []
 					},
 					"configurations": {
@@ -329,8 +348,8 @@
 					"builder": "@angular-eslint/builder:lint",
 					"options": {
 						"lintFilePatterns": [
-							"projects/softside-ui/src/**/*.ts",
-							"projects/softside-ui/src/**/*.html"
+							"projects/softside-ui/lib/**/*.ts",
+							"projects/softside-ui/lib/**/*.html"
 						]
 					}
 				},

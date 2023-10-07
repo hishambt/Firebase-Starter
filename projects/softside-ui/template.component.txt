@@ -1,37 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'lib-%%NAME%%',
+  selector: 'ss-%%NAME%%',
   template: `
-          <ion-input
-              label="Password"
-              labelPlacement="floating"
-              [counter]="true"
-              maxlength="50"
-              minlength="6"
-              fill="solid"
-              autocomplete="disabled"
-              placeholder="Enter your password"
-              type="password"
-              name="password"
-              [clearInput]="true"
-              [clearOnEdit]="false"
-              [errorText]="getPasswordError"
-              formControlName="password"></ion-input>
+          <h1>%%C_NAME%% works!</h1>
   `,
   standalone: true,
   styles: [''],
   imports: [
     IonicModule,
-
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class %%C_NAME%%Component {
-
-  constructor() { }
-
-  get getPasswordError(): string {
-    return '';//this.authService.getError(this.form.get('password') as FormControl<string>, 'Password');
-  }
-}
+export class SS%%C_NAME%%Component {}

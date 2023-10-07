@@ -1,7 +1,11 @@
 {
 	"$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
 	"dest": "../../dist/softside-ui",
+	"assets": [
+		{ "input": "lib/css", "glob": "**/*.scss", "output": "css" },
+		{ "input": "lib/assets", "glob": "**/*.*", "output": "assets" }
+	],
 	"lib": {
-		"entryFile": "src/public-api.ts"
+		"entryFile": "lib/public-api.ts"
 	}
 }

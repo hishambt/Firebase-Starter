@@ -33,6 +33,12 @@
 		{
 			"files": ["*.html"],
 			"rules": {}
+		},
+		{
+			"files": ["*.js"],
+			"parserOptions": {
+				"ecmaVersion": "latest"
+			}
 		}
 	]
 }
