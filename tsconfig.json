@@ -1,11 +1,12 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
 	"compileOnSave": false,
+	"exclude": ["projects/softside-ui"],
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
-			"softside-ui": ["dist/softside-ui", "projects/softside-ui"],
-			"softside-ui/*": ["dist/softside-ui/*", "projects/softside-ui/*"]
+			"softside-ui": ["dist/softside-ui"],
+			"softside-ui/*": ["dist/softside-ui/*"]
 		},
 		"outDir": "./dist/out-tsc",
 		"forceConsistentCasingInFileNames": true,
