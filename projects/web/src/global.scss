@@ -29,3 +29,8 @@
 /* Custom theme css files */
 
 @import "theme/main";
+
+@import "node_modules/softside-ui/css/styles.scss";
+@import "node_modules/softside-ui/assets/themes/material.scss";
+@import "node_modules/softside-ui/assets/themes/dark.scss";
+@import "node_modules/softside-ui/assets/themes/bootstrap.scss";

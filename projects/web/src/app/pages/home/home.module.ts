@@ -18,4 +18,4 @@ import { HomeViewComponent } from './home-view/home-view.component';
 	exports: [],
 	providers: [],
 })
-export class HomeModule {}
+export class HomeModule { }

@@ -40,10 +40,7 @@
 								"output": "assets"
 							}
 						],
-						"styles": [
-							"projects/web/src/global.scss",
-							"node_modules/softside-ui/css/styles.scss"
-						],
+						"styles": ["projects/web/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
@@ -117,10 +114,7 @@
 								"output": "./svg"
 							}
 						],
-						"styles": [
-							"projects/web/src/global.scss",
-							"node_modules/softside-ui/css/styles.scss"
-						],
+						"styles": ["projects/web/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
