@@ -48,4 +48,18 @@
 			</ion-row>
 		</ion-card-content>
 	</ion-card>
+
+	<div>
+		<h3>Fluid Row Heights</h3>
+		<ngx-datatable
+			class="dark"
+			[rows]="rows"
+			[loadingIndicator]="loadingIndicator"
+			[columns]="columns"
+			[columnMode]="ColumnMode.force"
+			[headerHeight]="50"
+			[footerHeight]="50"
+			rowHeight="auto"
+			[reorderable]="reorderable"></ngx-datatable>
+	</div>
 </ion-content>
