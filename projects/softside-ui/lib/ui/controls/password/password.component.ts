@@ -4,22 +4,21 @@ import { Validators } from '@angular/forms';
 import { SSInputComponent } from '../_input/_input.component';
 
 @Component({
-	selector: 'ss-email',
+	selector: 'ss-password',
 	template: ` <ss-input
-		label="Email"
-		placeholder="Enter your email address"
-		type="email"
+		label="Password"
+		placeholder="Enter your password"
+		type="password"
 		maxlength="50"
-		controlKey="email"
+		controlKey="password"
 		defaultValue=""
-		[setValidators]="validators"
+		[hideshow]="true"
 	></ss-input>`,
 	standalone: true,
 	styles: [''],
 	imports: [SSInputComponent],
-	providers: [Validators],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SSEmailComponent {
-	validators = [Validators.required, Validators.email];
+export class SSPasswordComponent {
+	validators = [Validators.required];
 }

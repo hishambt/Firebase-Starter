@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
 	fb = inject(NonNullableFormBuilder);
+	cdr = inject(ChangeDetectorRef);
 
 	form: FormGroup = this.fb.group({
-		email: new FormControl<string>('', [Validators.email, Validators.required]),
 		password: new FormControl<string>('', [Validators.required]),
 	});
 
@@ -46,8 +46,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	submitRecord(): void {
+		console.log('this.form', this.form);
+
 		if (this.form.invalid) {
 			this.form.markAllAsTouched();
+			this.form.updateValueAndValidity();
 
 			return;
 		}
