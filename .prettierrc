@@ -11,7 +11,7 @@
 				"parser": "typescript",
 				"bracketSpacing": true,
 				"trailingComma": "all",
-				"printWidth": 150,
+				"printWidth": 200,
 				"singleAttributePerLine": true
 			}
 		},
@@ -21,17 +21,18 @@
 				"parser": "typescript",
 				"bracketSpacing": true,
 				"trailingComma": "all",
-				"printWidth": 150,
+				"printWidth": 200,
 				"singleAttributePerLine": true
 			}
 		},
 		{
 			"files": "*.module.ts",
+			"excludeFiles": ["app.module.ts"],
 			"options": {
 				"parser": "typescript",
 				"bracketSpacing": true,
 				"trailingComma": "all",
-				"printWidth": 20,
+				"printWidth": 30,
 				"singleAttributePerLine": true
 			}
 		},
@@ -46,7 +47,7 @@
 				"singleQuote": true,
 				"trailingComma": "none",
 				"singleAttributePerLine": true,
-				"printWidth": 150
+				"printWidth": 200
 			}
 		},
 		{
@@ -54,6 +55,13 @@
 			"options": {
 				"parser": "scss",
 				"singleQuote": false
+			}
+		},
+		{
+			"files": "*.js",
+			"options": {
+				"parser": "flow",
+				"printWidth": 200
 			}
 		}
 	]
