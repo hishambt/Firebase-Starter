@@ -12,7 +12,7 @@
 		"firebase": "firebase",
 		"angular:serve": "ng serve",
 		"build:lib": "env-cmd -e production ng build softside-ui",
-		"build:lib:watch": "ng build softside-ui --watch",
+		"build:lib:watch": "env-cmd -e production ng build softside-ui --watch",
 		"build:web": "env-cmd -e production ng build web",
 		"build:mobile": "env-cmd -e production ng build mobile",
 		"deploy:local": "servor public index.html 4321 --secure --browse",

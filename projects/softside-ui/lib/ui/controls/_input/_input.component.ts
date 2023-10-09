@@ -50,7 +50,13 @@ import ErrorMessages from '../_utils/error-msgs';
 	viewProviders: [
 		{
 			provide: ControlContainer,
-			useFactory: (): ControlContainer => inject(ControlContainer, { skipSelf: true }),
+			useFactory: (): ControlContainer | void => {
+				try {
+					return inject(ControlContainer, { skipSelf: true });
+				} catch (e) {
+					console.error();
+				}
+			},
 		},
 	],
 })
@@ -78,17 +84,29 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 	private readonly _destroy$ = new Subject<void>();
 
 	ngOnInit(): void {
+		if (!this.parentFormGroup) {
+			return;
+		}
+
 		this.parentFormGroup.addControl(this.controlKey, new FormControl<T>(this.defaultValue, this.setValidators));
 		this.parentFormGroup.statusChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
 			this.cdr.detectChanges();
 		});
 	}
 
-	get parentFormGroup(): FormGroup {
+	get parentFormGroup(): FormGroup | void {
+		if (!this.parentContainer) {
+			return;
+		}
+
 		return this.parentContainer.control as FormGroup;
 	}
 
 	get getError(): string {
+		if (!this.parentFormGroup) {
+			return '';
+		}
+
 		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl<string>, this.label);
 	}
 
@@ -130,7 +148,10 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.parentFormGroup.removeControl(this.controlKey);
+		if (this.parentFormGroup) {
+			this.parentFormGroup.removeControl(this.controlKey);
+		}
+
 		this._destroy$.next();
 		this._destroy$.complete();
 

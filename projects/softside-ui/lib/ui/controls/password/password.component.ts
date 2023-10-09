@@ -13,9 +13,11 @@ import { SSInputComponent } from '../_input/_input.component';
 		controlKey="password"
 		defaultValue=""
 		[hideshow]="true"
+		[setValidators]="validators"
 	></ss-input>`,
 	standalone: true,
 	styles: [''],
+	providers: [Validators],
 	imports: [SSInputComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
