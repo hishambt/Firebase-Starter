@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { IonInput, IonicModule } from '@ionic/angular';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
 
 import ErrorMessages from '../_utils/error-msgs';
@@ -79,7 +79,6 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 	showPassword = signal(false);
 	show = signal(false);
 	@ViewChild(IonInput) input!: IonInput;
-	ionInputEvent$: Subscription | null = null;
 
 	private readonly _destroy$ = new Subject<void>();
 
@@ -107,12 +106,12 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 			return '';
 		}
 
-		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl<string>, this.label);
+		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl<T>, this.label);
 	}
 
 	ngAfterViewInit(): void {
 		if (this.input.clearInput) {
-			this.ionInputEvent$ = this.input.ionInput.subscribe(() => this.onChange());
+			this.input.ionInput.pipe(takeUntil(this._destroy$)).subscribe(() => this.onChange());
 			this.input.getInputElement().then((element: HTMLInputElement) => {
 				element.parentElement?.querySelector('button')?.addEventListener('click', () => this.onChange());
 			});
@@ -157,10 +156,6 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 
 		if (!this.input.clearInput) {
 			return;
-		}
-
-		if (this.ionInputEvent$) {
-			this.ionInputEvent$.unsubscribe();
 		}
 
 		if (this.input) {
