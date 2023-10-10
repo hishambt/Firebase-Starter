@@ -2,7 +2,8 @@
 	"name": "softside-ui",
 	"version": "0.0.1",
 	"scripts": {
-		"g:c": "node generate-component.js"
+		"g:c": "node generate-component.js",
+		"tailwind": "tailwind"
 	},
 	"dependencies": {
 		"tslib": "^2.3.0"

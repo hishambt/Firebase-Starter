@@ -35,20 +35,11 @@ function generateComponent() {
 	}
 
 	// Read the file and save the contents in a variable
-	fs.promises
-		.readFile('./template.component.txt', 'utf8')
-		.then((fileContent) => {
-			let newFileContent = fileContent.replaceAll('%%NAME%%', fileName);
+	fs.promises.readFile('./template.component.txt', 'utf8').then((fileContent) => {
+		let newFileContent = fileContent.replaceAll('%%NAME%%', fileName);
 
-			newFileContent = newFileContent.replaceAll(
-				'%%C_NAME%%',
-				componentName,
-			);
+		newFileContent = newFileContent.replaceAll('%%C_NAME%%', componentName);
 
-			fs.promises.writeFile(
-				`src/lib/${path}/${fileName}.component.ts`,
-				newFileContent,
-				'utf8',
-			);
-		});
+		fs.promises.writeFile(`src/lib/${path}/${fileName}.component.ts`, newFileContent, 'utf8');
+	});
 }

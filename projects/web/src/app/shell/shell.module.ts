@@ -8,7 +8,15 @@ import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { ShellLoadingBarComponent } from './_components/shell-loading-bar/shell-loading-bar.component';
 
 @NgModule({
-	declarations: [ShellComponent, HeaderComponent, FooterComponent, SideNavbarComponent, ShellLoadingBarComponent],
-	imports: [SharedModule],
+	declarations: [
+		ShellComponent,
+		HeaderComponent,
+		FooterComponent,
+		SideNavbarComponent,
+		ShellLoadingBarComponent,
+	],
+	imports: [
+		SharedModule,
+	],
 })
 export class ShellModule {}

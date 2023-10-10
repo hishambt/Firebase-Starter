@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
@@ -20,19 +20,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
 	fb = inject(NonNullableFormBuilder);
+	cdr = inject(ChangeDetectorRef);
 
-	form: FormGroup = this.fb.group({
-		email: new FormControl<string>('', [Validators.email, Validators.required]),
-		password: new FormControl<string>('', [Validators.required]),
-	});
-
-	get getEmailError(): string {
-		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
-	}
-
-	get getPasswordError(): string {
-		return this.authService.getError(this.form.get('password') as FormControl<string>, 'Password');
-	}
+	form: FormGroup = this.fb.group({});
 
 	login$: Subscription | null = null;
 	loginWithGoogle$: Subscription | null = null;
@@ -48,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	submitRecord(): void {
 		if (this.form.invalid) {
 			this.form.markAllAsTouched();
+			this.form.updateValueAndValidity();
 
 			return;
 		}
