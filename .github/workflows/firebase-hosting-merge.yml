@@ -9,9 +9,9 @@ name: Deploy to Firebase Hosting on merge
 jobs:
     node16:
         runs-on: ubuntu-latest
-    steps:
-        - name: Install Node.js 16
-          run: nvm install 16 && nvm use 16
+        steps:
+           - name: Install Node.js 16
+           - run: nvm install 16 && nvm use 16
     build_and_deploy:
         runs-on: ubuntu-latest
         steps:
