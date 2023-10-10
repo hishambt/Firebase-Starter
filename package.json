@@ -58,6 +58,7 @@
 		"ionicons": "^7.0.0",
 		"ng-let": "^16.0.2",
 		"ngx-image-cropper": "^7.0.2",
+		"ngx-softside-table": "^1.0.0",
 		"rxjs": "~7.8.0",
 		"softside-ui": "file:dist/softside-ui",
 		"tslib": "^2.3.0",

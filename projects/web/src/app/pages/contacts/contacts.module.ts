@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-
-import { NgxDatatableModule } from 'softside-ui/lib/ui/table';
+import { NgxDatatableModule } from 'ngx-softside-table';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ContactsRoutingModule } from './contacts-routing.module';

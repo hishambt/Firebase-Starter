@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import { ColumnMode } from 'softside-ui/lib/ui/table';
+import { ColumnMode } from 'ngx-softside-table';
 
 @Component({
 	selector: 'app-contacts-view',
