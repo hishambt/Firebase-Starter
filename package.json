@@ -10,7 +10,7 @@
 		"start:lib": "concurrently \"ng build softside-ui --watch\" \"sleep 1 & tailwind --watch -c ./projects/softside-ui/tailwind.config.js -o ./dist/softside-ui/css/tailwind.scss -p\"",
 		"start:web": "kill-port 9099 8080 5000 9199 4000 5001 && firebase emulators:exec --project=demo-project --ui \"ionic serve --project web\" --import=./emulators.backup --export-on-exit=./emulators.backup",
 		"start:mobile": "kill-port 9099 8080 5000 9199 4000 5001 && firebase emulators:exec --project=demo-project --ui \"ionic serve --project mobile\" --import=./emulators.backup --export-on-exit=./emulators.backup",
-		"build:lib": "ng build softside-ui & tailwind -c ./projects/softside-ui/tailwind.config.js -o ./dist/softside-ui/css/tailwind.scss & npm run lint:styles:lib",
+		"build:lib": "ng build softside-ui & tailwind -c ./projects/softside-ui/tailwind.config.js -o ./dist/softside-ui/css/tailwind.scss",
 		"build:web": "env-cmd -e production_web ng build web",
 		"build:mobile": "env-cmd -e production_mobile ng build mobile",
 		"deploy:local": "servor public index.html 4321 --browse --secure",
