@@ -14,7 +14,7 @@ import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
-import { passwordMatchValidator } from '../../../shared/helpers/confirmed.validator';
+import { passwordMatchValidator } from '../../../../../../softside-ui/lib/ui/controls/_utils/confirmed.validator';
 import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({

@@ -10,56 +10,8 @@
 						<form
 							[formGroup]="form"
 							(ngSubmit)="submitRecord()">
-							<ion-list lines="none">
-								<ion-item>
-									<ion-input
-										label="Email"
-										labelPlacement="floating"
-										[counter]="true"
-										fill="solid"
-										placeholder="Enter your email address"
-										type="email"
-										name="email"
-										maxlength="50"
-										[errorText]="getEmailError"
-										formControlName="email"></ion-input>
-								</ion-item>
-
-								<ion-item>
-									<ion-input
-										label="Password"
-										labelPlacement="floating"
-										[counter]="true"
-										maxlength="50"
-										minlength="6"
-										fill="solid"
-										autocomplete="disabled"
-										placeholder="Enter your password"
-										type="password"
-										name="password"
-										[clearInput]="true"
-										[clearOnEdit]="false"
-										[errorText]="getPasswordError"
-										formControlName="password"></ion-input>
-								</ion-item>
-
-								<ion-item>
-									<ion-input
-										labelPlacement="floating"
-										label="Confirm password"
-										[counter]="true"
-										maxlength="50"
-										fill="solid"
-										autocomplete="disabled"
-										placeholder="Enter your password"
-										type="password"
-										[clearInput]="true"
-										[clearOnEdit]="false"
-										name="confirmPassword"
-										[errorText]="getConfirmPasswordError"
-										formControlName="confirmPassword"></ion-input>
-								</ion-item>
-							</ion-list>
+							<ss-email></ss-email>
+							<ss-password-confirm-group></ss-password-confirm-group>
 							<div class="ion-margin-vertical">
 								<ion-button
 									class="ion-margin-vertical"

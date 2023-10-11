@@ -65,7 +65,7 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';
 	@Input({ required: true }) controlKey: string = '';
 	@Input() maxlength: string = '50';
-	@Input() minlength: string = '6';
+	@Input() minlength: string = '1';
 	@Input() autocomplete: boolean = false;
 	@Input() counter: boolean = true;
 	@Input() clearInput: boolean = true;
@@ -88,7 +88,7 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 		}
 
 		this.parentFormGroup.addControl(this.controlKey, new FormControl<T>(this.defaultValue, this.setValidators));
-		this.parentFormGroup.statusChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+		this.parentFormGroup.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
 			this.cdr.detectChanges();
 		});
 	}

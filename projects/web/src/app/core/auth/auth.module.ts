@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {
 	SSEmailComponent,
 	SSPasswordComponent,
+	SSPasswordConfirmGroupComponent,
 } from 'softside-ui/lib/ui/controls';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -26,6 +27,7 @@ import { AuthShellComponent } from './auth-shell/auth-shell.component';
 		AuthRoutingModule,
 		SSEmailComponent,
 		SSPasswordComponent,
+		SSPasswordConfirmGroupComponent,
 	],
 	providers: [],
 })

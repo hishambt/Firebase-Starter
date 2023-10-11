@@ -18,9 +18,12 @@ export function passwordMatchValidator(controlName: string, matchingControlName:
 
 			return { required: true };
 		} else {
-			confirmPasswordControl.setErrors(null);
+			const error = { ...confirmPasswordControl.errors };
+			delete error['passwordMismatch'];
+			const errors = Object.keys(error).length === 0 ? null : error;
+			confirmPasswordControl.setErrors(errors);
 
-			return null;
+			return errors;
 		}
 	};
 }

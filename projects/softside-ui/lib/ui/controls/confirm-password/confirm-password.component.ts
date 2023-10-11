@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
 @Component({
-	selector: 'ss-password',
+	selector: 'ss-confirm-password',
 	template: ` <ss-input
-		label="Password"
+		label="Confirm password"
 		placeholder="Enter your password"
 		type="password"
 		maxlength="50"
 		minlength="6"
-		controlKey="password"
+		controlKey="confirmPassword"
 		defaultValue=""
 		[hideshow]="true"
 		[setValidators]="validators"
@@ -19,9 +19,9 @@ import { SSInputComponent } from '../_input/_input.component';
 	standalone: true,
 	styles: [''],
 	providers: [Validators],
-	imports: [SSInputComponent],
+	imports: [SSInputComponent, ReactiveFormsModule],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SSPasswordComponent {
+export class SSConfirmPasswordComponent {
 	validators = [Validators.required];
 }

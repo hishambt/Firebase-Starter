@@ -22,11 +22,11 @@ function generateComponent() {
 		fileName = nameArg.slice(lastOccurrenceIndex + 1);
 	}
 
-	const componentName = `${fileName[0].toUpperCase()}${fileName.slice(1)}`;
+	const componentName = `${fileName[0].toUpperCase()}${fileName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase());
 
 	// Create folder
-	if (!fs.existsSync('src/lib/' + path)) {
-		fs.mkdirSync('src/lib/' + path, { recursive: true }, (err) => {
+	if (!fs.existsSync('lib/ui/' + path)) {
+		fs.mkdirSync('lib/ui/' + path, { recursive: true }, (err) => {
 			if (err) {
 				console.error(`Error creating folder: ${err}`);
 				return;
@@ -40,6 +40,6 @@ function generateComponent() {
 
 		newFileContent = newFileContent.replaceAll('%%C_NAME%%', componentName);
 
-		fs.promises.writeFile(`src/lib/${path}/${fileName}.component.ts`, newFileContent, 'utf8');
+		fs.promises.writeFile(`lib/ui/${path}/${fileName}.component.ts`, newFileContent, 'utf8');
 	});
 }
