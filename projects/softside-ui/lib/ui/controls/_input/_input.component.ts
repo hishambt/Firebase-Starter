@@ -44,7 +44,6 @@ import ErrorMessages from '../_utils/error-msgs';
 		</ion-item>
 	`,
 	standalone: true,
-	styles: [''],
 	imports: [IonicModule, ReactiveFormsModule, NgIf],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	viewProviders: [

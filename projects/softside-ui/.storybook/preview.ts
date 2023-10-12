@@ -1,8 +1,10 @@
+import { setCompodocJson } from '@storybook/addon-docs/angular';
 import type { Preview } from '@storybook/angular';
 
-// import docJson from '../documentation.json';
+// import '../lib/css/tailwind.css';
+import docJson from '../documentation.json';
 
-// setCompodocJson(docJson);
+setCompodocJson(docJson);
 
 const preview: Preview = {
 	parameters: {

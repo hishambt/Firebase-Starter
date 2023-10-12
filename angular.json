@@ -313,7 +313,7 @@
 		"softside-ui": {
 			"projectType": "library",
 			"root": "projects/softside-ui",
-			"sourceRoot": "projects/softside-ui/src",
+			"sourceRoot": "projects/softside-ui/lib",
 			"prefix": "softside-ui",
 			"architect": {
 				"build": {
@@ -352,6 +352,7 @@
 					"options": {
 						"configDir": "projects/softside-ui/.storybook",
 						"browserTarget": "softside-ui:build",
+						"styles": ["projects/softside-ui/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
 							"-e",
@@ -367,6 +368,7 @@
 					"options": {
 						"configDir": "projects/softside-ui/.storybook",
 						"browserTarget": "softside-ui:build",
+						"styles": ["projects/softside-ui/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
 							"-e",

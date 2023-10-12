@@ -1,8 +1,10 @@
 @import "tailwindcss/utilities";
-@import "node_modules/softside-ui/css/styles.scss";
-@import "node_modules/softside-ui/assets/themes/material.scss";
-@import "node_modules/softside-ui/assets/themes/dark.scss";
-@import "node_modules/softside-ui/assets/themes/bootstrap.scss";
+@import "node_modules/softside-ui/scss/main";
+
+// TODO: Add styles to table repository and publish again
+// @import "node_modules/ngx-softside-table/ /material.scss";
+// @import "node_modules/softside-ui/assets/themes/dark.scss";
+// @import "node_modules/softside-ui/assets/themes/bootstrap.scss";
 
 /*
  * App Global CSS
@@ -30,7 +32,3 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
-/* Custom theme css files */
-
-@import "theme/main";
