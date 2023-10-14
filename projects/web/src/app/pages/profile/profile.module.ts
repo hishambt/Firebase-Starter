@@ -3,7 +3,10 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
 import {
 	SSEmailComponent,
+	SSPasswordComponent,
 	SSPasswordConfirmGroupComponent,
+	SSTextareaComponent,
+	SSTextComponent,
 } from 'softside-ui/lib/ui/controls';
 
 import { ProfileRoutingModule } from './profile-routing.module';
@@ -18,7 +21,10 @@ import { SharedModule } from '../../shared/shared.module';
 		SharedModule,
 		ProfileRoutingModule,
 		ImageCropperModule,
+		SSTextComponent,
 		SSEmailComponent,
+		SSTextareaComponent,
+		SSPasswordComponent,
 		SSPasswordConfirmGroupComponent,
 	],
 })

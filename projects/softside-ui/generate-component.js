@@ -14,11 +14,11 @@ function generateComponent() {
 
 	const lastOccurrenceIndex = nameArg.lastIndexOf('/');
 
+	path = nameArg;
+
 	if (lastOccurrenceIndex === -1) {
-		path = '.';
 		fileName = nameArg;
 	} else {
-		path = nameArg;
 		fileName = nameArg.slice(lastOccurrenceIndex + 1);
 	}
 

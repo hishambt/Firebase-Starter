@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
           <h1>%%C_NAME%% works!</h1>
   `,
   standalone: true,
-  styles: [''],
   imports: [
     IonicModule,
   ],

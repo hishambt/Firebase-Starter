@@ -2,7 +2,7 @@ import { Component, ViewChild, inject, ChangeDetectionStrategy, OnDestroy, Eleme
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
@@ -14,7 +14,6 @@ import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
-import { passwordMatchValidator } from '../../../../../../softside-ui/lib/ui/controls/_utils/confirmed.validator';
 import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
@@ -63,45 +62,9 @@ export class ProfileViewComponent implements OnDestroy {
 		},
 	];
 
-	profileForm: FormGroup = this.fb.group({
-		firstName: new FormControl('', [Validators.required]),
-		lastName: new FormControl('', [Validators.required]),
-		email: new FormControl({ disabled: true, value: '' }),
-		phone: new FormControl(''),
-		address: new FormControl(''),
-	});
-
-	formChangePassword: FormGroup = this.fb.group(
-		{
-			password: new FormControl<string>('', [Validators.required]),
-			confirmPassword: new FormControl<string>('', [Validators.required]),
-		},
-		{ validators: passwordMatchValidator('password', 'confirmPassword') },
-	);
-
-	formValidatePassword: FormGroup = this.fb.group({
-		currentPassword: new FormControl<string>('', [Validators.required]),
-	});
-
-	get firstNameError(): string {
-		return this.authService.getError(this.profileForm.get('firstName') as FormControl<string>, 'First Name');
-	}
-
-	get lastNameError(): string {
-		return this.authService.getError(this.profileForm.get('lastName') as FormControl<string>, 'Last Name');
-	}
-
-	get getChangePasswordError(): string {
-		return this.authService.getError(this.formChangePassword.get('password') as FormControl<string>, 'Password');
-	}
-
-	get getChangeConfirmPasswordError(): string {
-		return this.authService.getError(this.formChangePassword.get('confirmPassword') as FormControl<string>, 'Password');
-	}
-
-	get getValidatePasswordError(): string {
-		return this.authService.getError(this.formValidatePassword.get('currentPassword') as FormControl<string>, 'Password');
-	}
+	profileForm: FormGroup = this.fb.group({});
+	formChangePassword: FormGroup = this.fb.group({});
+	formValidatePassword: FormGroup = this.fb.group({});
 
 	imageUploadService = inject(ImageUploadService);
 
@@ -148,6 +111,7 @@ export class ProfileViewComponent implements OnDestroy {
 	submitRecord(user: IUser): void {
 		if (this.profileForm.invalid) {
 			this.profileForm.markAllAsTouched();
+			this.profileForm.updateValueAndValidity();
 
 			return;
 		}

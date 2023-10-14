@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild, inject, signal } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { IonInput, IonicModule } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
@@ -17,6 +17,7 @@ import ErrorMessages from '../_utils/error-msgs';
 				[maxlength]="maxlength"
 				[minlength]="minlength"
 				fill="solid"
+				[required]="required"
 				[autocomplete]="autocomplete"
 				[placeholder]="placeholder"
 				[type]="type"
@@ -59,18 +60,19 @@ import ErrorMessages from '../_utils/error-msgs';
 		},
 	],
 })
-export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
+export class SSInputComponent<T = string> implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) label: string = '';
 	@Input({ required: true }) type: string = 'text';
 	@Input({ required: true }) controlKey: string = '';
+	@Input() required: boolean = false;
 	@Input() maxlength: string = '50';
+	@Input() disabled: boolean = false;
 	@Input() minlength: string = '1';
 	@Input() autocomplete: boolean = false;
 	@Input() counter: boolean = true;
 	@Input() clearInput: boolean = true;
 	@Input() clearOnEdit: boolean = false;
 	@Input() placeholder: string = 'Enter value here';
-	@Input({ required: true }) defaultValue!: T;
 	@Input() setValidators: Array<ValidatorFn> = [];
 	@Input() hideshow: boolean = false;
 	parentContainer = inject(ControlContainer);
@@ -86,7 +88,12 @@ export class SSInputComponent<T> implements AfterViewInit, OnDestroy {
 			return;
 		}
 
-		this.parentFormGroup.addControl(this.controlKey, new FormControl<T>(this.defaultValue, this.setValidators));
+		if (this.required) {
+			this.setValidators.push(Validators.required);
+		}
+
+		this.parentFormGroup.addControl(this.controlKey, new FormControl<string>({ disabled: this.disabled, value: '' }, this.setValidators));
+
 		this.parentFormGroup.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
 			this.cdr.detectChanges();
 		});

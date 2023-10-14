@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { ControlContainer, FormGroup } from '@angular/forms';
 
 import { passwordMatchValidator } from '../_utils/confirmed.validator';
@@ -12,8 +11,7 @@ import { SSPasswordComponent, SSConfirmPasswordComponent } from '../public-api';
 		<ss-confirm-password></ss-confirm-password>
 	`,
 	standalone: true,
-	styles: [''],
-	imports: [IonicModule, SSPasswordComponent, SSConfirmPasswordComponent],
+	imports: [SSPasswordComponent, SSConfirmPasswordComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	viewProviders: [
 		{

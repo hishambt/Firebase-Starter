@@ -103,55 +103,25 @@
 											<form
 												[formGroup]="profileForm"
 												(ngSubmit)="submitRecord(user!)">
-												<ion-item lines="none">
-													<ion-input
-														label="First Name"
-														labelPlacement="floating"
-														fill="solid"
-														placeholder="First Name"
-														type="text"
-														name="First Name"
-														maxlength="25"
-														[errorText]="firstNameError"
-														formControlName="firstName"></ion-input>
-												</ion-item>
+												<ss-text
+													controlKey="firstName"
+													label="First Name"
+													[required]="true"></ss-text>
 
-												<ion-item lines="none">
-													<ion-input
-														label="Last Name"
-														labelPlacement="floating"
-														fill="solid"
-														placeholder="Last Name"
-														type="text"
-														name="First Name"
-														maxlength="25"
-														[errorText]="lastNameError"
-														formControlName="lastName"></ion-input>
-												</ion-item>
-												<ss-email></ss-email>
-												<ion-item lines="none">
-													<ion-input
-														label="Phone"
-														labelPlacement="floating"
-														fill="solid"
-														placeholder="Phone"
-														type="tel"
-														name="phone"
-														maxlength="25"
-														formControlName="phone"></ion-input>
-												</ion-item>
+												<ss-text
+													controlKey="lastName"
+													label="Last Name"
+													[required]="true"></ss-text>
 
-												<ion-item lines="none">
-													<ion-textarea
-														label="Address"
-														labelPlacement="floating"
-														fill="solid"
-														placeholder="Address"
-														name="address"
-														maxlength="150"
-														[autoGrow]="true"
-														formControlName="address"></ion-textarea>
-												</ion-item>
+												<ss-email [disabled]="true"></ss-email>
+
+												<ss-text
+													controlKey="phone"
+													label="Phone"></ss-text>
+
+												<ss-textarea
+													controlKey="address"
+													label="Address"></ss-textarea>
 
 												<ion-button
 													class="ion-margin-vertical"
@@ -257,23 +227,7 @@
 																<ion-list
 																	lines="none"
 																	class="p-6">
-																	<ion-item>
-																		<ion-input
-																			label="Current Password"
-																			labelPlacement="floating"
-																			[counter]="true"
-																			maxlength="50"
-																			minlength="6"
-																			fill="solid"
-																			autocomplete="disabled"
-																			placeholder="Enter Current password"
-																			type="password"
-																			name="password"
-																			[clearInput]="true"
-																			[clearOnEdit]="false"
-																			[errorText]="getValidatePasswordError"
-																			formControlName="currentPassword"></ion-input>
-																	</ion-item>
+																	<ss-password></ss-password>
 																</ion-list>
 															</form>
 														</ion-col>

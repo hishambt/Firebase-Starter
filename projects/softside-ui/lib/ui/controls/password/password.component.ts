@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -11,17 +10,15 @@ import { SSInputComponent } from '../_input/_input.component';
 		type="password"
 		maxlength="50"
 		minlength="6"
+		[required]="true"
 		controlKey="password"
-		defaultValue=""
+		[disabled]="disabled"
 		[hideshow]="true"
-		[setValidators]="validators"
 	></ss-input>`,
 	standalone: true,
-	styles: [''],
-	providers: [Validators],
 	imports: [SSInputComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SSPasswordComponent {
-	validators = [Validators.required];
+	@Input() disabled: boolean = false;
 }
