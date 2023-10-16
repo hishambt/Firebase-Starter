@@ -50,10 +50,11 @@ export class FormProviderComponent<T> implements OnInit {
 			this.parentFormGroup.addControl(this.group, new FormGroup({}, ...this.setValidators));
 		}
 
-		this.parentFormGroup.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
-			console.log(this.controlKey);
-			this.cdr.detectChanges();
-		});
+		if (!this.group) {
+			this.parentFormGroup.controls[this.controlKey].valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+				this.cdr.detectChanges();
+			});
+		}
 	}
 
 	get parentFormGroup(): FormGroup | void {
@@ -85,7 +86,7 @@ export class FormProviderComponent<T> implements OnInit {
 		this._destroy$.complete();
 	}
 }
-export function getControlContainer(): [{ provide: typeof ControlContainer; useFactory: () => void | ControlContainer }] {
+export function getControlContainer(): [{ provide: typeof ControlContainer; useFactory: () => void | ControlContainer; }] {
 	return [
 		{
 			provide: ControlContainer,
