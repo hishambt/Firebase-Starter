@@ -31,7 +31,10 @@ export class RegisterComponent implements OnDestroy {
 			return;
 		}
 
-		const { email, password } = this.form.value;
+		const {
+			email,
+			confirmPasswordGroup: { password },
+		} = this.form.value;
 
 		this.register$ = this.registerFollowUp(
 			this.authService.registerNewAccount(email, password).pipe(

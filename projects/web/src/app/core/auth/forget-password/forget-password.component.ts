@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -18,20 +18,12 @@ export class ForgetPasswordComponent implements OnDestroy {
 	_appToast = inject(AppToastService);
 	fb = inject(NonNullableFormBuilder);
 
-	form: FormGroup = this.fb.group({
-		email: new FormControl('', [Validators.email, Validators.required]),
-	});
-
-	get getEmailError(): string {
-		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
-	}
+	form: FormGroup = this.fb.group({});
 
 	forget$: Subscription | null = null;
 
 	submitRecord(): void {
 		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-
 			return;
 		}
 

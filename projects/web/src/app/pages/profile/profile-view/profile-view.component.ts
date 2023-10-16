@@ -157,20 +157,18 @@ export class ProfileViewComponent implements OnDestroy {
 
 	confirmChangePassword(): void {
 		if (this.formChangePassword.invalid) {
-			this.formChangePassword.markAllAsTouched();
-
 			return;
 		}
 
-		const { password } = this.formChangePassword.value;
+		const {
+			confirmPasswordGroup: { password },
+		} = this.formChangePassword.value;
 
 		if (this.authService.loggedInWithGoogle() && !this.authService.loggedInWithPassword()) {
 			this.linkAccount(password);
 		} else {
 			this.updatePassword(password);
 		}
-
-		this.modalChangePassword.dismiss();
 	}
 
 	modifyPassword(): void {
@@ -184,7 +182,7 @@ export class ProfileViewComponent implements OnDestroy {
 			return;
 		}
 
-		const { currentPassword } = this.formValidatePassword.value;
+		const { password } = this.formValidatePassword.value;
 
 		this.validatePassword$ = this.authService
 			.userProvider((user: AuthUser) => {
@@ -192,7 +190,7 @@ export class ProfileViewComponent implements OnDestroy {
 					return of(undefined);
 				}
 
-				return this.authService.validatePassword(user, currentPassword);
+				return this.authService.validatePassword(user, password);
 			})
 			.subscribe({
 				next: () => {
@@ -221,6 +219,8 @@ export class ProfileViewComponent implements OnDestroy {
 						size: 'medium',
 					});
 
+					this.modalChangePassword.dismiss();
+
 					this.authService.logout().subscribe((): void => {
 						this.router.navigateByUrl('auth/login', { replaceUrl: true });
 					});
@@ -243,6 +243,7 @@ export class ProfileViewComponent implements OnDestroy {
 			.subscribe({
 				next: (_creds: UserCredential | null) => {
 					this.authService.loggedInWithPassword.set(true);
+					this.modalChangePassword.dismiss();
 				},
 				error: () => null,
 			});

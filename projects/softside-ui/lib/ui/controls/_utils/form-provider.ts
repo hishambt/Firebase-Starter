@@ -10,11 +10,12 @@ import ErrorMessages from './error-msgs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormProviderComponent<T> implements OnInit {
-	@Input({ required: true }) label: string = '';
-	@Input({ required: true }) controlKey: string = '';
+	@Input() label: string = '';
+	@Input() controlKey: string = '';
 	@Input() disabled: boolean = false;
 	@Input() required: boolean = false;
 	@Input() setValidators: Array<ValidatorFn> = [];
+	group: string = '';
 	parentContainer = inject(ControlContainer);
 	cdr = inject(ChangeDetectorRef);
 	readonly _destroy$ = new Subject<void>();
@@ -24,22 +25,33 @@ export class FormProviderComponent<T> implements OnInit {
 			return;
 		}
 
+		if (!this.group && (!this.label || !this.controlKey)) {
+			console.error(`All inputs inside ${this.parentContainer.name ?? 'a form'} should have a label and controlKey inputs`);
+
+			return;
+		}
+
 		if (this.required) {
 			this.setValidators.push(Validators.required);
 		}
 
-		this.parentFormGroup.addControl(
-			this.controlKey,
-			new FormControl<string>(
-				{ disabled: this.disabled, value: '' },
-				{
-					validators: this.setValidators,
-					updateOn: 'change',
-				},
-			),
-		);
+		if (this.controlKey) {
+			this.parentFormGroup.addControl(
+				this.controlKey,
+				new FormControl<string>(
+					{ disabled: this.disabled, value: '' },
+					{
+						validators: this.setValidators,
+						updateOn: 'change',
+					},
+				),
+			);
+		} else if (this.group) {
+			this.parentFormGroup.addControl(this.group, new FormGroup({}, ...this.setValidators));
+		}
 
 		this.parentFormGroup.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+			console.log(this.controlKey);
 			this.cdr.detectChanges();
 		});
 	}
@@ -62,7 +74,11 @@ export class FormProviderComponent<T> implements OnInit {
 
 	ngOnDestroy(): void {
 		if (this.parentFormGroup) {
-			this.parentFormGroup.removeControl(this.controlKey);
+			if (this.group) {
+				this.parentFormGroup.removeControl(this.group);
+			} else if (this.controlKey) {
+				this.parentFormGroup.removeControl(this.controlKey);
+			}
 		}
 
 		this._destroy$.next();

@@ -126,6 +126,7 @@
 												<ion-button
 													class="ion-margin-vertical"
 													expand="fill"
+													[disabled]="!profileForm.dirty || profileForm.invalid"
 													size="small"
 													color="primary"
 													[appAsyncRef]="saveProfile$"
@@ -181,6 +182,7 @@
 															<ion-button
 																(click)="confirmChangePassword()"
 																[appAsyncRef]="modifyPassword$"
+																[disabled]="!formChangePassword.touched || (formChangePassword.touched && formChangePassword.invalid)"
 																[strong]="true">
 																Confirm
 															</ion-button>
@@ -214,6 +216,8 @@
 															<ion-button
 																(click)="confirmValidatePassword()"
 																[appAsyncRef]="validatePassword$"
+																[disabled]="!formValidatePassword.touched 
+																|| (formValidatePassword.touched && formValidatePassword.invalid)"
 																[strong]="true">
 																Confirm
 															</ion-button>
