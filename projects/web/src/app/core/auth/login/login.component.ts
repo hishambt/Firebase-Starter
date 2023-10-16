@@ -36,13 +36,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	submitRecord(): void {
-		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-			this.form.updateValueAndValidity();
-
-			return;
-		}
-
 		const { email, password } = this.form.value;
 
 		this.login$ = this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));

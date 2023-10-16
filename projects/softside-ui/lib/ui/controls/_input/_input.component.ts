@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild, inject, signal } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, signal } from '@angular/core';
 import { IonInput, IonicModule } from '@ionic/angular';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import ErrorMessages from '../_utils/error-msgs';
+import { FormProviderComponent, getControlContainer } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-input',
@@ -44,76 +44,24 @@ import ErrorMessages from '../_utils/error-msgs';
 			</div>
 		</ion-item>
 	`,
-	standalone: true,
 	imports: [IonicModule, ReactiveFormsModule, NgIf],
+	viewProviders: getControlContainer(),
+	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	viewProviders: [
-		{
-			provide: ControlContainer,
-			useFactory: (): ControlContainer | void => {
-				try {
-					return inject(ControlContainer, { skipSelf: true });
-				} catch (e) {
-					console.error();
-				}
-			},
-		},
-	],
 })
-export class SSInputComponent<T = string> implements AfterViewInit, OnDestroy {
-	@Input({ required: true }) label: string = '';
+export class SSInputComponent<T = string> extends FormProviderComponent<T> implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';
-	@Input({ required: true }) controlKey: string = '';
-	@Input() required: boolean = false;
 	@Input() maxlength: string = '50';
-	@Input() disabled: boolean = false;
 	@Input() minlength: string = '1';
 	@Input() autocomplete: boolean = false;
 	@Input() counter: boolean = true;
 	@Input() clearInput: boolean = true;
 	@Input() clearOnEdit: boolean = false;
 	@Input() placeholder: string = 'Enter value here';
-	@Input() setValidators: Array<ValidatorFn> = [];
 	@Input() hideshow: boolean = false;
-	parentContainer = inject(ControlContainer);
-	cdr = inject(ChangeDetectorRef);
 	showPassword = signal(false);
 	show = signal(false);
 	@ViewChild(IonInput) input!: IonInput;
-
-	private readonly _destroy$ = new Subject<void>();
-
-	ngOnInit(): void {
-		if (!this.parentFormGroup) {
-			return;
-		}
-
-		if (this.required) {
-			this.setValidators.push(Validators.required);
-		}
-
-		this.parentFormGroup.addControl(this.controlKey, new FormControl<string>({ disabled: this.disabled, value: '' }, this.setValidators));
-
-		this.parentFormGroup.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
-			this.cdr.detectChanges();
-		});
-	}
-
-	get parentFormGroup(): FormGroup | void {
-		if (!this.parentContainer) {
-			return;
-		}
-
-		return this.parentContainer.control as FormGroup;
-	}
-
-	get getError(): string {
-		if (!this.parentFormGroup) {
-			return '';
-		}
-
-		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl<T>, this.label);
-	}
 
 	ngAfterViewInit(): void {
 		if (this.input.clearInput) {
@@ -125,6 +73,11 @@ export class SSInputComponent<T = string> implements AfterViewInit, OnDestroy {
 	}
 
 	onChange(): void {
+		this.input.getInputElement().then((element: HTMLInputElement) => {
+			element.blur();
+			element.focus();
+		});
+
 		if (this.input.value) {
 			this.input.getInputElement().then((element: HTMLInputElement) => {
 				element.classList.add('!w-[70%]', '!flex-none');
@@ -152,14 +105,7 @@ export class SSInputComponent<T = string> implements AfterViewInit, OnDestroy {
 		this.input.type = this.showPassword() ? 'text' : 'password';
 	}
 
-	ngOnDestroy(): void {
-		if (this.parentFormGroup) {
-			this.parentFormGroup.removeControl(this.controlKey);
-		}
-
-		this._destroy$.next();
-		this._destroy$.complete();
-
+	override ngOnDestroy(): void {
 		if (!this.input.clearInput) {
 			return;
 		}
@@ -169,5 +115,7 @@ export class SSInputComponent<T = string> implements AfterViewInit, OnDestroy {
 				element.parentElement?.querySelector('button')?.removeEventListener('click', () => this.onChange());
 			});
 		}
+
+		super.ngOnDestroy();
 	}
 }

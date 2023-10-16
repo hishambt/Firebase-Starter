@@ -110,9 +110,6 @@ export class ProfileViewComponent implements OnDestroy {
 
 	submitRecord(user: IUser): void {
 		if (this.profileForm.invalid) {
-			this.profileForm.markAllAsTouched();
-			this.profileForm.updateValueAndValidity();
-
 			return;
 		}
 

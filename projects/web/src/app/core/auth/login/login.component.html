@@ -16,6 +16,7 @@
 								<ion-button
 									class="ion-margin-vertical"
 									expand="fill"
+									[disabled]="!form.touched || (form.touched && form.invalid)"
 									[appAsyncRef]="login$"
 									size="full"
 									color="primary"
