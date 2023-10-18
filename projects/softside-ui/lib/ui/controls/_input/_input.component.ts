@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { IonInput, IonicModule } from '@ionic/angular';
 import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
-import { FormProviderComponent, getControlContainer } from '../_utils/form-provider';
+import { FormProviderComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-input',
@@ -44,10 +44,21 @@ import { FormProviderComponent, getControlContainer } from '../_utils/form-provi
 			</div>
 		</ion-item>
 	`,
-	imports: [IonicModule, ReactiveFormsModule, NgIf],
-	viewProviders: getControlContainer(),
+	imports: [NgIf, IonicModule, ReactiveFormsModule],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	viewProviders: [
+		{
+			provide: ControlContainer,
+			useFactory: (): ControlContainer | void => {
+				try {
+					return inject(ControlContainer, { skipSelf: true });
+				} catch (e) {
+					console.error();
+				}
+			},
+		},
+	],
 })
 export class SSInputComponent<T = string> extends FormProviderComponent<T> implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';

@@ -36,18 +36,19 @@ export class FormProviderComponent<T> implements OnInit {
 		}
 
 		if (this.controlKey) {
-			this.parentFormGroup.addControl(
-				this.controlKey,
-				new FormControl<string>(
-					{ disabled: this.disabled, value: '' },
-					{
-						validators: this.setValidators,
-						updateOn: 'change',
-					},
-				),
-			);
-		} else if (this.group) {
-			this.parentFormGroup.addControl(this.group, new FormGroup({}, ...this.setValidators));
+			if (this.parentFormGroup.get(this.controlKey)) {
+				this.parentFormGroup.controls[this.controlKey].setValidators(this.setValidators);
+
+				if (this.disabled) {
+					this.parentFormGroup.controls[this.controlKey].disable();
+				} else {
+					this.parentFormGroup.controls[this.controlKey].enable();
+				}
+			} else {
+				console.error(this.controlKey + ' appears in HTML but is missing from the TS file');
+			}
+		} else if (this.group && this.parentFormGroup.controls[this.group]) {
+			this.parentFormGroup.controls[this.group].setValidators(this.setValidators);
 		}
 
 		if (!this.group) {
@@ -75,9 +76,7 @@ export class FormProviderComponent<T> implements OnInit {
 
 	ngOnDestroy(): void {
 		if (this.parentFormGroup) {
-			if (this.group) {
-				this.parentFormGroup.removeControl(this.group);
-			} else if (this.controlKey) {
+			if (this.controlKey) {
 				this.parentFormGroup.removeControl(this.controlKey);
 			}
 		}
@@ -85,18 +84,4 @@ export class FormProviderComponent<T> implements OnInit {
 		this._destroy$.next();
 		this._destroy$.complete();
 	}
-}
-export function getControlContainer(): [{ provide: typeof ControlContainer; useFactory: () => void | ControlContainer; }] {
-	return [
-		{
-			provide: ControlContainer,
-			useFactory: (): ControlContainer | void => {
-				try {
-					return inject(ControlContainer, { skipSelf: true });
-				} catch (e) {
-					console.error();
-				}
-			},
-		},
-	];
 }

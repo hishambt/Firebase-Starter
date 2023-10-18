@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -22,3 +23,6 @@ import { SSInputComponent } from '../_input/_input.component';
 export class SSPasswordComponent {
 	@Input() disabled: boolean = false;
 }
+export type ISSPassword = {
+	password: FormControl<string>;
+};

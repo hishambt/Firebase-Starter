@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -27,3 +27,6 @@ export class SSEmailComponent {
 	@Input() disabled: boolean = false;
 	validators = [Validators.email];
 }
+export type ISSEmail = {
+	email: FormControl<string>;
+};

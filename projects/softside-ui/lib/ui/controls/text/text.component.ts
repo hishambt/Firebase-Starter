@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ValidatorFn } from '@angular/forms';
+import { FormControl, ValidatorFn } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -30,3 +30,6 @@ export class SSTextComponent {
 	@Input() validators: Array<ValidatorFn> = [];
 	@Input() required: boolean = false;
 }
+export type ISSText<T extends string> = {
+	[K in T]: FormControl<string>;
+};

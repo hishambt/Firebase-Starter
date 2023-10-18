@@ -2,7 +2,7 @@ import { Component, ViewChild, inject, ChangeDetectionStrategy, OnDestroy, Eleme
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
@@ -12,6 +12,7 @@ import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model'
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
 import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
+import { ISSConfirmPasswordGroup, ISSEmail, ISSPassword, ISSText } from 'softside-ui/lib/ui/controls';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -35,6 +36,7 @@ export class ProfileViewComponent implements OnDestroy {
 	theme = inject(ThemeService);
 	fb = inject(NonNullableFormBuilder);
 	canSave = signal(false);
+	imageUploadService = inject(ImageUploadService);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
@@ -62,11 +64,22 @@ export class ProfileViewComponent implements OnDestroy {
 		},
 	];
 
-	profileForm: FormGroup = this.fb.group({});
-	formChangePassword: FormGroup = this.fb.group({});
-	formValidatePassword: FormGroup = this.fb.group({});
+	profileForm: ProfileForm = new FormGroup({
+		email: new FormControl('', { nonNullable: true }),
+		address: new FormControl('', { nonNullable: true }),
+		firstName: new FormControl('', { nonNullable: true }),
+		lastName: new FormControl('', { nonNullable: true }),
+		phone: new FormControl('', { nonNullable: true }),
+	});
 
-	imageUploadService = inject(ImageUploadService);
+	formChangePassword: ISSConfirmPasswordGroup['confirmPasswordGroup'] = new FormGroup({
+		password: new FormControl<string>('', { nonNullable: true }),
+		confirmPassword: new FormControl<string>('', { nonNullable: true }),
+	});
+
+	formValidatePassword: FormGroup<ISSPassword> = new FormGroup({
+		password: new FormControl<string>('', { nonNullable: true }),
+	});
 
 	$user = this.authService.currentUserProfile$.pipe(
 		tap((user: IUser | null) => {
@@ -113,7 +126,7 @@ export class ProfileViewComponent implements OnDestroy {
 			return;
 		}
 
-		const { firstName, lastName, phone, address } = this.profileForm.value;
+		const { firstName, lastName, phone, address } = this.profileForm.getRawValue();
 		const updatedUser = { ...user, firstName, lastName, phone, address };
 
 		this.saveProfile$ = this.authService
@@ -160,9 +173,7 @@ export class ProfileViewComponent implements OnDestroy {
 			return;
 		}
 
-		const {
-			confirmPasswordGroup: { password },
-		} = this.formChangePassword.value;
+		const { password } = this.formChangePassword.getRawValue();
 
 		if (this.authService.loggedInWithGoogle() && !this.authService.loggedInWithPassword()) {
 			this.linkAccount(password);
@@ -177,12 +188,10 @@ export class ProfileViewComponent implements OnDestroy {
 
 	confirmValidatePassword(): void {
 		if (this.formValidatePassword.invalid) {
-			this.formValidatePassword.markAllAsTouched();
-
 			return;
 		}
 
-		const { password } = this.formValidatePassword.value;
+		const { password } = this.formValidatePassword.getRawValue();
 
 		this.validatePassword$ = this.authService
 			.userProvider((user: AuthUser) => {
@@ -299,3 +308,5 @@ export class ProfileViewComponent implements OnDestroy {
 		this.uploadingImage$?.unsubscribe();
 	}
 }
+
+type ProfileForm = FormGroup<ISSText<'firstName'> & ISSText<'lastName'> & ISSEmail & ISSText<'phone'> & ISSText<'address'>>;

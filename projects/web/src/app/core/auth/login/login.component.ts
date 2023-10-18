@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
+import { ISSEmail, ISSPassword } from 'softside-ui/lib/ui/controls';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -22,7 +23,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	fb = inject(NonNullableFormBuilder);
 	cdr = inject(ChangeDetectorRef);
 
-	form: FormGroup = this.fb.group({});
+	form: LoginForm = new FormGroup({
+		email: new FormControl('', { nonNullable: true }),
+		password: new FormControl('', { nonNullable: true }),
+	});
 
 	login$: Subscription | null = null;
 	loginWithGoogle$: Subscription | null = null;
@@ -36,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	submitRecord(): void {
-		const { email, password } = this.form.value;
+		const { email, password } = this.form.getRawValue();
 
 		this.login$ = this.loginFollowUp(this.authService.loginWithEmailAndPassword(email, password));
 	}
@@ -76,3 +80,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.loginWithGoogle$?.unsubscribe();
 	}
 }
+
+type LoginForm = FormGroup<ISSEmail & ISSPassword>;

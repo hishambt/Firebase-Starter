@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
-import { FormProviderComponent, getControlContainer } from '../_utils/form-provider';
+import { FormProviderComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-textarea',
@@ -22,11 +22,25 @@ import { FormProviderComponent, getControlContainer } from '../_utils/form-provi
 		</ion-item>
 	`,
 	imports: [IonicModule, ReactiveFormsModule],
-	viewProviders: getControlContainer(),
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	viewProviders: [
+		{
+			provide: ControlContainer,
+			useFactory: (): ControlContainer | void => {
+				try {
+					return inject(ControlContainer, { skipSelf: true });
+				} catch (e) {
+					console.error();
+				}
+			},
+		},
+	],
 })
 export class SSTextareaComponent<T> extends FormProviderComponent<T> {
 	@Input() maxlength: string = '50';
 	@Input() placeholder: string = 'Enter value here';
 }
+export type ISSTextArea<T extends string> = {
+	[K in T]: string;
+};
