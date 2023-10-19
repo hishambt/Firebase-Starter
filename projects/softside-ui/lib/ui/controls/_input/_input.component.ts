@@ -60,7 +60,7 @@ import { FormProviderComponent } from '../_utils/form-provider';
 		},
 	],
 })
-export class SSInputComponent<T = string> extends FormProviderComponent<T> implements AfterViewInit, OnDestroy {
+export class SSInputComponent extends FormProviderComponent implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';
 	@Input() maxlength: string = '50';
 	@Input() minlength: string = '1';

@@ -9,7 +9,7 @@ import ErrorMessages from './error-msgs';
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormProviderComponent<T> implements OnInit {
+export class FormProviderComponent implements OnInit {
 	@Input() label: string = '';
 	@Input() controlKey: string = '';
 	@Input() disabled: boolean = false;
@@ -71,7 +71,7 @@ export class FormProviderComponent<T> implements OnInit {
 			return '';
 		}
 
-		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl<T>, this.label);
+		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl, this.label);
 	}
 
 	ngOnDestroy(): void {

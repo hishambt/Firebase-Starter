@@ -37,7 +37,7 @@ import { FormProviderComponent } from '../_utils/form-provider';
 		},
 	],
 })
-export class SSTextareaComponent<T> extends FormProviderComponent<T> {
+export class SSTextareaComponent extends FormProviderComponent {
 	@Input() maxlength: string = '50';
 	@Input() placeholder: string = 'Enter value here';
 }
