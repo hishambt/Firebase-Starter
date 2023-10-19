@@ -29,7 +29,7 @@ import { FormProviderComponent } from '../_utils/form-provider';
 		},
 	],
 })
-export class SSPasswordConfirmGroupComponent<T> extends FormProviderComponent<T> {
+export class SSPasswordConfirmGroupComponent extends FormProviderComponent {
 	override group = 'confirmPasswordGroup';
 	override setValidators: ValidatorFn[] = [passwordMatchValidator('password', 'confirmPassword')];
 }
