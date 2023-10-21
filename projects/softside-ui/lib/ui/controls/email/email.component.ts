@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -7,13 +7,13 @@ import { SSInputComponent } from '../_input/_input.component';
 	selector: 'ss-email',
 	template: `
 		<ss-input
-			label="Email"
+			[label]="label"
+			[controlKey]="controlKey"
 			placeholder="Enter your email address"
 			type="email"
 			[required]="true"
 			[disabled]="disabled"
 			maxlength="50"
-			controlKey="email"
 			[setValidators]="validators"
 		>
 		</ss-input>
@@ -24,9 +24,8 @@ import { SSInputComponent } from '../_input/_input.component';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SSEmailComponent {
+	@Input({ required: true }) label: string = '';
+	@Input({ required: true }) controlKey: string = '';
 	@Input() disabled: boolean = false;
 	validators = [Validators.email];
 }
-export type ISSEmail = {
-	email: FormControl<string>;
-};

@@ -41,6 +41,3 @@ export class SSTextareaComponent extends FormProviderComponent {
 	@Input() maxlength: string = '50';
 	@Input() placeholder: string = 'Enter value here';
 }
-export type ISSTextArea<T extends string> = {
-	[K in T]: string;
-};

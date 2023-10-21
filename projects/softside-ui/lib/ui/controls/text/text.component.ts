@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -8,12 +8,12 @@ import { SSInputComponent } from '../_input/_input.component';
 	template: `
 		<ss-input
 			[label]="label"
+			[controlKey]="controlKey"
 			[placeholder]="placeholder"
 			type="text"
 			maxlength="50"
 			[required]="required"
 			[disabled]="disabled"
-			[controlKey]="controlKey"
 			[setValidators]="validators"
 		>
 		</ss-input>
@@ -30,6 +30,3 @@ export class SSTextComponent {
 	@Input() validators: Array<ValidatorFn> = [];
 	@Input() required: boolean = false;
 }
-export type ISSText<T extends string> = {
-	[K in T]: FormControl<string>;
-};

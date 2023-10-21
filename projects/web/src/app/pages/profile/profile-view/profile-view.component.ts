@@ -2,7 +2,6 @@ import { Component, ViewChild, inject, ChangeDetectionStrategy, OnDestroy, Eleme
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
@@ -12,7 +11,7 @@ import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model'
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
 import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
-import { ISSConfirmPasswordGroup, ISSEmail, ISSPassword, ISSText } from 'softside-ui/lib/ui/controls';
+import { ConvertToForm, FB } from 'softside-ui/lib/ui/controls';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -34,7 +33,6 @@ export class ProfileViewComponent implements OnDestroy {
 	router = inject(Router);
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
-	fb = inject(NonNullableFormBuilder);
 	canSave = signal(false);
 	imageUploadService = inject(ImageUploadService);
 
@@ -64,21 +62,21 @@ export class ProfileViewComponent implements OnDestroy {
 		},
 	];
 
-	profileForm: ProfileForm = new FormGroup({
-		email: new FormControl('', { nonNullable: true }),
-		address: new FormControl('', { nonNullable: true }),
-		firstName: new FormControl('', { nonNullable: true }),
-		lastName: new FormControl('', { nonNullable: true }),
-		phone: new FormControl('', { nonNullable: true }),
+	profileForm: ConvertToForm<Profile> = FB.group({
+		email: FB.string(),
+		address: FB.string(),
+		firstName: FB.string(),
+		lastName: FB.string(),
+		phone: FB.string(),
 	});
 
-	formChangePassword: ISSConfirmPasswordGroup['confirmPasswordGroup'] = new FormGroup({
-		password: new FormControl<string>('', { nonNullable: true }),
-		confirmPassword: new FormControl<string>('', { nonNullable: true }),
+	formChangePassword: ConvertToForm<PasswordGroup> = FB.group({
+		password: FB.string(),
+		confirmPassword: FB.string(),
 	});
 
-	formValidatePassword: FormGroup<ISSPassword> = new FormGroup({
-		password: new FormControl<string>('', { nonNullable: true }),
+	formValidatePassword: ConvertToForm<{ password: string }> = FB.group({
+		password: FB.string(),
 	});
 
 	$user = this.authService.currentUserProfile$.pipe(
@@ -309,4 +307,15 @@ export class ProfileViewComponent implements OnDestroy {
 	}
 }
 
-type ProfileForm = FormGroup<ISSText<'firstName'> & ISSText<'lastName'> & ISSEmail & ISSText<'phone'> & ISSText<'address'>>;
+type Profile = {
+	firstName: string;
+	lastName: string;
+	email: string;
+	phone: string;
+	address: string;
+};
+
+type PasswordGroup = {
+	password: string;
+	confirmPassword: string;
+};

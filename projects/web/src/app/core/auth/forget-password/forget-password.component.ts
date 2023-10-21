@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { ISSEmail } from 'softside-ui/lib/ui/controls';
+import { ConvertToForm, FB } from 'softside-ui/lib/ui/controls';
 
 import { AuthService } from '../../services/auth.service';
 import { AppToastService, ToastClass } from '../../../shared/services/app-toast.service';
@@ -19,8 +18,8 @@ export class ForgetPasswordComponent implements OnDestroy {
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
 
-	form: FormGroup<ISSEmail> = new FormGroup({
-		email: new FormControl<string>('', { nonNullable: true }),
+	form: ConvertToForm<{ email: string }> = FB.group({
+		email: FB.string(),
 	});
 
 	forget$: Subscription | null = null;

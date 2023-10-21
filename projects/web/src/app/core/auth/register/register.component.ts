@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Subscription, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
-import { FB, ISSConfirmPasswordGroup, ISSEmail } from 'softside-ui/lib/ui/controls';
+import { ConvertToForm, FB } from 'softside-ui/lib/ui/controls';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -71,4 +70,11 @@ export class RegisterComponent implements OnDestroy {
 	}
 }
 
-type RegisterForm = FormGroup<ISSEmail & ISSConfirmPasswordGroup>;
+type Register = {
+	email: string;
+	confirmPasswordGroup: {
+		password: string;
+		confirmPassword: string;
+	};
+};
+type RegisterForm = ConvertToForm<Register>;

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ControlContainer, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { ControlContainer, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 
 import { passwordMatchValidator } from '../_utils/confirmed.validator';
-import { SSPasswordComponent, SSConfirmPasswordComponent, ISSPassword, ISSConfirmPassword } from '../public-api';
+import { SSPasswordComponent, SSConfirmPasswordComponent } from '../public-api';
 import { FormProviderComponent } from '../_utils/form-provider';
 
 @Component({
@@ -33,6 +33,3 @@ export class SSPasswordConfirmGroupComponent extends FormProviderComponent {
 	override group = 'confirmPasswordGroup';
 	override setValidators: ValidatorFn[] = [passwordMatchValidator('password', 'confirmPassword')];
 }
-export type ISSConfirmPasswordGroup = {
-	confirmPasswordGroup: FormGroup<ISSPassword & ISSConfirmPassword>;
-};

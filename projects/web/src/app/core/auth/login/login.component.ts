@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
-import { ISSEmail, ISSPassword } from 'softside-ui/lib/ui/controls';
+import { ConvertToForm, FB } from 'softside-ui/lib/ui/controls';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -20,12 +19,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 	route = inject(ActivatedRoute);
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
-	fb = inject(NonNullableFormBuilder);
 	cdr = inject(ChangeDetectorRef);
 
-	form: LoginForm = new FormGroup({
-		email: new FormControl('', { nonNullable: true }),
-		password: new FormControl('', { nonNullable: true }),
+	form: LoginForm = FB.group({
+		email: FB.string(),
+		password: FB.string(),
 	});
 
 	login$: Subscription | null = null;
@@ -81,4 +79,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 }
 
-type LoginForm = FormGroup<ISSEmail & ISSPassword>;
+type Login = {
+	email: string;
+	password: string;
+};
+type LoginForm = ConvertToForm<Login>;

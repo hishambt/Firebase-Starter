@@ -1,8 +1,7 @@
 import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 
 export class FB {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static group<T extends { [K in keyof T]: AbstractControl<any, any> }>(controls: T): FormGroup<T> {
+	static group<T extends { [K in keyof T]: AbstractControl<T[K]['value'], T[K]['value']> }>(controls: T): FormGroup<T> {
 		return new FormGroup<T>(controls);
 	}
 
@@ -18,3 +17,16 @@ export class FB {
 		return new FormControl(defaultValue, { nonNullable: true });
 	}
 }
+//TODO: Add Form Array support to type
+export type ConvertToForm<T> = T extends object
+	? FormGroup<{
+			[K in keyof T]: ConvertToForm<T[K]>;
+	  }>
+	: T extends string
+	? FormControl<string>
+	: T extends number
+	? FormControl<number>
+	: T extends boolean
+	? FormControl<boolean>
+	: never;
+// Example usage type ProfileForm = ConvertToForm<JSONResponseType>;
