@@ -1,0 +1,34 @@
+{
+	"controls": {
+		"_utils": [],
+		"layouts": [],
+		"pages": [],
+		"shared": [],
+		"components": {
+			"inputs": ["email", "confirm-password", "password", "text"]
+		},
+		"elements": {
+			"keyin": ["date", "input", "textarea"],
+			"select": [
+				"autocomplete",
+				"checkbox",
+				"chip",
+				"dropdown",
+				"radio",
+				"slider",
+				"toggle"
+			],
+			"action": [
+				"button",
+				"card",
+				"hyperlink",
+				"icon",
+				"image",
+				"menu-item",
+				"menu-popover"
+			],
+			"container": ["form", "panel", "segment"],
+			"base-label": "base-label"
+		}
+	}
+}
