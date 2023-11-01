@@ -2,7 +2,8 @@
 	"name": "softside-ui",
 	"version": "0.0.1",
 	"scripts": {
-		"g:c": "node generate-component.js",
+		"g:c": "node .templates/generate-component.js",
+		"g:entry": "node .templates/generate-component-v2.js",
 		"tailwind": "tailwind"
 	},
 	"dependencies": {
