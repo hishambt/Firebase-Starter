@@ -87,8 +87,22 @@ const fs = require('fs');
 
 		console.log('Created: ', path);
 
-		// const publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
+		// populatePublicApi(parentFolder, fileName);
+	}
 
-		// console.log(publicApi);
+	function populatePublicApi(parentFolder, fileName) {
+		// Handle public-api file and add the created component to it
+
+		let publicApi;
+		const data = `export * from './${fileName}/${fileName}.component';`;
+
+		try {
+			publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
+		} catch (error) {
+			fs.writeFileSync(`lib/ui/${parentFolder}/public-api.ts`, '', 'utf8');
+			publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
+		}
+
+		console.log(publicApi);
 	}
 })();
