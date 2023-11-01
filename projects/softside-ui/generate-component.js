@@ -47,13 +47,14 @@ const fs = require('fs');
 	function generateComponent(nameArg) {
 		var path;
 
-		console.log('nameArg: ', nameArg);
 		if (nameArg == undefined) {
 			console.log('You have to supply the component name');
 			return;
 		}
 
 		const lastOccurrenceIndex = nameArg.lastIndexOf('/');
+		const firstOccurrenceIndex = nameArg.indexOf('/');
+		const parentFolder = nameArg.slice(0, firstOccurrenceIndex);
 
 		path = nameArg;
 
@@ -64,9 +65,6 @@ const fs = require('fs');
 		}
 
 		const componentName = `${fileName[0].toUpperCase()}${fileName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase());
-		console.log('fileName: ', fileName);
-		console.log('componentName: ', componentName);
-		console.log('path: ', path);
 
 		// Create folder
 		if (!fs.existsSync('lib/ui/' + path)) {
@@ -86,5 +84,11 @@ const fs = require('fs');
 		newFileContent = newFileContent.replaceAll('%%C_NAME%%', componentName);
 
 		fs.writeFileSync(`lib/ui/${path}/${fileName}.component.ts`, newFileContent, 'utf8');
+
+		console.log('Created: ', path);
+
+		// const publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
+
+		// console.log(publicApi);
 	}
 })();
