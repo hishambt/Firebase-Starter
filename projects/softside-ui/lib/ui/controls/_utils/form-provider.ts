@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, ValidatorFn, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 import ErrorMessages from './error-msgs';
@@ -15,18 +15,28 @@ export class FormProviderComponent implements OnInit {
 	@Input() disabled: boolean = false;
 	@Input() required: boolean = false;
 	@Input() setValidators: Array<ValidatorFn> = [];
-	group: string = '';
-	parentContainer = inject(ControlContainer);
+	@Input() directParentGroup: FormGroup | null = null;
+	@Input() groupName: string = '';
+	currentFormGroup!: FormGroup;
 	cdr = inject(ChangeDetectorRef);
 	readonly _destroy$ = new Subject<void>();
+	protected formGroupDirective = inject(FormGroupDirective);
 
 	ngOnInit(): void {
 		if (!this.parentFormGroup) {
 			return;
 		}
 
-		if (!this.group && (!this.label || !this.controlKey)) {
-			console.error(`All inputs inside ${this.parentContainer.name ?? 'a form'} should have a label and controlKey inputs`);
+		// Provide direct parent group component which extends this class with the instance of direct parent group
+		// In this case, there's no directParentGroup input coming. Instead, we provide it, so in return it provides it to the child input
+		if (this.groupName) {
+			this.directParentGroup = this.parentFormGroup.get(this.groupName) as FormGroup;
+		}
+
+		this.currentFormGroup = this.directParentGroup ? this.directParentGroup : this.parentFormGroup;
+
+		if (!this.groupName && (!this.label || !this.controlKey)) {
+			console.error(`All inputs inside ${this.formGroupDirective.name ?? 'a form'} should have a label and controlKey inputs`);
 
 			return;
 		}
@@ -36,34 +46,34 @@ export class FormProviderComponent implements OnInit {
 		}
 
 		if (this.controlKey) {
-			if (this.parentFormGroup.get(this.controlKey)) {
-				this.parentFormGroup.controls[this.controlKey].setValidators(this.setValidators);
+			if (this.currentFormGroup.get(this.controlKey)) {
+				this.currentFormGroup.controls[this.controlKey].setValidators(this.setValidators);
 
 				if (this.disabled) {
-					this.parentFormGroup.controls[this.controlKey].disable();
+					this.currentFormGroup.controls[this.controlKey].disable();
 				} else {
-					this.parentFormGroup.controls[this.controlKey].enable();
+					this.currentFormGroup.controls[this.controlKey].enable();
 				}
 			} else {
 				console.error(this.controlKey + ' appears in HTML but is missing from the TS file');
 			}
-		} else if (this.group && this.parentFormGroup.controls[this.group]) {
-			this.parentFormGroup.controls[this.group].setValidators(this.setValidators);
+		} else if (this.directParentGroup) {
+			this.directParentGroup.setValidators(this.setValidators);
 		}
 
-		if (!this.group) {
-			this.parentFormGroup.controls[this.controlKey].valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+		if (!this.groupName) {
+			this.currentFormGroup.controls[this.controlKey].valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
 				this.cdr.detectChanges();
 			});
 		}
 	}
 
-	get parentFormGroup(): FormGroup | void {
-		if (!this.parentContainer) {
-			return;
+	get parentFormGroup(): FormGroup {
+		if (!this.formGroupDirective) {
+			return new FormGroup([]);
 		}
 
-		return this.parentContainer.control as FormGroup;
+		return this.formGroupDirective.control as FormGroup;
 	}
 
 	get getError(): string {
@@ -71,13 +81,13 @@ export class FormProviderComponent implements OnInit {
 			return '';
 		}
 
-		return ErrorMessages.getError(this.parentFormGroup.get(this.controlKey) as FormControl, this.label);
+		return ErrorMessages.getError(this.currentFormGroup.get(this.controlKey) as FormControl, this.label);
 	}
 
 	ngOnDestroy(): void {
-		if (this.parentFormGroup) {
+		if (this.currentFormGroup) {
 			if (this.controlKey) {
-				this.parentFormGroup.removeControl(this.controlKey);
+				this.currentFormGroup.reset();
 			}
 		}
 

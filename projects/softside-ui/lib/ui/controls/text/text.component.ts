@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ValidatorFn } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 import { SSInputComponent } from '../_input/_input.component';
 
@@ -15,6 +15,7 @@ import { SSInputComponent } from '../_input/_input.component';
 			[required]="required"
 			[disabled]="disabled"
 			[setValidators]="validators"
+			[directParentGroup]="directParentGroup"
 		>
 		</ss-input>
 	`,
@@ -29,4 +30,5 @@ export class SSTextComponent {
 	@Input() disabled: boolean = false;
 	@Input() validators: Array<ValidatorFn> = [];
 	@Input() required: boolean = false;
+	@Input() directParentGroup: FormGroup | null = null;
 }

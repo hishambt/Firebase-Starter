@@ -1,64 +1,54 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, signal } from '@angular/core';
 import { IonInput, IonicModule } from '@ionic/angular';
 import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormProviderComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-input',
 	template: `
-		<ion-item lines="none">
-			<ion-input
-				[label]="label"
-				labelPlacement="floating"
-				[counter]="counter"
-				[maxlength]="maxlength"
-				[minlength]="minlength"
-				fill="solid"
-				[required]="required"
-				[autocomplete]="autocomplete"
-				[placeholder]="placeholder"
-				[type]="type"
-				[clearInput]="clearInput"
-				[clearOnEdit]="clearOnEdit"
-				[errorText]="getError"
-				[formControlName]="controlKey"
-				[name]="controlKey"
-			></ion-input>
-			<div
-				*ngIf="hideshow"
-				[class.!right-[2rem]]="show()"
-				class="ion-no-padding h-6 transition-all ease-in-out duration-[50ms] z-10 cursor-pointer absolute right-0"
-				(click)="toggleShow()"
-				(keydown)="onKeyDown($event)"
-			>
-				<ion-icon
-					tabindex="0"
-					class="me-1 w-7 text-lg block"
-					[style.color]="'var(--ion-color-step-600, #666)'"
-					size="medium"
-					[name]="showPassword() ? 'eye-outline' : 'eye-off-outline'"
-				></ion-icon>
-			</div>
-		</ion-item>
+		<ng-container [formGroup]="directParentGroup ? directParentGroup : parentFormGroup">
+			<ion-item lines="none">
+				<ion-input
+					[label]="label"
+					labelPlacement="floating"
+					[counter]="counter"
+					[maxlength]="maxlength"
+					[minlength]="minlength"
+					fill="solid"
+					[required]="required"
+					[autocomplete]="autocomplete"
+					[placeholder]="placeholder"
+					[type]="type"
+					[clearInput]="clearInput"
+					[clearOnEdit]="clearOnEdit"
+					[errorText]="getError"
+					[formControlName]="controlKey"
+					[name]="controlKey"
+				></ion-input>
+				<div
+					*ngIf="hideshow"
+					[class.!right-[2rem]]="show()"
+					class="ion-no-padding h-6 transition-all ease-in-out duration-[50ms] z-10 cursor-pointer absolute right-0"
+					(click)="toggleShow()"
+					(keydown)="onKeyDown($event)"
+				>
+					<ion-icon
+						tabindex="0"
+						class="me-1 w-7 text-lg block"
+						[style.color]="'var(--ion-color-step-600, #666)'"
+						size="medium"
+						[name]="showPassword() ? 'eye-outline' : 'eye-off-outline'"
+					></ion-icon>
+				</div>
+			</ion-item>
+		</ng-container>
 	`,
 	imports: [NgIf, IonicModule, ReactiveFormsModule],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	viewProviders: [
-		{
-			provide: ControlContainer,
-			useFactory: (): ControlContainer | void => {
-				try {
-					return inject(ControlContainer, { skipSelf: true });
-				} catch (e) {
-					console.error();
-				}
-			},
-		},
-	],
 })
 export class SSInputComponent extends FormProviderComponent implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';

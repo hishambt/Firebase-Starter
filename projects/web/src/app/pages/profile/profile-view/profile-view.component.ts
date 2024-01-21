@@ -71,8 +71,10 @@ export class ProfileViewComponent implements OnDestroy {
 	});
 
 	formChangePassword: ConvertToForm<PasswordGroup> = FB.group({
-		password: FB.string(),
-		confirmPassword: FB.string(),
+		confirmPasswordGroup: FB.group({
+			password: FB.string(),
+			confirmPassword: FB.string(),
+		}),
 	});
 
 	formValidatePassword: ConvertToForm<{ password: string }> = FB.group({
@@ -171,7 +173,9 @@ export class ProfileViewComponent implements OnDestroy {
 			return;
 		}
 
-		const { password } = this.formChangePassword.getRawValue();
+		const {
+			confirmPasswordGroup: { password },
+		} = this.formChangePassword.getRawValue();
 
 		if (this.authService.loggedInWithGoogle() && !this.authService.loggedInWithPassword()) {
 			this.linkAccount(password);
@@ -316,6 +320,8 @@ type Profile = {
 };
 
 type PasswordGroup = {
-	password: string;
-	confirmPassword: string;
+	confirmPasswordGroup: {
+		password: string;
+		confirmPassword: string;
+	};
 };
