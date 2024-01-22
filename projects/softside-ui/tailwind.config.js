@@ -3,7 +3,7 @@
 console.log('Building tailwind for library');
 
 module.exports = {
-	content: [__dirname + '/lib/ui/**/*.component.{html,ts}'],
+	content: [__dirname + '/lib/**/*.component.{html,ts}'],
 	theme: {
 		extend: {},
 	},
