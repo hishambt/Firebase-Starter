@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormProviderBaseComponent } from 'softside-ui/lib/ui/controls/_utils';
+import { FormProviderBaseComponent } from 'softside-ui/lib/_utils';
 
 @Component({
 	selector: 'ss-textarea',

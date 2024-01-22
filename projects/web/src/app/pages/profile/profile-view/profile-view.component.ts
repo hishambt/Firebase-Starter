@@ -7,11 +7,11 @@ import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
+import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
 import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
 import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
-import { ConvertToForm, FB } from 'softside-ui/lib/ui/controls';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -77,7 +77,7 @@ export class ProfileViewComponent implements OnDestroy {
 		}),
 	});
 
-	formValidatePassword: ConvertToForm<{ password: string }> = FB.group({
+	formValidatePassword: ConvertToForm<{ password: string; }> = FB.group({
 		password: FB.string(),
 	});
 

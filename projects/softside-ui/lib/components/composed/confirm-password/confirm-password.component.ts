@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { SSPasswordComponent } from 'softside-ui/lib/ui/controls/components/inputs/password';
-import { SSConfirmPasswordComponent as SSConfirmPasswordInputComponent } from 'softside-ui/lib/ui/controls/components/inputs/confirm-password';
-import { FormProviderBaseComponent, passwordMatchValidator } from 'softside-ui/lib/ui/controls/_utils';
+import { SSPasswordComponent } from 'softside-ui/lib/components/inputs/password';
+import { SSConfirmPasswordComponent as SSConfirmPasswordInputComponent } from 'softside-ui/lib/components/inputs/confirm-password';
+import { FormProviderBaseComponent, passwordMatchValidator } from 'softside-ui/lib/_utils';
 
 @Component({
 	selector: 'ss-password-confirm-group',
