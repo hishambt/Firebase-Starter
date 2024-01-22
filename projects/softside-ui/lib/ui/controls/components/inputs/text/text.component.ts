@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
-
-import { SSInputComponent } from '../_input/_input.component';
+import { SSInputComponent } from 'softside-ui/lib/ui/controls/elements';
 
 @Component({
 	selector: 'ss-text',

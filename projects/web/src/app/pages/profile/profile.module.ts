@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
-import {
-	SSEmailComponent,
-	SSPasswordComponent,
-	SSPasswordConfirmGroupComponent,
-	SSTextareaComponent,
-	SSTextComponent,
-} from 'softside-ui/lib/ui/controls';
+import { SSTextComponent } from 'softside-ui/lib/ui/controls/components/inputs/text';
+import { SSEmailComponent } from 'softside-ui/lib/ui/controls/components/inputs/email';
+import { SSTextareaComponent } from 'softside-ui/lib/ui/controls/elements';
+import { SSPasswordComponent } from 'softside-ui/lib/ui/controls/components/inputs/password';
+import { SSConfirmPasswordComponent } from 'softside-ui/lib/ui/controls/components/composed/confirm-password';
 
-import { ProfileRoutingModule } from './profile-routing.module';
-import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { SharedModule } from '../../shared/shared.module';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+import { ProfileRoutingModule } from './profile-routing.module';
 
 @NgModule({
 	declarations: [
@@ -25,7 +23,7 @@ import { SharedModule } from '../../shared/shared.module';
 		SSEmailComponent,
 		SSTextareaComponent,
 		SSPasswordComponent,
-		SSPasswordConfirmGroupComponent,
+		SSConfirmPasswordComponent,
 	],
 })
-export class ProfileModule {}
+export class ProfileModule { }

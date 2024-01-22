@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { importProvidersFrom } from '@angular/core';
 
 import { SSEmailComponent } from './email.component';
-import { SSInputComponent } from '../_input/_input.component';
+import { SSInputComponent } from '../../../elements/keyin/input/input.component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/angular/writing-stories/introduction
 const meta: Meta<SSEmailComponent> = {

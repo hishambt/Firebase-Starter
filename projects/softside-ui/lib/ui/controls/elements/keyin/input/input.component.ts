@@ -3,8 +3,7 @@ import { IonInput, IonicModule } from '@ionic/angular';
 import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { FormProviderBaseComponent } from '../_utils/form-provider';
+import { FormProviderBaseComponent } from 'softside-ui/lib/ui/controls/_utils';
 
 @Component({
 	selector: 'ss-input',

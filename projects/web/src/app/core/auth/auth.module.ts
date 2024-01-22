@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import {
-	SSEmailComponent,
-	SSPasswordComponent,
-	SSPasswordConfirmGroupComponent,
-} from 'softside-ui/lib/ui/controls';
+import { SSEmailComponent } from 'softside-ui/lib/ui/controls/components/inputs/email';
+import { SSPasswordComponent } from 'softside-ui/lib/ui/controls/components/inputs/password';
+import { SSConfirmPasswordComponent } from 'softside-ui/lib/ui/controls/components/composed/confirm-password';
 
 import { SharedModule } from '../../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
@@ -27,8 +25,8 @@ import { AuthShellComponent } from './auth-shell/auth-shell.component';
 		AuthRoutingModule,
 		SSEmailComponent,
 		SSPasswordComponent,
-		SSPasswordConfirmGroupComponent,
+		SSConfirmPasswordComponent,
 	],
 	providers: [],
 })
-export class AuthModule {}
+export class AuthModule { }

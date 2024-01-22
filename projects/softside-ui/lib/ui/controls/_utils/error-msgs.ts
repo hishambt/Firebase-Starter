@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 
-export default class ErrorMessages {
+export class ErrorMessages {
     // TODO: move this function to a global error handling service
     static getError(formControl: AbstractControl, label: string): string {
         const ctrl = formControl;

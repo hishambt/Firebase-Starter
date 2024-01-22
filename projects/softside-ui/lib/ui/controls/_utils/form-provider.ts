@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, i
 import { FormControl, FormGroup, FormGroupDirective, ValidatorFn, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import ErrorMessages from './error-msgs';
+import { ErrorMessages } from './error-msgs';
 
 @Component({
 	template: '',
