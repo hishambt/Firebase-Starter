@@ -9,7 +9,7 @@ import ErrorMessages from './error-msgs';
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormProviderComponent implements OnInit {
+export class FormProviderBaseComponent implements OnInit {
 	@Input() label: string = '';
 	@Input() controlKey: string = '';
 	@Input() disabled: boolean = false;
@@ -87,6 +87,8 @@ export class FormProviderComponent implements OnInit {
 	ngOnDestroy(): void {
 		if (this.currentFormGroup) {
 			if (this.controlKey) {
+				this.currentFormGroup.get(this.controlKey)?.reset();
+			} else if (this.groupName) {
 				this.currentFormGroup.reset();
 			}
 		}

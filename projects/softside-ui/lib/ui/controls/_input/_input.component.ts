@@ -4,12 +4,12 @@ import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormProviderComponent } from '../_utils/form-provider';
+import { FormProviderBaseComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-input',
 	template: `
-		<ng-container [formGroup]="directParentGroup ? directParentGroup : parentFormGroup">
+		<ng-container [formGroup]="currentFormGroup">
 			<ion-item lines="none">
 				<ion-input
 					[label]="label"
@@ -50,7 +50,7 @@ import { FormProviderComponent } from '../_utils/form-provider';
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SSInputComponent extends FormProviderComponent implements AfterViewInit, OnDestroy {
+export class SSInputComponent extends FormProviderBaseComponent implements AfterViewInit, OnDestroy {
 	@Input({ required: true }) type: string = 'text';
 	@Input() maxlength: string = '50';
 	@Input() minlength: string = '1';

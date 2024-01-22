@@ -1,43 +1,33 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormProviderComponent } from '../_utils/form-provider';
+import { FormProviderBaseComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-textarea',
 	template: `
-		<ion-item lines="none">
-			<ion-textarea
-				[label]="label"
-				labelPlacement="floating"
-				fill="solid"
-				[placeholder]="placeholder"
-				[maxlength]="maxlength"
-				[autoGrow]="true"
-				[errorText]="getError"
-				[formControlName]="controlKey"
-				[name]="controlKey"
-			></ion-textarea>
-		</ion-item>
+		<ng-container [formGroup]="currentFormGroup">
+			<ion-item lines="none">
+				<ion-textarea
+					[label]="label"
+					labelPlacement="floating"
+					fill="solid"
+					[placeholder]="placeholder"
+					[maxlength]="maxlength"
+					[autoGrow]="true"
+					[errorText]="getError"
+					[formControlName]="controlKey"
+					[name]="controlKey"
+				></ion-textarea>
+			</ion-item>
+		</ng-container>
 	`,
 	imports: [IonicModule, ReactiveFormsModule],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	viewProviders: [
-		{
-			provide: ControlContainer,
-			useFactory: (): ControlContainer | void => {
-				try {
-					return inject(ControlContainer, { skipSelf: true });
-				} catch (e) {
-					console.error();
-				}
-			},
-		},
-	],
 })
-export class SSTextareaComponent extends FormProviderComponent {
+export class SSTextareaComponent extends FormProviderBaseComponent {
 	@Input() maxlength: string = '50';
 	@Input() placeholder: string = 'Enter value here';
 }

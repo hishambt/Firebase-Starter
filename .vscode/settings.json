@@ -6,8 +6,8 @@
 	"prettier.configPath": ".prettierrc",
 	"typescript.format.semicolons": "insert",
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true,
-		"source.fixAll.stylelint": true
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.stylelint": "explicit"
 	},
 	"explorer.compactFolders": false,
 	"stylelint.validate": ["scss"],

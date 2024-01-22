@@ -4,7 +4,7 @@ import { NgIf } from '@angular/common';
 
 import { passwordMatchValidator } from '../_utils/confirmed.validator';
 import { SSPasswordComponent, SSConfirmPasswordComponent } from '../public-api';
-import { FormProviderComponent } from '../_utils/form-provider';
+import { FormProviderBaseComponent } from '../_utils/form-provider';
 
 @Component({
 	selector: 'ss-password-confirm-group',
@@ -20,6 +20,6 @@ import { FormProviderComponent } from '../_utils/form-provider';
 	imports: [NgIf, SSPasswordComponent, SSConfirmPasswordComponent, ReactiveFormsModule],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SSPasswordConfirmGroupComponent extends FormProviderComponent implements OnInit {
+export class SSPasswordConfirmGroupComponent extends FormProviderBaseComponent implements OnInit {
 	override setValidators: ValidatorFn[] = [passwordMatchValidator('password', 'confirmPassword')];
 }

@@ -21,10 +21,10 @@ export class RegisterComponent implements OnDestroy {
 	_appToast = inject(AppToastService);
 
 	form: RegisterForm = FB.group({
-		email: FB.string(),
+		email: FB.string(''),
 		confirmPasswordGroup: FB.group({
-			password: FB.string(),
-			confirmPassword: FB.string(),
+			password: FB.string(''),
+			confirmPassword: FB.string(''),
 		}),
 	});
 
