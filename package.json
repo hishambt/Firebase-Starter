@@ -4,6 +4,7 @@
 	"author": "Ionic Framework",
 	"homepage": "https://ionicframework.com/",
 	"scripts": {
+		"gen:comp": "node ./projects/softside-ui/.templates/generate-component.js",
 		"ng": "ng",
 		"ionic": "ionic",
 		"firebase": "firebase",

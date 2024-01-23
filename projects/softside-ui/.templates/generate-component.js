@@ -1,9 +1,10 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const { exec } = require('child_process');
 
 // Define a list of options for the user to choose from
 const componentType = [
-	'breadcrumb',
+	'breadcrumbs',
 	'buttons',
 	'cards',
 	'chips',
@@ -24,9 +25,10 @@ const componentType = [
 	'textareas',
 	'toggles',
 ];
-const COMPONENT_TEMPLATE_PATH = './templates/template.component.txt';
-const NG_PACKAGE_TEMPLATE_PATH = './templates/ng-package.json';
-const componentsPath = './lib/components/'; // relative to package.json location
+const basePath = './projects/softside-ui';
+const COMPONENT_TEMPLATE_PATH = `${basePath}/.templates/template.component.txt`;
+const NG_PACKAGE_TEMPLATE_PATH = `${basePath}/.templates/ng-package.json`;
+const componentsPath = `${basePath}/lib/components/`;
 
 // Create a prompt using inquirer
 inquirer
@@ -69,6 +71,13 @@ inquirer
 			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
 		);
 		fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
+
+		exec(`code -g ${componentFullPath}/${componentName}.component.ts`, (err, stdout, stderr) => {
+			if (err) {
+				console.log("node couldn't execute the command");
+				return;
+			}
+		});
 	})
 	.catch((error) => {
 		console.error('Error:', error);
