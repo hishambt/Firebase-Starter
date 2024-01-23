@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'ss-%%NAME%%',
+  selector: 'ss-{{name}}',
   template: `
-          <h1>%%C_NAME%% works!</h1>
+          <h1>{{cName}} works!</h1>
   `,
   standalone: true,
   imports: [
@@ -12,4 +12,4 @@ import { IonicModule } from '@ionic/angular';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SS%%C_NAME%%Component {}
+export class SS{{cName}}Component {}

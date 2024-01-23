@@ -2,158 +2,74 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 
 // Define a list of options for the user to choose from
-/**
- * component new-entry
- * elements elements-entry
- * pages new-entry
- */
-const optionList = ['Component', 'Layout', 'Page', 'Element'];
-const templatesPath = './.templates';
+const componentType = [
+	'breadcrumb',
+	'buttons',
+	'cards',
+	'chips',
+	'composed',
+	'dates',
+	'dropdowns',
+	'entities',
+	'hyperlinks',
+	'icons',
+	'imgs',
+	'inputs',
+	'labels',
+	'loader',
+	'menu-items',
+	'panels',
+	'segments',
+	'sliders',
+	'textareas',
+	'toggles',
+];
+const COMPONENT_TEMPLATE_PATH = './templates/template.component.txt';
+const NG_PACKAGE_TEMPLATE_PATH = './templates/ng-package.json';
+const componentsPath = './lib/components/'; // relative to package.json location
 
 // Create a prompt using inquirer
 inquirer
 	.prompt([
 		{
 			type: 'list',
-			name: 'type',
-			message: 'Select type',
-			choices: optionList,
-		},
-		{
-			type: 'input',
-			name: 'elementName',
-			message: 'Enter the element name:',
-			when: (answers) => answers.type === 'Element',
+			name: 'componentType',
+			message: 'Select a component type to generate:',
+			choices: componentType,
 		},
 		{
 			type: 'input',
 			name: 'componentName',
 			message: 'Enter the component name:',
-			when: (answers) => answers.type === 'Component',
-		},
-		{
-			type: 'input',
-			name: 'pagesName',
-			message: 'Enter the page name:',
-			when: (answers) => answers.type === 'Page',
-		},
-		{
-			type: 'input',
-			name: 'layoutsName',
-			message: 'Enter the layout name:',
-			when: (answers) => answers.type === 'Layout',
 		},
 	])
 	.then((answers) => {
-		console.log(answers);
+		// Create the library folder
+		const componentName = answers.componentName;
+		const componentFullPath = `${componentsPath}${answers.componentType}/${componentName}`;
+
+		if (fs.existsSync(componentFullPath)) {
+			console.error(`"${componentName}"`, 'component already exists');
+			return;
+		}
+
+		// ng-package
+		fs.mkdirSync(componentFullPath, { recursive: true });
+		fs.copyFileSync(NG_PACKAGE_TEMPLATE_PATH, `${componentFullPath}/ng-package.json`);
+
+		// public-api
+		const publicAPI = `export * from './${componentName}.component';`;
+		fs.writeFileSync(`${componentFullPath}/public-api.ts`, publicAPI);
+
+		// component.ts
+		let template = fs.readFileSync(COMPONENT_TEMPLATE_PATH, 'utf-8');
+		template = template.replace(/{{name}}/g, componentName);
+		template = template.replace(
+			/{{cName}}/g,
+			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
+		);
+		fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
 	})
 	.catch((error) => {
 		console.error('Error:', error);
 	});
-
-// (function () {
-// 	// logic of main
-// 	const nameArg = process.argv[2];
-// 	const filePath = process.argv[3];
-
-// 	if (nameArg == 'json') {
-// 		if (filePath == undefined) {
-// 			console.log('You have to supply the file path');
-// 			return;
-// 		}
-
-// 		try {
-// 			const jsonObj = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-// 			generateJsonComponents(jsonObj);
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	} else {
-// 		generateComponent(nameArg);
-// 	}
-
-// 	function generateJsonComponents(jsonObj, path = '') {
-// 		Object.entries(jsonObj).forEach(function ([key, value]) {
-// 			if (value instanceof Array) {
-// 				path += key + '/';
-// 				value.forEach(function (fileName) {
-// 					generateComponent(path + fileName);
-// 				});
-// 				path = path.replace(key + '/', '');
-// 			} else if (typeof value === 'object') {
-// 				path += key + '/';
-// 				generateJsonComponents(value, path);
-// 				path = path.replace(key + '/', '');
-// 			} else if (typeof value === 'string') {
-// 				if (key != value) {
-// 					path += key + '/';
-// 				}
-// 				generateComponent(path + value);
-// 				if (key != value) {
-// 					path = path.replace(key + '/', '');
-// 				}
-// 			}
-// 		});
-// 	}
-// 	function generateComponent(nameArg) {
-// 		var path;
-
-// 		if (nameArg == undefined) {
-// 			console.log('You have to supply the component name');
-// 			return;
-// 		}
-
-// 		const lastOccurrenceIndex = nameArg.lastIndexOf('/');
-// 		const firstOccurrenceIndex = nameArg.indexOf('/');
-// 		const parentFolder = nameArg.slice(0, firstOccurrenceIndex);
-
-// 		path = nameArg;
-
-// 		if (lastOccurrenceIndex === -1) {
-// 			fileName = nameArg;
-// 		} else {
-// 			fileName = nameArg.slice(lastOccurrenceIndex + 1);
-// 		}
-
-// 		const componentName = `${fileName[0].toUpperCase()}${fileName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase());
-
-// 		// Create folder
-// 		if (!fs.existsSync('lib/ui/' + path)) {
-// 			fs.mkdirSync('lib/ui/' + path, { recursive: true }, (err) => {
-// 				if (err) {
-// 					console.error(`Error creating folder: ${err}`);
-// 					return;
-// 				}
-// 			});
-// 		}
-
-// 		// Read the file and save the contents in a variable
-// 		const template = fs.readFileSync('./template.component.txt', 'utf8');
-
-// 		let newFileContent = template.replaceAll('%%NAME%%', fileName);
-
-// 		newFileContent = newFileContent.replaceAll('%%C_NAME%%', componentName);
-
-// 		fs.writeFileSync(`lib/ui/${path}/${fileName}.component.ts`, newFileContent, 'utf8');
-
-// 		console.log('Created: ', path);
-
-// 		populatePublicApi(parentFolder, fileName);
-// 	}
-
-// 	function populatePublicApi(parentFolder, fileName) {
-// 		// Handle public-api file and add the created component to it
-
-// 		let publicApi;
-// 		const data = `export * from './${fileName}/${fileName}.component';`;
-
-// 		try {
-// 			publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
-// 		} catch (error) {
-// 			fs.writeFileSync(`lib/ui/${parentFolder}/public-api.ts`, '', 'utf8');
-// 			publicApi = fs.readFileSync(`lib/ui/${parentFolder}/public-api.ts`, 'utf8');
-// 		}
-
-// 		console.log(publicApi);
-// 	}
-// })();
