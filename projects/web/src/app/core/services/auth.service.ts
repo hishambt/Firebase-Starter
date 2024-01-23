@@ -19,7 +19,7 @@ import {
 	reauthenticateWithCredential,
 	updatePassword,
 } from '@angular/fire/auth';
-import { switchMap, of, from, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
+import { switchMap, of, from, take, Observable, shareReplay, map, takeUntil, Subject, catchError, finalize } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { DocumentData, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -95,7 +95,10 @@ export class AuthService {
 	}
 
 	userProvider<T = unknown>(callback: (user: AuthUser) => Observable<T>): Observable<T> {
-		return authState(this.auth).pipe(switchMap((user: AuthUser): Observable<T> => callback(user)));
+		return authState(this.auth).pipe(
+			take(1),
+			switchMap((user: AuthUser): Observable<T> => callback(user)),
+		);
 	}
 
 	hasProvider(user: User, providerId: (typeof ProviderId)[keyof typeof ProviderId]): boolean {
@@ -117,7 +120,7 @@ export class AuthService {
 		return newUser;
 	}
 
-	getUserNames(displayName: string): { firstName: string; lastName: string; } {
+	getUserNames(displayName: string): { firstName: string; lastName: string } {
 		const name = displayName?.split(' ');
 
 		let firstName = displayName || '',

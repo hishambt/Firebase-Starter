@@ -2,19 +2,18 @@ import { Component, ViewChild, inject, ChangeDetectionStrategy, OnDestroy, Eleme
 import { take, switchMap, tap } from 'rxjs/operators';
 import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
 import { IonModal } from '@ionic/angular';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
+import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
 import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
 import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
-import { passwordMatchValidator } from '../../../shared/helpers/confirmed.validator';
 import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
@@ -34,8 +33,8 @@ export class ProfileViewComponent implements OnDestroy {
 	router = inject(Router);
 	_appToast = inject(AppToastService);
 	theme = inject(ThemeService);
-	fb = inject(NonNullableFormBuilder);
 	canSave = signal(false);
+	imageUploadService = inject(ImageUploadService);
 
 	saveProfile$: Subscription | null = null;
 	deleteUser$: Subscription | null = null;
@@ -63,47 +62,24 @@ export class ProfileViewComponent implements OnDestroy {
 		},
 	];
 
-	profileForm: FormGroup = this.fb.group({
-		firstName: new FormControl('', [Validators.required]),
-		lastName: new FormControl('', [Validators.required]),
-		email: new FormControl({ disabled: true, value: '' }),
-		phone: new FormControl(''),
-		address: new FormControl(''),
+	profileForm: ConvertToForm<Profile> = FB.group({
+		email: FB.string(),
+		address: FB.string(),
+		firstName: FB.string(),
+		lastName: FB.string(),
+		phone: FB.string(),
 	});
 
-	formChangePassword: FormGroup = this.fb.group(
-		{
-			password: new FormControl<string>('', [Validators.required]),
-			confirmPassword: new FormControl<string>('', [Validators.required]),
-		},
-		{ validators: passwordMatchValidator('password', 'confirmPassword') },
-	);
-
-	formValidatePassword: FormGroup = this.fb.group({
-		currentPassword: new FormControl<string>('', [Validators.required]),
+	formChangePassword: ConvertToForm<PasswordGroup> = FB.group({
+		confirmPasswordGroup: FB.group({
+			password: FB.string(),
+			confirmPassword: FB.string(),
+		}),
 	});
 
-	get firstNameError(): string {
-		return this.authService.getError(this.profileForm.get('firstName') as FormControl<string>, 'First Name');
-	}
-
-	get lastNameError(): string {
-		return this.authService.getError(this.profileForm.get('lastName') as FormControl<string>, 'Last Name');
-	}
-
-	get getChangePasswordError(): string {
-		return this.authService.getError(this.formChangePassword.get('password') as FormControl<string>, 'Password');
-	}
-
-	get getChangeConfirmPasswordError(): string {
-		return this.authService.getError(this.formChangePassword.get('confirmPassword') as FormControl<string>, 'Password');
-	}
-
-	get getValidatePasswordError(): string {
-		return this.authService.getError(this.formValidatePassword.get('currentPassword') as FormControl<string>, 'Password');
-	}
-
-	imageUploadService = inject(ImageUploadService);
+	formValidatePassword: ConvertToForm<{ password: string; }> = FB.group({
+		password: FB.string(),
+	});
 
 	$user = this.authService.currentUserProfile$.pipe(
 		tap((user: IUser | null) => {
@@ -147,12 +123,10 @@ export class ProfileViewComponent implements OnDestroy {
 
 	submitRecord(user: IUser): void {
 		if (this.profileForm.invalid) {
-			this.profileForm.markAllAsTouched();
-
 			return;
 		}
 
-		const { firstName, lastName, phone, address } = this.profileForm.value;
+		const { firstName, lastName, phone, address } = this.profileForm.getRawValue();
 		const updatedUser = { ...user, firstName, lastName, phone, address };
 
 		this.saveProfile$ = this.authService
@@ -196,20 +170,18 @@ export class ProfileViewComponent implements OnDestroy {
 
 	confirmChangePassword(): void {
 		if (this.formChangePassword.invalid) {
-			this.formChangePassword.markAllAsTouched();
-
 			return;
 		}
 
-		const { password } = this.formChangePassword.value;
+		const {
+			confirmPasswordGroup: { password },
+		} = this.formChangePassword.getRawValue();
 
 		if (this.authService.loggedInWithGoogle() && !this.authService.loggedInWithPassword()) {
 			this.linkAccount(password);
 		} else {
 			this.updatePassword(password);
 		}
-
-		this.modalChangePassword.dismiss();
 	}
 
 	modifyPassword(): void {
@@ -218,12 +190,10 @@ export class ProfileViewComponent implements OnDestroy {
 
 	confirmValidatePassword(): void {
 		if (this.formValidatePassword.invalid) {
-			this.formValidatePassword.markAllAsTouched();
-
 			return;
 		}
 
-		const { currentPassword } = this.formValidatePassword.value;
+		const { password } = this.formValidatePassword.getRawValue();
 
 		this.validatePassword$ = this.authService
 			.userProvider((user: AuthUser) => {
@@ -231,7 +201,7 @@ export class ProfileViewComponent implements OnDestroy {
 					return of(undefined);
 				}
 
-				return this.authService.validatePassword(user, currentPassword);
+				return this.authService.validatePassword(user, password);
 			})
 			.subscribe({
 				next: () => {
@@ -260,6 +230,8 @@ export class ProfileViewComponent implements OnDestroy {
 						size: 'medium',
 					});
 
+					this.modalChangePassword.dismiss();
+
 					this.authService.logout().subscribe((): void => {
 						this.router.navigateByUrl('auth/login', { replaceUrl: true });
 					});
@@ -282,6 +254,7 @@ export class ProfileViewComponent implements OnDestroy {
 			.subscribe({
 				next: (_creds: UserCredential | null) => {
 					this.authService.loggedInWithPassword.set(true);
+					this.modalChangePassword.dismiss();
 				},
 				error: () => null,
 			});
@@ -337,3 +310,18 @@ export class ProfileViewComponent implements OnDestroy {
 		this.uploadingImage$?.unsubscribe();
 	}
 }
+
+type Profile = {
+	firstName: string;
+	lastName: string;
+	email: string;
+	phone: string;
+	address: string;
+};
+
+type PasswordGroup = {
+	confirmPasswordGroup: {
+		password: string;
+		confirmPassword: string;
+	};
+};

@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
+import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
 
 import { AuthService } from '../../services/auth.service';
-import { passwordMatchValidator } from '../../../shared/helpers/confirmed.validator';
 
 @Component({
 	selector: 'app-register',
@@ -20,39 +19,26 @@ export class RegisterComponent implements OnDestroy {
 	route = inject(ActivatedRoute);
 	router = inject(Router);
 	_appToast = inject(AppToastService);
-	fb = inject(NonNullableFormBuilder);
 
-	form: FormGroup = this.fb.group(
-		{
-			email: new FormControl<string>('', [Validators.email, Validators.required]),
-			password: new FormControl<string>('', [Validators.required]),
-			confirmPassword: new FormControl<string>('', [Validators.required]),
-		},
-		{ validators: passwordMatchValidator('password', 'confirmPassword') },
-	);
-
-	get getEmailError(): string {
-		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
-	}
-
-	get getPasswordError(): string {
-		return this.authService.getError(this.form.get('password') as FormControl<string>, 'Password');
-	}
-
-	get getConfirmPasswordError(): string {
-		return this.authService.getError(this.form.get('confirmPassword') as FormControl<string>, 'Password');
-	}
+	form: RegisterForm = FB.group({
+		email: FB.string(''),
+		confirmPasswordGroup: FB.group({
+			password: FB.string(''),
+			confirmPassword: FB.string(''),
+		}),
+	});
 
 	register$: Subscription | null = null;
 
 	submitRecord(): void {
 		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-
 			return;
 		}
 
-		const { email, password } = this.form.value;
+		const {
+			email,
+			confirmPasswordGroup: { password },
+		} = this.form.getRawValue();
 
 		this.register$ = this.registerFollowUp(
 			this.authService.registerNewAccount(email, password).pipe(
@@ -83,3 +69,12 @@ export class RegisterComponent implements OnDestroy {
 		this.register$?.unsubscribe();
 	}
 }
+
+type Register = {
+	email: string;
+	confirmPasswordGroup: {
+		password: string;
+		confirmPassword: string;
+	};
+};
+type RegisterForm = ConvertToForm<Register>;

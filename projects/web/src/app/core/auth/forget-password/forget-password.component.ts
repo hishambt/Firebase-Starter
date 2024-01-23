@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
 
 import { AuthService } from '../../services/auth.service';
 import { AppToastService, ToastClass } from '../../../shared/services/app-toast.service';
@@ -16,26 +17,19 @@ export class ForgetPasswordComponent implements OnDestroy {
 	router = inject(Router);
 	authService = inject(AuthService);
 	_appToast = inject(AppToastService);
-	fb = inject(NonNullableFormBuilder);
 
-	form: FormGroup = this.fb.group({
-		email: new FormControl('', [Validators.email, Validators.required]),
+	form: ConvertToForm<{ email: string; }> = FB.group({
+		email: FB.string(),
 	});
-
-	get getEmailError(): string {
-		return this.authService.getError(this.form.get('email') as FormControl<string>, 'Email');
-	}
 
 	forget$: Subscription | null = null;
 
 	submitRecord(): void {
 		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-
 			return;
 		}
 
-		const { email } = this.form.value;
+		const { email } = this.form.getRawValue();
 
 		this.forget$ = this.authService.forgetPassword(email).subscribe({
 			next: () => this.onPasswordReset(`An email has been sent to ${email}`),

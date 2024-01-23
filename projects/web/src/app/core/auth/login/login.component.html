@@ -10,12 +10,15 @@
 						<form
 							[formGroup]="form"
 							(ngSubmit)="submitRecord()">
-							<ss-email></ss-email>
+							<ss-email
+								controlKey="email"
+								label="Email"></ss-email>
 							<ss-password></ss-password>
 							<div class="ion-margin-vertical">
 								<ion-button
 									class="ion-margin-vertical"
 									expand="fill"
+									[disabled]="!form.touched || (form.touched && form.invalid)"
 									[appAsyncRef]="login$"
 									size="full"
 									color="primary"

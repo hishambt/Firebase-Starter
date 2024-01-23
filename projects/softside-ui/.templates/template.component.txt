@@ -1,0 +1,15 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+
+@Component({
+  selector: 'ss-{{name}}-{{classSuffix}}',
+  template: `
+          <h1>{{cName}} works!</h1>
+  `,
+  standalone: true,
+  imports: [
+    IonicModule,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SS{{cName}}{{cClassSuffix}}Component {}
