@@ -64,12 +64,17 @@ inquirer
 		fs.writeFileSync(`${componentFullPath}/public-api.ts`, publicAPI);
 
 		// component.ts
+		const classSuffix = answers.componentType.replace(/s$/, '');
+
 		let template = fs.readFileSync(COMPONENT_TEMPLATE_PATH, 'utf-8');
+		template = template.replace(/{{classSuffix}}/g, classSuffix);
 		template = template.replace(/{{name}}/g, componentName);
 		template = template.replace(
 			/{{cName}}/g,
 			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
 		);
+		template = template.replace(/{{cClassSuffix}}/g, `${classSuffix[0].toUpperCase()}${classSuffix.slice(1)}`);
+
 		fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
 
 		exec(`code -g ${componentFullPath}/${componentName}.component.ts`, (err, stdout, stderr) => {
