@@ -31,5 +31,12 @@
 		"titleBar.inactiveForeground": "#e7e7e799"
 	},
 	"peacock.color": "#621964",
-	"npm.enableRunFromFolder": true
+	"npm.enableRunFromFolder": true,
+	"terminal.integrated.profiles.linux": {
+		"bash": {
+			"path": "bash",
+			"icon": "terminal-bash",
+			"args": ["-i"]
+		}
+	}
 }
