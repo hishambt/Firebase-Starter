@@ -1,0 +1,152 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Library",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "start:lib"],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "typescript",
+				"pattern": {
+					"regexp": "^\\s+(.*)$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*Building tailwind for library*$",
+					"endsPattern": "^.*Compilation complete. Watching for file changes...*$"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		},
+		{
+			"label": "Start Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "start:backend"],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "firebase",
+				"pattern": {
+					"regexp": "^\\s+(.*)$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^i  emulators: Starting emulators.*$",
+					"endsPattern": "^│ ✔  All emulators ready! It is now safe to connect your app.*$"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		},
+		{
+			"label": "Start Web Application",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "start:web"],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "typescript",
+				"pattern": {
+					"regexp": "^\\s+(.*)$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*Generating browser application bundles*$",
+					"endsPattern": "^.*Compiled successfully.*$"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"dependsOn": ["Start Library"]
+		},
+		{
+			"label": "Build Library",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "build:lib"],
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "default"
+			}
+		},
+		{
+			"label": "Build Web",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "build:web"],
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "default"
+			},
+			"dependsOn": ["Build Library"]
+		},
+		{
+			"label": "Deploy Locally",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "deploy:local"],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "custom",
+				"pattern": {
+					"regexp": "^\\s+(.*)$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*Serving:*$",
+					"endsPattern": "^.*https://localhost:4321*$"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"runOptions": {
+				"runOn": "default"
+			},
+			"dependsOn": ["Build Web"]
+		}
+	]
+}
