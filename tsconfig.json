@@ -6,7 +6,7 @@
 		"baseUrl": "./",
 		"paths": {
 			"softside-ui": ["dist/softside-ui"],
-			"softside-ui/*": ["dist/softside-ui/*"]
+			"softside-ui/*": ["dist/softside-ui/*"],
 		},
 		"outDir": "./dist/out-tsc",
 		"forceConsistentCasingInFileNames": true,
@@ -24,12 +24,12 @@
 		"target": "es2022",
 		"module": "es2020",
 		"lib": ["es2018", "dom", "dom.iterable"],
-		"useDefineForClassFields": false
+		"useDefineForClassFields": false,
 	},
 	"angularCompilerOptions": {
 		"enableI18nLegacyMessageIdFormat": false,
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
-		"strictTemplates": true
-	}
+		"strictTemplates": true,
+	},
 }
