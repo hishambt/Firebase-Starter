@@ -36,7 +36,7 @@
 							},
 							{
 								"glob": "**/*.*",
-								"input": "node_modules/softside-ui/assets",
+								"input": "node_modules/softside/ui-sdk/assets",
 								"output": "assets"
 							}
 						],
@@ -79,19 +79,19 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
-            "production": {
-              "buildTarget": "web:build:production"
+						"production": {
+							"buildTarget": "web:build:production"
 						},
-            "development": {
-              "buildTarget": "web:build:development"
+						"development": {
+							"buildTarget": "web:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "web:build"
+					"options": {
+						"buildTarget": "web:build"
 					}
 				},
 				"test": {
@@ -188,14 +188,11 @@
 							},
 							{
 								"glob": "**/*.*",
-								"input": "dist/softside-ui/assets",
+								"input": "dist/softside/ui-sdk/assets",
 								"output": "assets"
 							}
 						],
-						"styles": [
-							"projects/mobile/src/global.scss",
-							"dist/softside-ui/css/styles.scss"
-						],
+						"styles": ["projects/mobile/src/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
@@ -234,19 +231,19 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
-            "production": {
-              "buildTarget": "mobile:build:production"
+						"production": {
+							"buildTarget": "mobile:build:production"
 						},
-            "development": {
-              "buildTarget": "mobile:build:development"
+						"development": {
+							"buildTarget": "mobile:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "mobile:build"
+					"options": {
+						"buildTarget": "mobile:build"
 					}
 				},
 				"test": {
@@ -310,23 +307,23 @@
 				}
 			}
 		},
-		"softside-ui": {
+		"@softside/ui-sdk": {
 			"projectType": "library",
-			"root": "projects/softside-ui",
-			"sourceRoot": "projects/softside-ui/lib",
-			"prefix": "softside-ui",
+			"root": "projects/softside/ui-sdk",
+			"sourceRoot": "projects/softside/ui-sdk/src",
+			"prefix": "lib",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:ng-packagr",
 					"options": {
-						"project": "projects/softside-ui/ng-package.json"
+						"project": "projects/softside/ui-sdk/ng-package.json"
 					},
 					"configurations": {
 						"production": {
-							"tsConfig": "projects/softside-ui/tsconfig.lib.prod.json"
+							"tsConfig": "projects/softside/ui-sdk/tsconfig.lib.prod.json"
 						},
 						"development": {
-							"tsConfig": "projects/softside-ui/tsconfig.lib.json"
+							"tsConfig": "projects/softside/ui-sdk/tsconfig.lib.json"
 						}
 					},
 					"defaultConfiguration": "production"
@@ -334,7 +331,7 @@
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"tsConfig": "projects/softside-ui/tsconfig.spec.json",
+						"tsConfig": "projects/softside/ui-sdk/tsconfig.spec.json",
 						"polyfills": ["zone.js", "zone.js/testing"]
 					}
 				},
@@ -342,23 +339,23 @@
 					"builder": "@angular-eslint/builder:lint",
 					"options": {
 						"lintFilePatterns": [
-							"projects/softside-ui/lib/**/*.ts",
-							"projects/softside-ui/lib/**/*.html"
+							"projects/softside/ui-sdk/lib/**/*.ts",
+							"projects/softside/ui-sdk/lib/**/*.html"
 						]
 					}
 				},
 				"storybook": {
 					"builder": "@storybook/angular:start-storybook",
 					"options": {
-						"configDir": "projects/softside-ui/.storybook",
-						"browserTarget": "softside-ui:build",
-						"styles": ["projects/softside-ui/scss/main.scss"],
+						"configDir": "projects/softside/ui-sdk/.storybook",
+						"browserTarget": "softside/ui-sdk:build",
+						"styles": ["projects/softside/ui-sdk/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
 							"-e",
 							"json",
 							"-d",
-							"projects/softside-ui"
+							"projects/softside/ui-sdk"
 						],
 						"port": 6006
 					}
@@ -366,15 +363,15 @@
 				"build-storybook": {
 					"builder": "@storybook/angular:build-storybook",
 					"options": {
-						"configDir": "projects/softside-ui/.storybook",
-						"browserTarget": "softside-ui:build",
-						"styles": ["projects/softside-ui/scss/main.scss"],
+						"configDir": "projects/softside/ui-sdk/.storybook",
+						"browserTarget": "softside/ui-sdk:build",
+						"styles": ["projects/softside/ui-sdk/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
 							"-e",
 							"json",
 							"-d",
-							"projects/softside-ui"
+							"projects/softside/ui-sdk"
 						],
 						"outputDir": "storybook-static"
 					}

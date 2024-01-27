@@ -7,7 +7,13 @@
 		"function-no-unknown": [
 			true,
 			{
-				"ignoreFunctions": ["map-get", "map-merge"]
+				"ignoreFunctions": [
+					"map-get",
+					"map-merge",
+					"light-dark",
+					"linear",
+					"xywh"
+				]
 			}
 		],
 		"selector-class-pattern": null,
@@ -18,14 +24,12 @@
 		"scss/dollar-variable-pattern": null,
 		"scss/selector-no-redundant-nesting-selector": true,
 		"no-invalid-position-at-import-rule": null,
-		"indentation": null,
 		"selector-pseudo-element-no-unknown": [
 			true,
 			{
 				"ignorePseudoElements": ["ng-deep", "/^input-/"]
 			}
 		],
-		"declaration-block-trailing-semicolon": "always",
 		"no-descending-specificity": null,
 		"declaration-empty-line-before": null
 	}
