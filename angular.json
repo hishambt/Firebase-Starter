@@ -348,7 +348,7 @@
 					"builder": "@storybook/angular:start-storybook",
 					"options": {
 						"configDir": "projects/softside/ui-sdk/.storybook",
-						"browserTarget": "softside/ui-sdk:build",
+						"browserTarget": "@softside/ui-sdk:build",
 						"styles": ["projects/softside/ui-sdk/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
@@ -364,7 +364,7 @@
 					"builder": "@storybook/angular:build-storybook",
 					"options": {
 						"configDir": "projects/softside/ui-sdk/.storybook",
-						"browserTarget": "softside/ui-sdk:build",
+						"browserTarget": "@softside/ui-sdk:build",
 						"styles": ["projects/softside/ui-sdk/scss/main.scss"],
 						"compodoc": true,
 						"compodocArgs": [
