@@ -25,19 +25,13 @@
 									type="submit">
 									Login
 								</ion-button>
-								<ion-button
+								<ss-button
 									class="ion-margin-vertical"
-									expand="fill"
-									size="full"
-									[appAsyncRef]="loginWithGoogle$"
-									(click)="loginWithGoogle()"
-									type="button">
-									<ion-icon
-										size="small"
-										slot="start"
-										name="logo-google"></ion-icon>
-									<ion-label>Sign in With Google</ion-label>
-								</ion-button>
+									label="Sign in With Google"
+									iconName="logo-google"
+									[loading]="loginWithGoogle$"
+									(onClick)="loginWithGoogle()"
+									type="button"></ss-button>
 							</div>
 						</form>
 					</ion-col>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SSEmailComponent } from '@softside/ui-sdk/lib/components/inputs/email';
 import { SSPasswordComponent } from '@softside/ui-sdk/lib/components/inputs/password';
 import { SSConfirmPasswordComponent } from '@softside/ui-sdk/lib/components/composed/confirm-password';
+import { SSButtonComponent } from '@softside/ui-sdk/lib/elements';
 
 import { SharedModule } from '../../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
@@ -26,6 +27,7 @@ import { AuthShellComponent } from './auth-shell/auth-shell.component';
 		SSEmailComponent,
 		SSPasswordComponent,
 		SSConfirmPasswordComponent,
+		SSButtonComponent,
 	],
 	providers: [],
 })
