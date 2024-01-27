@@ -4,6 +4,10 @@ module.exports = {
 	overrides: [
 		{
 			files: ['*.ts'],
+			parserOptions: {
+				project: ['projects/softside/ui-sdk/tsconfig.*?.json', 'projects/softside/ui-sdk/.storybook/tsconfig.json'],
+				createDefaultProgram: true,
+			},
 			rules: {
 				'@angular-eslint/directive-selector': [
 					'error',
