@@ -242,5 +242,18 @@ module.exports = {
 				],
 			},
 		},
+		{
+			files: ['*.mjs'],
+			extends: ['plugin:@typescript-eslint/disable-type-checked'],
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				allowImportExportEverywhere: true,
+			},
+			parser: 'babel-eslint',
+			env: {
+				es6: true,
+			},
+		},
 	],
 };

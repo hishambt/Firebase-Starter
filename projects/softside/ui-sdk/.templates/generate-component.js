@@ -1,5 +1,6 @@
 const fs = require('fs');
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
+const inquirer = require('inquirer');
 
 // Define a list of options for the user to choose from
 const componentType = [
@@ -30,12 +31,8 @@ const NG_PACKAGE_TEMPLATE_PATH = `${basePath}/.templates/ng-package.json`;
 const INDEX_TS_TEMPLATE_PATH = `${basePath}/.templates/index.txt`;
 const componentsPath = `${basePath}/lib/components/`;
 
-(async function () {
-	const inquirer = await import('inquirer');
-	const prompt = inquirer.createPromptModule();
-
-	// Create a prompt using inquirer
-	prompt([
+inquirer
+	.prompt([
 		{
 			type: 'list',
 			name: 'componentType',
@@ -48,49 +45,43 @@ const componentsPath = `${basePath}/lib/components/`;
 			message: 'Enter the component name:',
 		},
 	])
-		.then((answers) => {
-			// Create the library folder
-			const componentName = answers.componentName;
-			const componentFullPath = `${componentsPath}${answers.componentType}/${componentName}`;
+	.then((answers) => {
+		// Create the library folder
+		const componentName = answers.componentName;
+		const componentFullPath = `${componentsPath}${answers.componentType}/${componentName}`;
 
-			if (fs.existsSync(componentFullPath)) {
-				console.error(`"${componentName}"`, 'component already exists');
-				return;
-			}
+		if (fs.existsSync(componentFullPath)) {
+			console.error(`"${componentName}"`, 'component already exists');
+			return;
+		}
 
-			// ng-package
-			fs.mkdirSync(componentFullPath, { recursive: true });
-			fs.copyFileSync(NG_PACKAGE_TEMPLATE_PATH, `${componentFullPath}/ng-package.json`);
+		// ng-package
+		fs.mkdirSync(componentFullPath, { recursive: true });
+		fs.copyFileSync(NG_PACKAGE_TEMPLATE_PATH, `${componentFullPath}/ng-package.json`);
 
-			// public-api
-			const publicAPI = `export * from './${componentName}.component';`;
-			fs.writeFileSync(`${componentFullPath}/public-api.ts`, publicAPI);
+		// public-api
+		const publicAPI = `export * from './${componentName}.component';`;
+		fs.writeFileSync(`${componentFullPath}/public-api.ts`, publicAPI);
 
-			// index.ts
-			fs.copyFileSync(INDEX_TS_TEMPLATE_PATH, `${componentFullPath}/index.ts`);
+		// index.ts
+		fs.copyFileSync(INDEX_TS_TEMPLATE_PATH, `${componentFullPath}/index.ts`);
 
-			// component.ts
-			const classSuffix = answers.componentType.replace(/s$/, '');
+		// component.ts
+		const classSuffix = answers.componentType.replace(/s$/, '');
 
-			let template = fs.readFileSync(COMPONENT_TEMPLATE_PATH, 'utf-8');
-			template = template.replace(/{{classSuffix}}/g, classSuffix);
-			template = template.replace(/{{name}}/g, componentName);
-			template = template.replace(
-				/{{cName}}/g,
-				`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
-			);
-			template = template.replace(/{{cClassSuffix}}/g, `${classSuffix[0].toUpperCase()}${classSuffix.slice(1)}`);
+		let template = fs.readFileSync(COMPONENT_TEMPLATE_PATH, 'utf-8');
+		template = template.replace(/{{classSuffix}}/g, classSuffix);
+		template = template.replace(/{{name}}/g, componentName);
+		template = template.replace(
+			/{{cName}}/g,
+			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
+		);
+		template = template.replace(/{{cClassSuffix}}/g, `${classSuffix[0].toUpperCase()}${classSuffix.slice(1)}`);
 
-			fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
+		fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
 
-			exec(`code -g ${componentFullPath}/${componentName}.component.ts`, (err, stdout, stderr) => {
-				if (err) {
-					console.log("node couldn't execute the command");
-					return;
-				}
-			});
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-		});
-})();
+		execSync(`code -g ${componentFullPath}/${componentName}.component.ts`, { stdio: 'inherit' });
+	})
+	.catch((error) => {
+		console.error('Error:', error);
+	});

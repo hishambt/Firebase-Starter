@@ -5,6 +5,7 @@
 	"homepage": "https://ionicframework.com/",
 	"scripts": {
 		"gen:comp": "node ./projects/softside/ui-sdk/.templates/generate-component.js",
+		"commit": "node commit.mjs",
 		"ng": "ng",
 		"ionic": "ionic",
 		"firebase": "firebase",
