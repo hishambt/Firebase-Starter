@@ -1,8 +1,8 @@
-const fs = require('fs');
-const { execSync } = require('child_process');
-const inquirer = require('inquirer');
+import fs from 'fs';
+import { createPromptModule } from 'inquirer';
+import { execSync } from 'child_process';
 
-// Define a list of options for the user to choose from
+const prompt = createPromptModule();
 const componentType = [
 	'breadcrumbs',
 	'buttons',
@@ -31,20 +31,19 @@ const NG_PACKAGE_TEMPLATE_PATH = `${basePath}/.templates/ng-package.json`;
 const INDEX_TS_TEMPLATE_PATH = `${basePath}/.templates/index.txt`;
 const componentsPath = `${basePath}/lib/components/`;
 
-inquirer
-	.prompt([
-		{
-			type: 'list',
-			name: 'componentType',
-			message: 'Select a component type to generate:',
-			choices: componentType,
-		},
-		{
-			type: 'input',
-			name: 'componentName',
-			message: 'Enter the component name:',
-		},
-	])
+prompt([
+	{
+		type: 'list',
+		name: 'componentType',
+		message: 'Select a component type to generate:',
+		choices: componentType,
+	},
+	{
+		type: 'input',
+		name: 'componentName',
+		message: 'Enter the component name:',
+	},
+])
 	.then((answers) => {
 		// Create the library folder
 		const componentName = answers.componentName;
@@ -57,14 +56,20 @@ inquirer
 
 		// ng-package
 		fs.mkdirSync(componentFullPath, { recursive: true });
-		fs.copyFileSync(NG_PACKAGE_TEMPLATE_PATH, `${componentFullPath}/ng-package.json`);
+		fs.copyFileSync(
+			NG_PACKAGE_TEMPLATE_PATH,
+			`${componentFullPath}/ng-package.json`,
+		);
 
 		// public-api
 		const publicAPI = `export * from './${componentName}.component';`;
 		fs.writeFileSync(`${componentFullPath}/public-api.ts`, publicAPI);
 
 		// index.ts
-		fs.copyFileSync(INDEX_TS_TEMPLATE_PATH, `${componentFullPath}/index.ts`);
+		fs.copyFileSync(
+			INDEX_TS_TEMPLATE_PATH,
+			`${componentFullPath}/index.ts`,
+		);
 
 		// component.ts
 		const classSuffix = answers.componentType.replace(/s$/, '');
@@ -74,13 +79,24 @@ inquirer
 		template = template.replace(/{{name}}/g, componentName);
 		template = template.replace(
 			/{{cName}}/g,
-			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(/-./g, (match) => match[1].toUpperCase()),
+			`${componentName[0].toUpperCase()}${componentName.slice(1)}`.replace(
+				/-./g,
+				(match) => match[1].toUpperCase(),
+			),
 		);
-		template = template.replace(/{{cClassSuffix}}/g, `${classSuffix[0].toUpperCase()}${classSuffix.slice(1)}`);
+		template = template.replace(
+			/{{cClassSuffix}}/g,
+			`${classSuffix[0].toUpperCase()}${classSuffix.slice(1)}`,
+		);
 
-		fs.writeFileSync(`${componentFullPath}/${componentName}.component.ts`, template);
+		fs.writeFileSync(
+			`${componentFullPath}/${componentName}.component.ts`,
+			template,
+		);
 
-		execSync(`code -g ${componentFullPath}/${componentName}.component.ts`, { stdio: 'inherit' });
+		execSync(`code -g ${componentFullPath}/${componentName}.component.ts`, {
+			stdio: 'inherit',
+		});
 	})
 	.catch((error) => {
 		console.error('Error:', error);

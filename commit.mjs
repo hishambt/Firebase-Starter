@@ -2,18 +2,17 @@ import { createPromptModule } from 'inquirer';
 import { execSync } from 'child_process';
 
 const scopes = [
+	'build',
+	'chore',
+	'ci',
+	'docs',
 	'feat',
 	'fix',
-	'docs',
-	'style',
-	'refactor',
 	'perf',
-	'test',
-	'build',
-	'ci',
-	'bug',
-	'chore',
+	'refactor',
 	'revert',
+	'style',
+	'test',
 ];
 
 const prompt = createPromptModule();
@@ -53,11 +52,10 @@ prompt([
 	},
 ]).then((answers) => {
 	if (answers.breakingChange) {
-		console.log('Breaking Change');
-		console.log('Not Implemented');
+		console.log('Breaking Change Not Implemented');
 	}
 
-	const commitCommand = `git commit -m "FS-${answers.jiraNumber}: (${answers.scope}) - ${answers.message}" -m "${answers.description}"`;
+	const commitCommand = `git commit -m "${answers.scope}(FS-${answers.jiraNumber}): ${answers.message}" -m "${answers.description}"`;
 
 	if (answers.addFiles) {
 		execSync('git add .', { stdio: 'inherit' });
