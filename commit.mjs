@@ -62,4 +62,16 @@ prompt([
 	}
 
 	execSync(commitCommand, { stdio: 'inherit' });
+
+	prompt([
+		{
+			type: 'confirm',
+			message: 'Push changes?',
+			name: 'push',
+		},
+	]).then((answers) => {
+		if (answers.push) {
+			execSync('git push', { stdio: 'inherit' });
+		}
+	});
 });
