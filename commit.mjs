@@ -100,7 +100,7 @@ function startPrompt(jiraTicketId) {
 			: answers.scope;
 		const description = answers.description || '';
 
-		const commitCommand = `git commit -m "${answers.type}(${scope}): ${answers.message}" -m "${description}" -m "FS-${answers.jiraNumber}"`;
+		const commitCommand = `git commit -m "${answers.type}(${scope}): ${answers.message}" -m "${description}" -m "${answers.jiraNumber}"`;
 
 		if (answers.addFiles) {
 			execSync('git add .', { stdio: 'inherit' });
