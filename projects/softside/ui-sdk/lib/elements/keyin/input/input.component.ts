@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, signal } from '@angular/core';
-import { IonInput, IonicModule } from '@ionic/angular';
+import { IonInput, IonItem, IonIcon } from '@ionic/angular/standalone';
 import { takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -46,7 +46,7 @@ import { FormProviderBaseComponent } from '@softside/ui-sdk/lib/_utils';
 			</ion-item>
 		</ng-container>
 	`,
-	imports: [NgIf, IonicModule, ReactiveFormsModule],
+	imports: [NgIf, IonItem, IonIcon, IonInput, ReactiveFormsModule],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })

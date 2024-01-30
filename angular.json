@@ -15,7 +15,7 @@
 			"prefix": "app",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-devkit/build-angular:browser-esbuild",
 					"options": {
 						"outputPath": "public",
 						"index": "projects/web/src/index.html",
@@ -167,7 +167,7 @@
 			"prefix": "app",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-devkit/build-angular:browser-esbuild",
 					"options": {
 						"outputPath": "public",
 						"index": "projects/mobile/src/index.html",

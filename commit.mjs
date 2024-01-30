@@ -69,7 +69,6 @@ prompt([
 		type: 'input',
 		name: 'description',
 		message: 'Detailed description:',
-		validate: (input) => !!input,
 	},
 	{
 		type: 'confirm',
@@ -88,9 +87,9 @@ prompt([
 	}
 
 	const scope = answers.specificScope ? answers.specificScope : answers.scope;
-	const description = `${answers.description} - FS-${answers.jiraNumber}`;
+	const description = answers.description || '';
 
-	const commitCommand = `git commit -m "${answers.type}(${scope}): ${answers.message}" -m "${description}"`;
+	const commitCommand = `git commit -m "${answers.type}(${scope}): ${answers.message}" -m "${description}" -m "FS-${answers.jiraNumber}"`;
 	//chore(package): update author information Update the author field in package.json to "Softside - Angular Firebase Starter". Refs FS-49
 
 	if (answers.addFiles) {

@@ -6,6 +6,7 @@ import { SSEmailComponent } from '@softside/ui-sdk/lib/components/inputs/email';
 import { SSPasswordComponent } from '@softside/ui-sdk/lib/components/inputs/password';
 import { SSTextComponent } from '@softside/ui-sdk/lib/components/inputs/text';
 import { SSTextareaComponent } from '@softside/ui-sdk/lib/elements';
+import { SSSubmitButtonComponent } from '@softside/ui-sdk/lib/components/buttons/submit';
 
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
@@ -24,6 +25,7 @@ import { SharedModule } from '../../shared/shared.module';
 		SSTextareaComponent,
 		SSPasswordComponent,
 		SSConfirmPasswordComponent,
+		SSSubmitButtonComponent,
 	],
 })
 export class ProfileModule {}
