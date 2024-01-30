@@ -42,6 +42,13 @@ prompt([
 		type: 'input',
 		name: 'componentName',
 		message: 'Enter the component name:',
+		validate: (input) => {
+			if (!!input) {
+				return true;
+			} else {
+				return 'Please enter a component name';
+			}
+		},
 	},
 ])
 	.then((answers) => {
