@@ -16,7 +16,7 @@
 		"build:lib": "tailwind -c ./projects/softside/ui-sdk/tailwind.config.js -o ./projects/softside/ui-sdk/scss/tailwind.scss && ng build @softside/ui-sdk",
 		"build:web": "env-cmd -e production_web ng build web",
 		"build:mobile": "env-cmd -e production_mobile ng build mobile",
-		"deploy:local": "servor public index.html 4321 --browse --secure",
+		"deploy:local": "servor public/browser/ index.html 4321 --browse --secure",
 		"test": "ng test",
 		"lint": "ng lint",
 		"prepare": "husky install && shx cp -urf .husky\\* .git\\hooks\\",
