@@ -4,8 +4,10 @@ import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
-import { IonModal } from '@ionic/angular';
+import { IonModal } from '@ionic/angular/standalone';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { addIcons } from 'ionicons';
+import { camera } from 'ionicons/icons';
 
 import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
@@ -92,6 +94,12 @@ export class ProfileViewComponent implements OnDestroy {
 			});
 		}),
 	);
+
+	constructor() {
+		addIcons({
+			camera,
+		});
+	}
 
 	uploadFile(user: IUser): void {
 		this.uploadingImage$ = this.imageUploadService

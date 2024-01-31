@@ -1,4 +1,17 @@
 import { NgModule } from '@angular/core';
+import {
+	IonButton,
+	IonButtons,
+	IonCard,
+	IonCardContent,
+	IonCardHeader,
+	IonCardTitle,
+	IonCol,
+	IonContent,
+	IonRouterOutlet,
+	IonRow,
+	IonText,
+} from '@ionic/angular/standalone';
 
 import { SSEmailComponent } from '@softside/ui-sdk/lib/components/inputs/email';
 import { SSPasswordComponent } from '@softside/ui-sdk/lib/components/inputs/password';
@@ -28,6 +41,17 @@ import { AuthShellComponent } from './auth-shell/auth-shell.component';
 		SSPasswordComponent,
 		SSConfirmPasswordComponent,
 		SSButtonComponent,
+		IonRouterOutlet,
+		IonContent,
+		IonCard,
+		IonCardHeader,
+		IonCardTitle,
+		IonCardContent,
+		IonRow,
+		IonCol,
+		IonButton,
+		IonButtons,
+		IonText,
 	],
 	providers: [],
 })

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
+import { IonButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
 
 import { AsyncRefDirective } from '@softside/ui-sdk/lib/shared';
 
@@ -42,7 +42,7 @@ import { AsyncRefDirective } from '@softside/ui-sdk/lib/shared';
 		</ng-template>
 	`,
 	standalone: true,
-	imports: [NgIf, IonicModule, AsyncRefDirective],
+	imports: [NgIf, IonIcon, IonLabel, IonButton, AsyncRefDirective],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SSButtonComponent {

@@ -122,8 +122,8 @@
 				},
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^.*Generating browser application bundles*$",
-					"endsPattern": "^.*Compiled successfully.*$"
+					"beginsPattern": "^.*Building.*$",
+					"endsPattern": "^.*Browser window opened to.*$"
 				}
 			},
 			"presentation": {

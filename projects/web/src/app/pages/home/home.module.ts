@@ -1,4 +1,11 @@
 import { NgModule } from '@angular/core';
+import {
+	IonCard,
+	IonCardContent,
+	IonCardHeader,
+	IonContent,
+	IonText,
+} from '@ionic/angular/standalone';
 
 import { SSEmailComponent } from '@softside/ui-sdk/lib/components/inputs/email';
 
@@ -14,6 +21,11 @@ import { HomeViewComponent } from './home-view/home-view.component';
 		HomeRoutingModule,
 		SSEmailComponent,
 		SharedModule,
+		IonContent,
+		IonCard,
+		IonCardHeader,
+		IonText,
+		IonCardContent,
 	],
 	exports: [],
 	providers: [],

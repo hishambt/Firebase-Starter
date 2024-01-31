@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgLetModule } from 'ng-let';
-import { IonicModule } from '@ionic/angular';
+import { IonSpinner } from '@ionic/angular/standalone';
 
 import { BreadcrumbComponent } from './components/page-header/breadcrumb/breadcrumb.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
@@ -22,7 +22,7 @@ import { AsyncRefDirective } from './directives/async-ref.directive';
 		RouterModule,
 		ReactiveFormsModule,
 		NgLetModule,
-		IonicModule,
+		IonSpinner,
 	],
 	exports: [
 		CommonModule,
@@ -32,7 +32,6 @@ import { AsyncRefDirective } from './directives/async-ref.directive';
 		BreadcrumbComponent,
 		PageHeaderComponent,
 		FormActionBarComponent,
-		IonicModule,
 		AsyncRefDirective,
 	],
 	providers: [],

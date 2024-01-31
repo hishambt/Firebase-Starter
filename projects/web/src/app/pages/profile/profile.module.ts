@@ -1,5 +1,28 @@
 import { NgModule } from '@angular/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import {
+	IonContent,
+	IonCard,
+	IonCardContent,
+	IonList,
+	IonItem,
+	IonGrid,
+	IonRow,
+	IonCol,
+	IonText,
+	IonAvatar,
+	IonFab,
+	IonFabButton,
+	IonIcon,
+	IonModal,
+	IonHeader,
+	IonToolbar,
+	IonButtons,
+	IonButton,
+	IonTitle,
+	IonToggle,
+	IonAlert,
+} from '@ionic/angular/standalone';
 
 import { SSConfirmPasswordComponent } from '@softside/ui-sdk/lib/components/composed/confirm-password';
 import { SSEmailComponent } from '@softside/ui-sdk/lib/components/inputs/email';
@@ -26,6 +49,27 @@ import { SharedModule } from '../../shared/shared.module';
 		SSPasswordComponent,
 		SSConfirmPasswordComponent,
 		SSSubmitButtonComponent,
+		IonContent,
+		IonCard,
+		IonCardContent,
+		IonList,
+		IonItem,
+		IonGrid,
+		IonRow,
+		IonCol,
+		IonText,
+		IonAvatar,
+		IonFab,
+		IonFabButton,
+		IonIcon,
+		IonModal,
+		IonHeader,
+		IonToolbar,
+		IonButtons,
+		IonButton,
+		IonTitle,
+		IonToggle,
+		IonAlert,
 	],
 })
 export class ProfileModule {}

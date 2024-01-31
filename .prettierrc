@@ -27,12 +27,22 @@
 		},
 		{
 			"files": "*.module.ts",
-			"excludeFiles": ["app.module.ts"],
+			"excludeFiles": ["app.modules.ts"],
 			"options": {
 				"parser": "typescript",
 				"bracketSpacing": true,
 				"trailingComma": "all",
 				"printWidth": 30,
+				"singleAttributePerLine": true
+			}
+		},
+		{
+			"files": "*.config.ts",
+			"options": {
+				"parser": "typescript",
+				"bracketSpacing": true,
+				"trailingComma": "all",
+				"printWidth": 110,
 				"singleAttributePerLine": true
 			}
 		},
