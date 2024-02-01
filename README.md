@@ -86,5 +86,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Special thanks to the developers and contributors who have made this project possible.
 
 Happy coding! 🚀🚀🚀
-
-Live preview of the latest release: https://ionic-firebase-db453.web.app/
