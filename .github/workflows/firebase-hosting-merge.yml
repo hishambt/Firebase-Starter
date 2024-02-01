@@ -15,7 +15,6 @@ jobs:
             - run: npm ci && npm run build:lib && npm run build:web
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
-                  node-version: 16
                   repoToken: '${{ secrets.GITHUB_TOKEN }}'
                   firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_IONIC_FIREBASE_DB453 }}'
                   channelId: live

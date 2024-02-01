@@ -1,12 +1,12 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
 	"compileOnSave": false,
-	"exclude": ["projects/softside-ui"],
+	"exclude": ["dist/softside"],
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
-			"softside-ui": ["dist/softside-ui"],
-			"softside-ui/*": ["dist/softside-ui/*"],
+			"@softside/ui-sdk/*": ["./projects/softside/ui-sdk/*"],
+			"@softside/ui-sdk": ["./projects/softside/ui-sdk"],
 		},
 		"outDir": "./dist/out-tsc",
 		"forceConsistentCasingInFileNames": true,
@@ -21,9 +21,9 @@
 		"experimentalDecorators": true,
 		"moduleResolution": "node",
 		"importHelpers": true,
-		"target": "es2022",
-		"module": "es2020",
-		"lib": ["es2018", "dom", "dom.iterable"],
+		"target": "ES2022",
+		"module": "ES2022",
+		"lib": ["ES2022", "dom", "dom.iterable"],
 		"useDefineForClassFields": false,
 	},
 	"angularCompilerOptions": {

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserCredential } from '@angular/fire/auth';
 
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
-import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
+import { ConvertToForm, FB } from '@softside/ui-sdk/lib/_utils';
 
 import { AuthService } from '../../services/auth.service';
 

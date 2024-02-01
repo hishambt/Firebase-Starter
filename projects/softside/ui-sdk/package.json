@@ -1,0 +1,8 @@
+{
+	"name": "@softside/ui-sdk",
+	"version": "0.0.1",
+	"scripts": {
+		"tailwind": "tailwind"
+	},
+	"sideEffects": false
+}

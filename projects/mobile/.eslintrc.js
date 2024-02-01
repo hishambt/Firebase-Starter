@@ -4,6 +4,10 @@ module.exports = {
 	overrides: [
 		{
 			files: ['*.ts'],
+			parserOptions: {
+				project: ['projects/mobile/tsconfig.*?.json', 'projects/mobile/.storybook/tsconfig.json'],
+				createDefaultProgram: true,
+			},
 			rules: {
 				'@angular-eslint/directive-selector': [
 					'error',

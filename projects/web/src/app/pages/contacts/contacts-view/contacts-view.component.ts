@@ -7,18 +7,19 @@ import { ColumnMode } from 'ngx-softside-table';
 	styleUrls: ['./contacts-view.component.scss'],
 })
 export class ContactsViewComponent {
-	rows = [{
-		"name": "Ethel Price",
-		"gender": "female",
-		"company": "Johnson, Johnson and Partners, LLC CMP DDC",
-		"age": 22,
-	},
-	{
-		"name": "Claudine Neal",
-		"gender": "female",
-		"company": "Sealoud",
-		"age": 55,
-	},
+	rows = [
+		{
+			name: 'Ethel Price',
+			gender: 'female',
+			company: 'Johnson, Johnson and Partners, LLC CMP DDC',
+			age: 22,
+		},
+		{
+			name: 'Claudine Neal',
+			gender: 'female',
+			company: 'Sealoud',
+			age: 55,
+		},
 	];
 
 	loadingIndicator = true;

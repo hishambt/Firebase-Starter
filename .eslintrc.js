@@ -7,12 +7,9 @@ module.exports = {
 			files: ['*.ts'],
 			parserOptions: {
 				project: ['./tsconfig.json'],
-				sourceType: 'module',
-				tsconfigRootDir: __dirname,
 				createDefaultProgram: true,
 			},
 			parser: '@typescript-eslint/parser',
-
 			extends: [
 				'plugin:@typescript-eslint/eslint-recommended',
 				'plugin:@typescript-eslint/recommended',
@@ -243,6 +240,19 @@ module.exports = {
 						max: 1,
 					},
 				],
+			},
+		},
+		{
+			files: ['*.mjs'],
+			extends: ['plugin:@typescript-eslint/disable-type-checked'],
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				allowImportExportEverywhere: true,
+			},
+			parser: 'babel-eslint',
+			env: {
+				es6: true,
 			},
 		},
 	],

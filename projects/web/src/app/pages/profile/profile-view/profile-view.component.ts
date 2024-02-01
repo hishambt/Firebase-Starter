@@ -4,14 +4,16 @@ import { Auth, User, UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable, Subscription, of } from 'rxjs';
 import { ToggleCustomEvent } from '@ionic/core';
-import { IonModal } from '@ionic/angular';
+import { IonModal } from '@ionic/angular/standalone';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { addIcons } from 'ionicons';
+import { camera } from 'ionicons/icons';
 
-import { ConvertToForm, FB } from 'softside-ui/lib/_utils';
 import { AuthUser, IUser } from 'projects/web/src/app/shared/models/IUser.model';
 import { AuthService } from 'projects/web/src/app/core/services/auth.service';
 import { environment } from 'projects/web/src/environments/environment';
 import { AppToastService } from 'projects/web/src/app/shared/services/app-toast.service';
+import { ConvertToForm, FB } from '@softside/ui-sdk/lib/_utils';
 
 import { ImageUploadService } from '../../../shared/services/image-upload.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -77,7 +79,7 @@ export class ProfileViewComponent implements OnDestroy {
 		}),
 	});
 
-	formValidatePassword: ConvertToForm<{ password: string; }> = FB.group({
+	formValidatePassword: ConvertToForm<{ password: string }> = FB.group({
 		password: FB.string(),
 	});
 
@@ -92,6 +94,12 @@ export class ProfileViewComponent implements OnDestroy {
 			});
 		}),
 	);
+
+	constructor() {
+		addIcons({
+			camera,
+		});
+	}
 
 	uploadFile(user: IUser): void {
 		this.uploadingImage$ = this.imageUploadService

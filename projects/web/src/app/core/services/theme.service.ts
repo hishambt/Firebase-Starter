@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ToggleCustomEvent } from '@ionic/angular';
+import { ToggleCustomEvent } from '@ionic/angular/standalone';
 
 import { AuthService } from './auth.service';
 import { StorageAccessorService } from '../../shared/services/storage-accessor.service';

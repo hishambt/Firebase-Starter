@@ -4,6 +4,7 @@
 			autoHide="false"
 			*ngIf="p.url">
 			<ion-item
+				button
 				lines="none"
 				[routerLink]="p.url"
 				replaceUrl="true"
@@ -50,6 +51,7 @@
 				autoHide="false"
 				*ngFor="let sub of p.children">
 				<ion-item
+					button
 					lines="none"
 					class="sub-item"
 					*ngIf="sub.url"
